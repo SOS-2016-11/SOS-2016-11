@@ -1,1 +1,0 @@
-condole.log("Hola-Mundo");
