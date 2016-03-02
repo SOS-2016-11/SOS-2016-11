@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var express = require("express");
 var fs = require("fs");
 var contacts = [];
@@ -34,3 +35,6 @@ res.write("</ul>___Santander_____Enero______2015______1019__________10,6________
 res.write("</ul>______Madrid_____Enero______2015_______951___________6,0_________-0,9______</body></html>");
 
 });
+=======
+console.log("Hello Wordl!");
+>>>>>>> acfb8871f13768338c78f6cc4e7bfd51bce55df5
