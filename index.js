@@ -10,10 +10,10 @@ app.get("/time", (req,res)=>{
   days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   var now = new Date();
   var d = now.getDay();
-  day = days[d];
-  var hour = now.getHours();
-  var minutes = now.getMinutes();
-  var seconds = now.getSeconds();
+  var day = days[d];
+  var hour = ("0" + now.getHours()).slice(-2);
+  var minutes = ("0" + now.getMinutes()).slice(-2);
+  var seconds = ("0" + now.getSeconds()).slice(-2);
   res.send("Today is  " + day + ", and are " + hour + ":" + minutes + ":" + seconds);
 });
 
