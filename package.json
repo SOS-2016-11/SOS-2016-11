@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sos-2016-11/sos-2016-11#readme",
   "dependencies": {
+    "body-parser": "^1.15.0",
     "express": "^4.13.4"
   },
   "description": ""
