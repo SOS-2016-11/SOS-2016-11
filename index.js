@@ -1,9 +1,9 @@
 var express = require("express");
-var bodyPaser = require("body-parser");
-var port = (process.env.PORT || 16000);
+var bodyParser = require("body-parser");
+var port = (process.env.PORT || 16070);
 
 var app = express();
-app.use(bodyPaser.json());
+app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/static"));
 
 app.get("/time", (req,res)=>{
@@ -62,7 +62,7 @@ app.delete("/programming_languages/:name", (req, res) => {
 });
 
 // API REST PEDRO
-var luxury_cars = [{"name": "lamborghini"}];
+var luxury_cars = [{"model": "lamborghini"}];
 
 app.get("/luxury_cars/", (req, res) => {
   res.send(luxury_cars);
