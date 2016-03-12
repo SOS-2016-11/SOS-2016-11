@@ -93,15 +93,31 @@ app.get("/luxury_cars/:model", (req, res) => {
 }});
 
 app.post("/luxury_cars/:model", (req, res) => {
+  res.send("ERROR metodo no permitido");
   res.sendStatus(404);
 });
 
 app.put("/luxury_cars/:model", (req, res) => {
-  res.send("ok1");
-});
+  var car = req.params.model;
+  var nuevo = req.body;
+    for (var i=0; i<=luxury_cars.length;i++){
+      if(luxury_cars[i].model == car){
+        delete luxury_cars[i];
+        luxury_cars.push(nuevo);
+        res.send("Recurso actualizado");
+    }
+}});
+
+
+
 
 app.delete("/luxury_cars/:model", (req, res) => {
-  res.send("ok2");
-});
+  var car = req.params.model;
+    for (var i=0; i<=luxury_cars.length;i++){
+      if(luxury_cars[i].model == car){
+        delete luxury_cars[i];
+        res.send("Recurso borrado");
+    }
+  }});
 
 app.listen(port);
