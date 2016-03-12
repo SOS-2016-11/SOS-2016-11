@@ -62,7 +62,7 @@ app.delete("/programming_languages/:name", (req, res) => {
 });
 
 // API REST PEDRO
-var luxury_cars = [{"model": "lamborghini"}];
+var luxury_cars = [{"model": "ferrari"},{"model": "bmw"},{"model": "mercedes"}];
 
 app.get("/luxury_cars/", (req, res) => {
   res.send(luxury_cars);
@@ -70,7 +70,7 @@ app.get("/luxury_cars/", (req, res) => {
 
 app.post("/luxury_cars/", (req, res) => {
   var car = req.body;
-  programming_languages.push(car);
+  luxury_cars.push(car);
   res.sendStatus(200);
 });
 
@@ -85,12 +85,12 @@ app.delete("/luxury_cars/", (req, res) => {
 
 
 app.get("/luxury_cars/:model", (req, res) => {
-/*  var car = req.params.model;
-  var ind = car.findIndex;
-  console.log(  car + " in index " + ind);
-  res.send(programming_languages[ind]);*/
-  res.send("ok0");
-});
+  var car = req.params.model;
+    for (var i=0; i<=luxury_cars.length;i++){
+      if(luxury_cars[i].model == car){
+        res.send(luxury_cars[i]);
+    }
+}});
 
 app.post("/luxury_cars/:model", (req, res) => {
   res.sendStatus(404);
