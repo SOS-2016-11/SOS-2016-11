@@ -19,7 +19,7 @@ app.get("/time", (req,res)=>{
 
 // API REST CARLOS
 
-var programming_languages = [{"name": "Python"}];
+var programming_languages = [{"name": "Python"},{"name": "c++"},{"name": "perl"}];
 
 app.get("/programming_languages/", (req, res) => {
   res.send(programming_languages);
@@ -42,25 +42,37 @@ app.delete("/programming_languages/", (req, res) => {
 
 
 app.get("/programming_languages/:name", (req, res) => {
-/*  var pl = req.params.name;
-  var ind = pl.findIndex;
-  console.log(pl + " in index " + ind);
-  res.send(programming_languages[ind]);*/
-  res.send("ok0");
-});
+  var pl = req.params.name;
+    for (var i=0; i<=programming_languages.length;i++){
+      if(programming_languages[i].name == pl){
+        res.send(programming_languages[i]);
+    }
+}});
 
 app.post("/programming_languages/:name", (req, res) => {
+  res.send("ERROR metodo no permitido");
   res.sendStatus(404);
 });
 
 app.put("/programming_languages/:name", (req, res) => {
-  res.send("ok1");
-});
+  var pl = req.params.name;
+  var nuevo = req.body;
+    for (var i=0; i<=programming_languages.length;i++){
+      if(programming_languages[i].name == pl){
+        delete programming_languages[i];
+        programming_languages.push(nuevo);
+        res.send("Recurso actualizado");
+    }
+}});
 
 app.delete("/programming_languages/:name", (req, res) => {
-  res.send("ok2");
-});
-
+  var pl = req.params.name;
+  for (var i=0; i<=programming_languages.length;i++){
+      if(programming_languages[i].name == pl){
+        delete programming_languages[i];
+        res.send("Recurso borrado");
+    }
+}});
 // API REST PEDRO
 var luxury_cars = [{"model": "ferrari"},{"model": "bmw"},{"model": "mercedes"}];
 
@@ -107,9 +119,6 @@ app.put("/luxury_cars/:model", (req, res) => {
         res.send("Recurso actualizado");
     }
 }});
-
-
-
 
 app.delete("/luxury_cars/:model", (req, res) => {
   var car = req.params.model;
