@@ -80,23 +80,23 @@ app.get("/api/sandbox/luxury_cars/", (req, res) => {
   res.send(luxury_cars);
 });
 
-app.post("/luxury_cars/", (req, res) => {
+app.post("/api/sandbox/luxury_cars/", (req, res) => {
   var car = req.body;
   luxury_cars.push(car);
   res.sendStatus(200);
 });
 
-app.put("/luxury_cars/", (req, res) => {
+app.put("/api/sandbox/luxury_cars/", (req, res) => {
   res.sendStatus(404);
 });
 
-app.delete("/luxury_cars/", (req, res) => {
+app.delete("/api/sandbox/luxury_cars/", (req, res) => {
   luxury_cars = [];
   res.sendStatus(200);
 });
 
 
-app.get("/luxury_cars/:model", (req, res) => {
+app.get("/api/sandbox/luxury_cars/:model", (req, res) => {
   var car = req.params.model;
     for (var i=0; i<=luxury_cars.length;i++){
       if(luxury_cars[i].model == car){
@@ -104,12 +104,12 @@ app.get("/luxury_cars/:model", (req, res) => {
     }
 }});
 
-app.post("/luxury_cars/:model", (req, res) => {
+app.post("/api/sandbox/luxury_cars/:model", (req, res) => {
   res.send("ERROR metodo no permitido");
   res.sendStatus(404);
 });
 
-app.put("/luxury_cars/:model", (req, res) => {
+app.put("/api/sandbox/luxury_cars/:model", (req, res) => {
   var car = req.params.model;
   var nuevo = req.body;
     for (var i=0; i<=luxury_cars.length;i++){
@@ -120,7 +120,7 @@ app.put("/luxury_cars/:model", (req, res) => {
     }
 }});
 
-app.delete("/luxury_cars/:model", (req, res) => {
+app.delete("/api/sandbox/luxury_cars/:model", (req, res) => {
   var car = req.params.model;
     for (var i=0; i<=luxury_cars.length;i++){
       if(luxury_cars[i].model == car){
