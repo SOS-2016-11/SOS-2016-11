@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16080);
+var port = (process.env.PORT || 16000);
 
 var app = express();
 app.use(bodyParser.json());
@@ -19,61 +19,85 @@ app.get("/time", (req,res)=>{
 
 // API REST CARLOS
 
-var programming_languages = [{"name": "Python"},{"name": "c++"},{"name": "perl"}];
+var programming_languages = [{"name": "Python"},{"name": "C++"},{"name": "Perl"}];
 
-app.get("/programming_languages/", (req, res) => {
+app.get("/api/sandbox/programming_languages/", (req, res) => {
   res.send(programming_languages);
 });
 
-app.post("/programming_languages/", (req, res) => {
-  var pl = req.body;
-  programming_languages.push(pl);
+app.post("/api/sandbox/programming_languages/", (req, res) => {
+  var plb = req.body;
+  programming_languages.push(plb);
   res.sendStatus(200);
 });
 
-app.put("/programming_languages/", (req, res) => {
+app.put("/api/sandbox/programming_languages/", (req, res) => {
   res.sendStatus(404);
 });
 
-app.delete("/programming_languages/", (req, res) => {
+app.delete("/api/sandbox/programming_languages/", (req, res) => {
   programming_languages = [];
   res.sendStatus(200);
 });
 
 
-app.get("/programming_languages/:name", (req, res) => {
+app.get("/api/sandbox/programming_languages/:name", (req, res) => {
   var pl = req.params.name;
-    for (var i=0; i<=programming_languages.length;i++){
-      if(programming_languages[i].name == pl){
-        res.send(programming_languages[i]);
+  var mes = 400;
+  for(var i = 0; i < programming_languages.length; i++){
+    if(programming_languages[i].name == pl){
+      mes = programming_languages[i];
+      break;
     }
-}});
+  }
 
-app.post("/programming_languages/:name", (req, res) => {
-  res.send("ERROR metodo no permitido");
+  if(mes == 400){
+    res.sendStatus(mes);
+  }else{
+    res.send(mes);
+  }
+
+});
+
+app.post("/api/sandbox/programming_languages/:name", (req, res) => {
   res.sendStatus(404);
 });
 
-app.put("/programming_languages/:name", (req, res) => {
+app.put("/api/sandbox/programming_languages/:name", (req, res) => {
   var pl = req.params.name;
-  var nuevo = req.body;
-    for (var i=0; i<=programming_languages.length;i++){
-      if(programming_languages[i].name == pl){
-        delete programming_languages[i];
-        programming_languages.push(nuevo);
-        res.send("Recurso actualizado");
+  var plb = req.body;
+  var mes = 400;
+  for(var i = 0; i < programming_languages.length; i++){
+    if(programming_languages[i].name == pl){
+      programming_languages.splice(i, 1);
+      programming_languages.push(plb);
+      mes = 200;
+      break;
     }
-}});
+  }
 
-app.delete("/programming_languages/:name", (req, res) => {
+  res.sendStatus(mes);
+
+});
+
+app.delete("/api/sandbox/programming_languages/:name", (req, res) => {
   var pl = req.params.name;
-  for (var i=0; i<=programming_languages.length;i++){
-      if(programming_languages[i].name == pl){
-        delete programming_languages[i];
-        res.send("Recurso borrado");
+  var mes = 400;
+  for(var i = 0; i < programming_languages.length; i++){
+    if(programming_languages[i].name == pl){
+      programming_languages.splice(i, 1);
+      mes = 200;
+      break;
     }
-}});
+  }
+
+  res.sendStatus(mes);
+
+});
+
+
 // API REST PEDRO
+
 var luxury_cars = [{"model": "ferrari"},{"model": "bmw"},{"model": "mercedes"}];
 
 app.get("/api/sandbox/luxury_cars/", (req, res) => {
@@ -128,5 +152,7 @@ app.delete("/api/sandbox/luxury_cars/:model", (req, res) => {
         res.send("Recurso borrado");
     }
   }});
+
+
 
 app.listen(port);
