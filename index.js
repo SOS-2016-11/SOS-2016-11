@@ -101,10 +101,18 @@ app.delete("/api/sandbox/programming_languages/:name", (req, res) => {
 var luxury_cars = [];
 var luxury_cars1 = [{"model": "ferrari"},{"model": "bmw"},{"model": "mercedes"}];
 
-app.get("/api/sandbox/luxury_cars/", (req, res) => {
-  res.send(luxury_cars);
+app.get("/api-test/luxury_cars/loadInitialData/", (req, res) => {
+  luxury_cars=luxury_cars1;
+  res.sendStatus(200);
 });
-
+//Estoy cambiando el app.get para el ultimo apartado
+app.get("/api/sandbox/luxury_cars/", (req, res) => {
+res.send(luxury_cars);
+  res.send("<html><body>__Luxury_Cars__<ul>");
+  res.send("<li><p><a href="/api-test/luxury_cars/loadInitialData/">Load-Initial-Data</a></p></li>");
+  res.send("</ul>Autor: Pedro Ganga Tenorio</body></html>");
+});
+//hasta aqui estoy tocando
 app.post("/api/sandbox/luxury_cars/", (req, res) => {
   var car = req.body;
   luxury_cars.push(car);
