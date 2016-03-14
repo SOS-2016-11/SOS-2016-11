@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16000);
+var port = (process.env.PORT || 16005);
 
 var app = express();
 app.use(bodyParser.json());
@@ -98,7 +98,8 @@ app.delete("/api/sandbox/programming_languages/:name", (req, res) => {
 
 // API REST PEDRO
 
-var luxury_cars = [{"model": "ferrari"},{"model": "bmw"},{"model": "mercedes"}];
+var luxury_cars = [];
+var luxury_cars1 = [{"model": "ferrari"},{"model": "bmw"},{"model": "mercedes"}];
 
 app.get("/api/sandbox/luxury_cars/", (req, res) => {
   res.send(luxury_cars);
@@ -122,11 +123,17 @@ app.delete("/api/sandbox/luxury_cars/", (req, res) => {
 
 app.get("/api/sandbox/luxury_cars/:model", (req, res) => {
   var car = req.params.model;
-    for (var i=0; i<=luxury_cars.length;i++){
+  var estado=404;
+  for (var i=0; i<=luxury_cars.length;i++){
       if(luxury_cars[i].model == car){
         res.send(luxury_cars[i]);
-    }
-}});
+        estado=200;
+        break;
+    }}
+
+  res.sendStatus(estado);
+
+});
 
 app.post("/api/sandbox/luxury_cars/:model", (req, res) => {
   res.send("ERROR metodo no permitido");
@@ -136,22 +143,29 @@ app.post("/api/sandbox/luxury_cars/:model", (req, res) => {
 app.put("/api/sandbox/luxury_cars/:model", (req, res) => {
   var car = req.params.model;
   var nuevo = req.body;
+  var estado=404;
     for (var i=0; i<=luxury_cars.length;i++){
       if(luxury_cars[i].model == car){
-        delete luxury_cars[i];
+        luxury_cars.splice(i, 1);
         luxury_cars.push(nuevo);
-        res.send("Recurso actualizado");
-    }
-}});
+        estado=200;
+        break;
+    }}
+res.sendStatus(estado);
+});
 
 app.delete("/api/sandbox/luxury_cars/:model", (req, res) => {
   var car = req.params.model;
+  var estado =404;
     for (var i=0; i<=luxury_cars.length;i++){
       if(luxury_cars[i].model == car){
-        delete luxury_cars[i];
-        res.send("Recurso borrado");
+        luxury_cars.splice(i, 1);
+        estado = 200;
+        break;
     }
-  }});
+  }
+res.sendStatus(estado);
+});
 
 
 
