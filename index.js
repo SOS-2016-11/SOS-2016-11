@@ -1,6 +1,10 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+<<<<<<< HEAD
 var port = (process.env.PORT || 16004);
+=======
+var port = (process.env.PORT || 16000);
+>>>>>>> 01e306e999c47d2c1726d62054d14c8cfbea55b9
 
 var app = express();
 app.use(bodyParser.json());
@@ -19,7 +23,7 @@ app.get("/time", (req,res)=>{
 
 // API REST CARLOS
 
-var programming_languages = [{"name": "Python"},{"name": "C++"},{"name": "Perl"}];
+var programming_languages = [];
 
 app.get("/api/sandbox/programming_languages/", (req, res) => {
   res.send(programming_languages);
@@ -32,7 +36,7 @@ app.post("/api/sandbox/programming_languages/", (req, res) => {
 });
 
 app.put("/api/sandbox/programming_languages/", (req, res) => {
-  res.sendStatus(404);
+  res.sendStatus(405);
 });
 
 app.delete("/api/sandbox/programming_languages/", (req, res) => {
@@ -43,30 +47,28 @@ app.delete("/api/sandbox/programming_languages/", (req, res) => {
 
 app.get("/api/sandbox/programming_languages/:name", (req, res) => {
   var pl = req.params.name;
-  var mes = 400;
+  var mes = 404;
   for(var i = 0; i < programming_languages.length; i++){
     if(programming_languages[i].name == pl){
       mes = programming_languages[i];
       break;
     }
   }
-
-  if(mes == 400){
+  if(mes == 404){
     res.sendStatus(mes);
   }else{
     res.send(mes);
   }
-
 });
 
 app.post("/api/sandbox/programming_languages/:name", (req, res) => {
-  res.sendStatus(404);
+  res.sendStatus(405);
 });
 
 app.put("/api/sandbox/programming_languages/:name", (req, res) => {
   var pl = req.params.name;
   var plb = req.body;
-  var mes = 400;
+  var mes = 404;
   for(var i = 0; i < programming_languages.length; i++){
     if(programming_languages[i].name == pl){
       programming_languages.splice(i, 1);
@@ -75,14 +77,12 @@ app.put("/api/sandbox/programming_languages/:name", (req, res) => {
       break;
     }
   }
-
   res.sendStatus(mes);
-
 });
 
 app.delete("/api/sandbox/programming_languages/:name", (req, res) => {
   var pl = req.params.name;
-  var mes = 400;
+  var mes = 404;
   for(var i = 0; i < programming_languages.length; i++){
     if(programming_languages[i].name == pl){
       programming_languages.splice(i, 1);
@@ -90,11 +90,13 @@ app.delete("/api/sandbox/programming_languages/:name", (req, res) => {
       break;
     }
   }
-
   res.sendStatus(mes);
-
 });
 
+app.get("/api-test/programming_languages/loadInitialData", (req, res) => {
+  programming_languages = [{"name": "Python"},{"name": "C++"},{"name": "Perl"}];
+  res.sendStatus(200);
+});
 
 // API REST PEDRO
 
