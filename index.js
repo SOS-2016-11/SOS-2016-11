@@ -1,10 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-<<<<<<< HEAD
 var port = (process.env.PORT || 16004);
-=======
 var port = (process.env.PORT || 16000);
->>>>>>> 01e306e999c47d2c1726d62054d14c8cfbea55b9
 
 var app = express();
 app.use(bodyParser.json());
