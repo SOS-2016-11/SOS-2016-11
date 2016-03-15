@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16005);
+var port = (process.env.PORT || 16004);
 
 var app = express();
 app.use(bodyParser.json());
@@ -108,7 +108,7 @@ app.get("/api-test/luxury_cars/loadInitialData/", (req, res) => {
 
 app.get("/api/sandbox/luxury_cars/", (req, res) => {
 res.send(luxury_cars);
-  });
+});
 
 app.post("/api/sandbox/luxury_cars/", (req, res) => {
   var car = req.body;
@@ -117,7 +117,8 @@ app.post("/api/sandbox/luxury_cars/", (req, res) => {
 });
 
 app.put("/api/sandbox/luxury_cars/", (req, res) => {
-  res.sendStatus(404);
+res.send("ERROR metodo no permitido");
+  res.sendStatus(500);
 });
 
 app.delete("/api/sandbox/luxury_cars/", (req, res) => {
@@ -131,12 +132,14 @@ app.get("/api/sandbox/luxury_cars/:model", (req, res) => {
   var estado=404;
   for (var i=0; i<=luxury_cars.length;i++){
       if(luxury_cars[i].model == car){
-        res.send(luxury_cars[i]);
-        estado=200;
+        estado=luxury_cars[i];
         break;
     }}
-
-  res.sendStatus(estado);
+    if(estado == 404){
+      res.sendStatus(estado);
+    }else{
+      res.send(estado);
+    }
 
 });
 
