@@ -1,7 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16004);
-var port = (process.env.PORT || 16000);
+var port = (process.env.PORT || 16030);
+
 
 var app = express();
 app.use(bodyParser.json());
@@ -98,10 +98,9 @@ app.get("/api-test/programming_languages/loadInitialData", (req, res) => {
 // API REST PEDRO
 
 var luxury_cars = [];
-var luxury_cars1 = [{"model": "ferrari"},{"model": "bmw"},{"model": "mercedes"}];
 
 app.get("/api-test/luxury_cars/loadInitialData/", (req, res) => {
-  luxury_cars=luxury_cars1;
+  luxury_cars = [{"name": "ferrari"},{"name": "bmw"},{"name": "mercedes"}];
   res.sendStatus(200);
 });
 
@@ -116,8 +115,7 @@ app.post("/api/sandbox/luxury_cars/", (req, res) => {
 });
 
 app.put("/api/sandbox/luxury_cars/", (req, res) => {
-res.send("ERROR metodo no permitido");
-  res.sendStatus(500);
+  res.sendStatus(404);
 });
 
 app.delete("/api/sandbox/luxury_cars/", (req, res) => {
@@ -126,54 +124,53 @@ app.delete("/api/sandbox/luxury_cars/", (req, res) => {
 });
 
 
-app.get("/api/sandbox/luxury_cars/:model", (req, res) => {
-  var car = req.params.model;
-  var estado=404;
-  for (var i=0; i<=luxury_cars.length;i++){
-      if(luxury_cars[i].model == car){
-        estado=luxury_cars[i];
+app.get("/api/sandbox/luxury_cars/:name", (req, res) => {
+  var car = req.params.name;
+  var estado = 404;
+  for (var i = 0; i < luxury_cars.length; i++){
+    if(luxury_cars[i].name == car){
+        estado = luxury_cars[i];
         break;
-    }}
-    if(estado == 404){
-      res.sendStatus(estado);
-    }else{
-      res.send(estado);
     }
+  }
+  if(estado == 404){
+      res.sendStatus(estado);
+  }else{
+      res.send(estado);
+  }
 
 });
 
-app.post("/api/sandbox/luxury_cars/:model", (req, res) => {
-  res.send("ERROR metodo no permitido");
+app.post("/api/sandbox/luxury_cars/:name", (req, res) => {
   res.sendStatus(404);
 });
 
-app.put("/api/sandbox/luxury_cars/:model", (req, res) => {
-  var car = req.params.model;
+app.put("/api/sandbox/luxury_cars/:name", (req, res) => {
+  var car = req.params.name;
   var nuevo = req.body;
   var estado=404;
     for (var i=0; i<=luxury_cars.length;i++){
-      if(luxury_cars[i].model == car){
+      if(luxury_cars[i].name == car){
         luxury_cars.splice(i, 1);
         luxury_cars.push(nuevo);
         estado=200;
         break;
-    }}
-res.sendStatus(estado);
+      }
+    }
+  res.sendStatus(estado);
 });
 
-app.delete("/api/sandbox/luxury_cars/:model", (req, res) => {
-  var car = req.params.model;
+app.delete("/api/sandbox/luxury_cars/:name", (req, res) => {
+  var car = req.params.name;
   var estado =404;
-    for (var i=0; i<=luxury_cars.length;i++){
-      if(luxury_cars[i].model == car){
-        luxury_cars.splice(i, 1);
-        estado = 200;
-        break;
+  for (var i=0; i<=luxury_cars.length;i++){
+    if(luxury_cars[i].name == car){
+      luxury_cars.splice(i, 1);
+      estado = 200;
+      break;
     }
   }
-res.sendStatus(estado);
+  res.sendStatus(estado);
 });
-
-
 
 app.listen(port);
