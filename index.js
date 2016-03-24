@@ -1,11 +1,13 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16040);
-var luxury_carsCtl = require('./luxury_carsCtl.js')
+var port = (process.env.PORT || 16000);
 
 var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/static"));
+
+var luxury_carsCtl = require('./luxury_carsCtl.js');
+var apicntcar = require("./api/apicntcar.js");
 
 app.get("/time", (req,res)=>{
   days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -20,80 +22,52 @@ app.get("/time", (req,res)=>{
 
 // API REST CARLOS
 
-var programming_languages = [];
+// SANDBOX
 
-app.get("/api/sandbox/programming_languages/", (req, res) => {
-  res.send(programming_languages);
-});
+app.get("/api/sandbox/programming_languages/", apicntcar.getPLs);
 
-app.post("/api/sandbox/programming_languages/", (req, res) => {
-  var plb = req.body;
-  programming_languages.push(plb);
-  res.sendStatus(200);
-});
+app.post("/api/sandbox/programming_languages/", apicntcar.postPLs);
 
-app.put("/api/sandbox/programming_languages/", (req, res) => {
-  res.sendStatus(405);
-});
+app.put("/api/sandbox/programming_languages/", apicntcar.putPLs);
 
-app.delete("/api/sandbox/programming_languages/", (req, res) => {
-  programming_languages = [];
-  res.sendStatus(200);
-});
+app.delete("/api/sandbox/programming_languages/", apicntcar.deletePLs);
 
 
-app.get("/api/sandbox/programming_languages/:name", (req, res) => {
-  var pl = req.params.name;
-  var mes = 404;
-  for(var i = 0; i < programming_languages.length; i++){
-    if(programming_languages[i].name == pl){
-      mes = programming_languages[i];
-      break;
-    }
-  }
-  if(mes == 404){
-    res.sendStatus(mes);
-  }else{
-    res.send(mes);
-  }
-});
+app.get("/api/sandbox/programming_languages/:name", apicntcar.getPL);
 
-app.post("/api/sandbox/programming_languages/:name", (req, res) => {
-  res.sendStatus(405);
-});
+app.post("/api/sandbox/programming_languages/:name", apicntcar.postPL);
 
-app.put("/api/sandbox/programming_languages/:name", (req, res) => {
-  var pl = req.params.name;
-  var plb = req.body;
-  var mes = 404;
-  for(var i = 0; i < programming_languages.length; i++){
-    if(programming_languages[i].name == pl){
-      programming_languages.splice(i, 1);
-      programming_languages.push(plb);
-      mes = 200;
-      break;
-    }
-  }
-  res.sendStatus(mes);
-});
+app.put("/api/sandbox/programming_languages/:name", apicntcar.putPL);
 
-app.delete("/api/sandbox/programming_languages/:name", (req, res) => {
-  var pl = req.params.name;
-  var mes = 404;
-  for(var i = 0; i < programming_languages.length; i++){
-    if(programming_languages[i].name == pl){
-      programming_languages.splice(i, 1);
-      mes = 200;
-      break;
-    }
-  }
-  res.sendStatus(mes);
-});
+app.delete("/api/sandbox/programming_languages/:name", apicntcar.deletePL);
 
-app.get("/api-test/programming_languages/loadInitialData", (req, res) => {
-  programming_languages = [{"name": "Python"},{"name": "C++"},{"name": "Perl"}];
-  res.sendStatus(200);
-});
+
+app.get("/api-test/programming_languages/loadInitialData", apicntcar.loadInitialData);
+
+// V1
+
+app.get("/api/v1/average-rainfall/", apicntcar.getPLs);
+
+app.post("/api/v1/average-rainfall/", apicntcar.postPLs);
+
+app.put("/api/v1/average-rainfall/", apicntcar.putPLs);
+
+app.delete("/api/v1/average-rainfall/", apicntcar.deletePLs);
+
+
+app.get("/api/v1/average-rainfall/:name", apicntcar.getPL);
+
+app.post("/api/v1/average-rainfall/:name", apicntcar.postPL);
+
+app.put("/api/v1/average-rainfall/:name", apicntcar.putPL);
+
+app.delete("/api/v1/average-rainfall/:name", apicntcar.deletePL);
+
+
+app.get("/api/v1/average-rainfall/loadInitialData", apicntcar.loadInitialDataV1);
+
+
+
 
 // API REST PEDRO
 
