@@ -46,25 +46,25 @@ app.get("/api-test/programming_languages/loadInitialData", apicntcar.loadInitial
 
 // V1
 
-app.get("/api/v1/average-rainfall/", apicntcar.getPLs);
+app.get("/api/v1/average-rainfall/", apicntcar.getBasins);
 
-app.post("/api/v1/average-rainfall/", apicntcar.postPLs);
+app.post("/api/v1/average-rainfall/", apicntcar.postBasins);
 
-app.put("/api/v1/average-rainfall/", apicntcar.putPLs);
+app.put("/api/v1/average-rainfall/", apicntcar.putBasins);
 
-app.delete("/api/v1/average-rainfall/", apicntcar.deletePLs);
-
-
-app.get("/api/v1/average-rainfall/:name", apicntcar.getPL);
-
-app.post("/api/v1/average-rainfall/:name", apicntcar.postPL);
-
-app.put("/api/v1/average-rainfall/:name", apicntcar.putPL);
-
-app.delete("/api/v1/average-rainfall/:name", apicntcar.deletePL);
+app.delete("/api/v1/average-rainfall/", apicntcar.deleteBasins);
 
 
-app.get("/api/v1/average-rainfall/loadInitialData", apicntcar.loadInitialDataV1);
+app.get("/api/v1/average-rainfall/:river_basin", apicntcar.getBasin);
+
+app.post("/api/v1/average-rainfall/:river_basin", apicntcar.postBasin);
+
+app.put("/api/v1/average-rainfall/:river_basin", apicntcar.putBasin);
+
+app.delete("/api/v1/average-rainfall/:river_basin", apicntcar.deleteBasin);
+
+
+app.get("/api/v1/loadInitialDataV1", apicntcar.loadInitialDataV1);
 
 
 

@@ -77,34 +77,34 @@ module.exports.loadInitialData = (req, res) => {
 
 // V1 --------------------------------------------------------------------------
 
-var programming_languages = [];
+var Basins = [];
 
-module.exports.getPLs = (req, res) => {
-  res.send(programming_languages);
+module.exports.getBasins = (req, res) => {
+  res.send(Basins);
 }
 
-module.exports.postPLs = (req, res) => {
+module.exports.postBasins = (req, res) => {
   var plb = req.body;
-  programming_languages.push(plb);
+  Basins.push(plb);
   res.sendStatus(200);
 }
 
-module.exports.putPLs = (req, res) => {
+module.exports.putBasins = (req, res) => {
   res.sendStatus(405);
 }
 
-module.exports.deletePLs = (req, res) => {
-  programming_languages = [];
+module.exports.deleteBasins = (req, res) => {
+  Basins = [];
   res.sendStatus(200);
 }
 
 
-module.exports.getPL = (req, res) => {
-  var pl = req.params.name;
+module.exports.getBasin = (req, res) => {
+  var pl = req.params.river_basin;
   var mes = 404;
-  for(var i = 0; i < programming_languages.length; i++){
-    if(programming_languages[i].name == pl){
-      mes = programming_languages[i];
+  for(var i = 0; i < Basins.length; i++){
+    if(Basins[i].river_basin == pl){
+      mes = Basins[i];
       break;
     }
   }
@@ -115,18 +115,18 @@ module.exports.getPL = (req, res) => {
   }
 }
 
-module.exports.postPL = (req, res) => {
+module.exports.postBasin = (req, res) => {
   res.sendStatus(405);
 }
 
-module.exports.putPL = (req, res) => {
-  var pl = req.params.name;
+module.exports.putBasin = (req, res) => {
+  var pl = req.params.river_basin;
   var plb = req.body;
   var mes = 404;
-  for(var i = 0; i < programming_languages.length; i++){
-    if(programming_languages[i].name == pl){
-      programming_languages.splice(i, 1);
-      programming_languages.push(plb);
+  for(var i = 0; i < Basins.length; i++){
+    if(Basins[i].river_basin == pl){
+      Basins.splice(i, 1);
+      Basins.push(plb);
       mes = 200;
       break;
     }
@@ -134,12 +134,12 @@ module.exports.putPL = (req, res) => {
   res.sendStatus(mes);
 }
 
-module.exports.deletePL = (req, res) => {
-  var pl = req.params.name;
+module.exports.deleteBasin = (req, res) => {
+  var pl = req.params.river_basin;
   var mes = 404;
-  for(var i = 0; i < programming_languages.length; i++){
-    if(programming_languages[i].name == pl){
-      programming_languages.splice(i, 1);
+  for(var i = 0; i < Basins.length; i++){
+    if(Basins[i].river_basin == pl){
+      Basins.splice(i, 1);
       mes = 200;
       break;
     }
@@ -148,8 +148,10 @@ module.exports.deletePL = (req, res) => {
 }
 
 module.exports.loadInitialDataV1 = (req, res) => {
-  programming_languages = [{"River_Basin": "asd"},
-  {"River_Basin": "asd"},
-  {"River_Basin": "asd"}];
+  Basins = [
+    {"river_basin": "Duero", "month": "Enero", "year": 2015, "p.m.": 56, "p.e.": 40.9, "p.a.": 301.9},
+    {"river_basin": "Tajo", "month": "Enero", "year": 2015, "p.m.": 60, "p.e.": 36.3, "p.a.": 345.6},
+    {"river_basin": "Guadiana", "month": "Enero", "year": 2015, "p.m.": 57, "p.e.": 34.2, "p.a.": 302.8}
+  ];
   res.sendStatus(200);
 }
