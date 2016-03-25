@@ -107,7 +107,7 @@ module.exports.getCities = function(req, res){
         Cities2.push(recurso);
         contador++;
       }
-      res.send(Cities2);
+      busqueda++;
     }
   }
   if(name||month||year||p||t||td){
