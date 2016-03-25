@@ -6,7 +6,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/static"));
 
-var luxury_carsCtl = require('./luxury_carsCtl.js');
+var luxury_carsCtl = require('./api/apisosCtl.js');
 var apicntcar = require("./api/apicntcar.js");
 
 app.get("/time", (req,res)=>{
@@ -71,26 +71,44 @@ app.get("/api/v1/loadInitialDataV1", apicntcar.loadInitialDataV1);
 
 // API REST PEDRO
 
+//SANDBOX
 
-app.get("/api-test/luxury_cars/loadInitialData/", (req, res) => {
-  luxury_cars = [{"name": "ferrari"},{"name": "bmw"},{"name": "mercedes"}];
-  res.sendStatus(200);
-});
+app.get("/api-test/luxury_cars/loadInitialData/",apisosCtl.loadInitialData );
 
-app.get("/api/sandbox/luxury_cars/", luxury_carsCtl.getLista);
+app.get("/api/sandbox/luxury_cars/", apisosCtl.getLista);
 
-app.post("/api/sandbox/luxury_cars/", luxury_carsCtl.postLista);
+app.post("/api/sandbox/luxury_cars/", apisosCtl.postLista);
 
-app.put("/api/sandbox/luxury_cars/", luxury_carsCtl.putLista);
+app.put("/api/sandbox/luxury_cars/", apisosCtl.putLista);
 
-app.delete("/api/sandbox/luxury_cars/", luxury_carsCtl.deleteLista);
+app.delete("/api/sandbox/luxury_cars/", apisosCtl.deleteLista);
 
-app.get("/api/sandbox/luxury_cars/:name",luxury_carsCtl.getRecurso);
+app.get("/api/sandbox/luxury_cars/:name",apisosCtl.getRecurso);
 
-app.post("/api/sandbox/luxury_cars/:name",luxury_carsCtl.postRecurso);
+app.post("/api/sandbox/luxury_cars/:name", apisosCtl.postRecurso);
 
-app.put("/api/sandbox/luxury_cars/:name",luxury_carsCtl.putRecurso);
+app.put("/api/sandbox/luxury_cars/:name",apisosCtl.putRecurso);
 
-app.delete("/api/sandbox/luxury_cars/:name",luxury_carsCtl.deleteRecurso);
+app.delete("/api/sandbox/luxury_cars/:name",apisosCtl.deleteRecurso);
+
+//V1
+app.get("/api/v1/pressure-and-temperatures/", apisosCtl.getCities);
+
+app.get("/api/v1/pressure-and-temperatures/", apisosCtl.postCities);
+
+app.get("/api/v1/pressure-and-temperatures/", apisosCtl.putCities);
+
+app.get("/api/v1/pressure-and-temperatures/", apisosCtl.deleteCities);
+
+app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.getCity);
+
+app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.postCity);
+
+app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.putCity);
+
+app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.deleteCity);
+
+app.get("/api/v1/loadInitialDataV1", apisosCtl.loadInitialDataV1);
+
 
 app.listen(port);
