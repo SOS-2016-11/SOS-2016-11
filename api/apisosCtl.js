@@ -76,6 +76,17 @@ module.exports.loadInitialData = function (req, res){
 //V1
 var Cities = [];
 
+module.exports.loadInitialData = (req, res) => {
+  Cities = [
+    {"name": "ACoruña", "month": "Enero", "year": 2015, "p": 1018, "t": 10.9, "td": 7.2},
+    {"name": "Santander", "month": "Enero", "year": 2015, "p": 1019, "t": 10.6, "td": 6.6},
+    {"name": "Madrid", "month": "Enero", "year": 2015, "p": 951, "t": 6.0, "td": -0.9},
+    {"name": "Zaragoza", "month": "Enero", "year": 2015, "p": 991, "t": 6.7, "td": 2.2},
+    {"name": "Mallorca", "month": "Enero", "year": 2015, "p": 1017, "t": 11.0, "td": 5.7}
+  ];
+  res.sendStatus(200);
+}
+
 module.exports.getCities = function(req, res){
   res.send(Cities);
 }
@@ -142,15 +153,4 @@ module.exports.deleteCity = function  (req, res){
     }
   }
   res.sendStatus(estado);
-}
-
-module.exports.loadInitialData = (req, res) => {
-  Cities = [
-    {"name": "ACoruña", "month": "Enero", "year": 2015, "p": 1018, "t": 10.9, "td": 7.2},
-    {"name": "Santander", "month": "Enero", "year": 2015, "p": 1019, "t": 10.6, "td": 6.6},
-    {"name": "Madrid", "month": "Enero", "year": 2015, "p": 951, "t": 6.0, "td": -0.9},
-    {"name": "Zaragoza", "month": "Enero", "year": 2015, "p": 991, "t": 6.7, "td": 2.2},
-    {"name": "Mallorca", "month": "Enero", "year": 2015, "p": 1017, "t": 11.0, "td": 5.7}
-  ];
-  res.sendStatus(200);
 }
