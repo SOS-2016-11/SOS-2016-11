@@ -144,7 +144,7 @@ module.exports.deleteCity = function  (req, res){
   res.sendStatus(estado);
 }
 
-module.exports.loadInitialDataV1 = (req, res) => {
+module.exports.loadInitialData = (req, res) => {
   Cities = [
     {"name": "ACoruña", "month": "Enero", "year": 2015, "p": 1018, "t": 10.9, "td": 7.2},
     {"name": "Santander", "month": "Enero", "year": 2015, "p": 1019, "t": 10.6, "td": 6.6},

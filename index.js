@@ -108,7 +108,7 @@ app.put("/api/v1/pressure-and-temperatures/:name", apisosCtl.putCity);
 
 app.delete("/api/v1/pressure-and-temperatures/:name", apisosCtl.deleteCity);
 
-app.get("/api/v1/loadInitialDataV1", apisosCtl.loadInitialDataV1);
+app.get("/api/v1/loadInitialData", apisosCtl.loadInitialData);
 
 
 app.listen(port);
