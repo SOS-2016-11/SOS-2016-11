@@ -80,7 +80,22 @@ module.exports.loadInitialData = (req, res) => {
 var Basins = [];
 
 module.exports.getBasins = (req, res) => {
-  res.send(Basins);
+  var month = req.query.month;
+  var year = req.query.year;
+  var pm = req.query.pm;
+  var pe = req.query.pe;
+  var pa = req.query.pa;
+  if(month || year || pm || pe || pa){
+    var BasinsSeg = [];
+    for (var i = 0; i < Basins.length; i++) {
+      if(Basins[i].month == month){
+        BasinsSeg.push(Basins[i]);
+      }
+    }
+    res.send(BasinsSeg);
+  }else{
+    res.send(Basins);
+  }
 }
 
 module.exports.postBasins = (req, res) => {
@@ -101,17 +116,30 @@ module.exports.deleteBasins = (req, res) => {
 
 module.exports.getBasin = (req, res) => {
   var pl = req.params.river_basin;
-  var mes = 404;
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == pl){
-      mes = Basins[i];
-      break;
-    }
-  }
-  if(mes == 404){
-    res.sendStatus(mes);
+
+
+  if(pl == "loadInitialData"){
+    Basins = [
+      {"river_basin": "Duero", "month": "Enero", "year": 2015, "p.m.": 56, "p.e.": 40.9, "p.a.": 301.9},
+      {"river_basin": "Tajo", "month": "Enero", "year": 2015, "p.m.": 60, "p.e.": 36.3, "p.a.": 345.6},
+      {"river_basin": "Guadiana", "month": "Enero", "year": 2015, "p.m.": 57, "p.e.": 34.2, "p.a.": 302.8},
+      {"river_basin": "Guadalquivir", "month": "Enero", "year": 2015, "p.m.": 68, "p.e.": 55.2, "p.a.": 331.2},
+      {"river_basin": "Ebro", "month": "Ener", "year": 2015, "p.m.": 44, "p.e.": 48.8, "p.a.": 306.9}
+    ];
+    res.sendStatus(200);
   }else{
-    res.send(mes);
+    var mes = 404;
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == pl){
+        mes = Basins[i];
+        break;
+      }
+    }
+    if(mes == 404){
+      res.sendStatus(mes);
+    }else{
+      res.send(mes);
+    }
   }
 }
 
@@ -147,11 +175,6 @@ module.exports.deleteBasin = (req, res) => {
   res.sendStatus(mes);
 }
 
-module.exports.loadInitialDataV1 = (req, res) => {
-  Basins = [
-    {"river_basin": "Duero", "month": "Enero", "year": 2015, "p.m.": 56, "p.e.": 40.9, "p.a.": 301.9},
-    {"river_basin": "Tajo", "month": "Enero", "year": 2015, "p.m.": 60, "p.e.": 36.3, "p.a.": 345.6},
-    {"river_basin": "Guadiana", "month": "Enero", "year": 2015, "p.m.": 57, "p.e.": 34.2, "p.a.": 302.8}
-  ];
-  res.sendStatus(200);
-}
+/*module.exports.loadInitialDataV1 = (req, res) => {
+
+}*/
