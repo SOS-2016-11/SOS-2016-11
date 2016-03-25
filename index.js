@@ -1,12 +1,12 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16000);
+var port = (process.env.PORT || 16060);
 
 var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/static"));
 
-var luxury_carsCtl = require('./api/apisosCtl.js');
+var apisosCtl = require('./api/apisosCtl.js');
 var apicntcar = require("./api/apicntcar.js");
 
 app.get("/time", (req,res)=>{
@@ -94,19 +94,19 @@ app.delete("/api/sandbox/luxury_cars/:name",apisosCtl.deleteRecurso);
 //V1
 app.get("/api/v1/pressure-and-temperatures/", apisosCtl.getCities);
 
-app.get("/api/v1/pressure-and-temperatures/", apisosCtl.postCities);
+app.post("/api/v1/pressure-and-temperatures/", apisosCtl.postCities);
 
-app.get("/api/v1/pressure-and-temperatures/", apisosCtl.putCities);
+app.put("/api/v1/pressure-and-temperatures/", apisosCtl.putCities);
 
-app.get("/api/v1/pressure-and-temperatures/", apisosCtl.deleteCities);
+app.delete("/api/v1/pressure-and-temperatures/", apisosCtl.deleteCities);
 
 app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.getCity);
 
-app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.postCity);
+app.post("/api/v1/pressure-and-temperatures/:name", apisosCtl.postCity);
 
-app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.putCity);
+app.put("/api/v1/pressure-and-temperatures/:name", apisosCtl.putCity);
 
-app.get("/api/v1/pressure-and-temperatures/:name", apisosCtl.deleteCity);
+app.delete("/api/v1/pressure-and-temperatures/:name", apisosCtl.deleteCity);
 
 app.get("/api/v1/loadInitialDataV1", apisosCtl.loadInitialDataV1);
 
