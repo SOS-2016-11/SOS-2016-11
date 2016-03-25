@@ -33,7 +33,6 @@ module.exports.getRecurso = function (req, res){
   }else{
       res.send(estado);
   }
-
 }
 
 module.exports.postRecurso = function (req, res){
@@ -91,7 +90,14 @@ module.exports.getCities = function(req, res){
   var Cities2 = [];
   var limit = req.query.limit;
   var offset = req.query.offset;
+  var name = req.query.name;
+  var month = req.query.month;
+  var year = req.query.year;
+  var p = req.query.p;
+  var t = req.query.t;
+  var td = req.query.td;
   var contador = offset;
+  var busqueda=0;
   if(limit){
     if(limit > Cities.length){
       res.sendStatus(404);
@@ -103,9 +109,22 @@ module.exports.getCities = function(req, res){
       }
       res.send(Cities2);
     }
-  }else{
-    res.send(Cities);
   }
+  if(name||month||year||p||t||td){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].name == name ||Cities[i].month == month ||Cities[i].year == year||Cities[i].p == p || Cities[i].t == t ||Cities[i].td == td){
+          var recurso = Cities[i];
+          Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  if(busqueda==0){
+    res.send(Cities);
+  }else{
+    res.send(Cities2);
+  }
+
 }
 
 module.exports.postCities = function(req, res){
