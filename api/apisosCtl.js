@@ -76,19 +76,36 @@ module.exports.loadInitialData = function (req, res){
 //V1
 var Cities = [];
 /*
-module.exports.loadInitialDataCities = (req, res) => {
-  Cities = [
+module.exports.loadInitialDataCities = (req, res) => {*/
+  Cities1 = [
     {"name": "ACoruña", "month": "Enero", "year": 2015, "p": 1018, "t": 10.9, "td": 7.2},
     {"name": "Santander", "month": "Enero", "year": 2015, "p": 1019, "t": 10.6, "td": 6.6},
     {"name": "Madrid", "month": "Enero", "year": 2015, "p": 951, "t": 6.0, "td": -0.9},
     {"name": "Zaragoza", "month": "Enero", "year": 2015, "p": 991, "t": 6.7, "td": 2.2},
     {"name": "Mallorca", "month": "Enero", "year": 2015, "p": 1017, "t": 11.0, "td": 5.7}
-  ];
+  ];/*
   res.sendStatus(200);
 }
 */
 module.exports.getCities = function(req, res){
-  res.send(Cities);
+  var Cities2 = [];
+  var limit = req.query.limit;
+  var offset = req.query.offset;
+  var contador = offset;
+  if(limit){
+    if(limit > Cities.length){
+      res.sendStatus(404);
+    }else{
+      for (var i=0; i<limit; i++){
+        var recurso = Cities[contador];
+        Cities2.push(recurso);
+        contador++;
+      }
+      res.send(Cities2);
+    }
+  }else{
+    res.send(Cities);
+  }
 }
 
 module.exports.postCities = function(req, res){
@@ -111,13 +128,7 @@ module.exports.getCity = function (req, res){
   var estado = 404;
   //api-test
   if(car == "loadInitialData" || car == "loadInitialData/"){
-    Cities = [
-      {"name": "ACoruña", "month": "Enero", "year": 2015, "p": 1018, "t": 10.9, "td": 7.2},
-      {"name": "Santander", "month": "Enero", "year": 2015, "p": 1019, "t": 10.6, "td": 6.6},
-      {"name": "Madrid", "month": "Enero", "year": 2015, "p": 951, "t": 6.0, "td": -0.9},
-      {"name": "Zaragoza", "month": "Enero", "year": 2015, "p": 991, "t": 6.7, "td": 2.2},
-      {"name": "Mallorca", "month": "Enero", "year": 2015, "p": 1017, "t": 11.0, "td": 5.7}
-    ];
+    Cities = Cities1;
     res.sendStatus(200);
   }else{
   for (var i = 0; i < Cities.length; i++){
