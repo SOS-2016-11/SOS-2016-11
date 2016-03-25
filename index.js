@@ -73,8 +73,6 @@ app.get("/api/v1/loadInitialDataV1", apicntcar.loadInitialDataV1);
 
 //SANDBOX
 
-app.get("/api-test/luxury_cars/loadInitialData/",apisosCtl.loadInitialData );
-
 app.get("/api/sandbox/luxury_cars/", apisosCtl.getLista);
 
 app.post("/api/sandbox/luxury_cars/", apisosCtl.postLista);
@@ -91,9 +89,9 @@ app.put("/api/sandbox/luxury_cars/:name",apisosCtl.putRecurso);
 
 app.delete("/api/sandbox/luxury_cars/:name",apisosCtl.deleteRecurso);
 
-//V1
-app.get("/api/v1/pressure-and-temperatures/loadInitialData/", apisosCtl.loadInitialData);
+app.get("/api-test/luxury_cars/loadInitialData/",apisosCtl.loadInitialData );
 
+//V1
 app.get("/api/v1/pressure-and-temperatures/", apisosCtl.getCities);
 
 app.post("/api/v1/pressure-and-temperatures/", apisosCtl.postCities);
@@ -110,7 +108,7 @@ app.put("/api/v1/pressure-and-temperatures/:name", apisosCtl.putCity);
 
 app.delete("/api/v1/pressure-and-temperatures/:name", apisosCtl.deleteCity);
 
-
+app.get("/api/v1/loadInitialData/", apisosCtl.loadInitialDataCities);
 
 
 app.listen(port);

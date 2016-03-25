@@ -76,7 +76,7 @@ module.exports.loadInitialData = function (req, res){
 //V1
 var Cities = [];
 
-module.exports.loadInitialData = (req, res) => {
+module.exports.loadInitialDataCities = (req, res) => {
   Cities = [
     {"name": "ACoruña", "month": "Enero", "year": 2015, "p": 1018, "t": 10.9, "td": 7.2},
     {"name": "Santander", "month": "Enero", "year": 2015, "p": 1019, "t": 10.6, "td": 6.6},
