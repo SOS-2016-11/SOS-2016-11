@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16060);
+var port = (process.env.PORT || 16070);
 
 var app = express();
 app.use(bodyParser.json());
@@ -108,7 +108,7 @@ app.put("/api/v1/pressure-and-temperatures/:name", apisosCtl.putCity);
 
 app.delete("/api/v1/pressure-and-temperatures/:name", apisosCtl.deleteCity);
 
-app.get("/api/v1/loadInitialData/", apisosCtl.loadInitialDataCities);
+//app.get("/api/v1/pressure-and-temperatures/loadInitialData/", apisosCtl.loadInitialDataCities);
 
 
 app.listen(port);
