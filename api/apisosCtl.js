@@ -143,8 +143,17 @@ module.exports.deleteCities = function(req, res){
 }
 
 module.exports.getCity = function (req, res){
+  var Cities2 = [];
+  var Cities3 = [];
   var car = req.params.name;
-  var estado = 404;
+  var name = req.query.name;
+  var month = req.query.month;
+  var year = req.query.year;
+  var p = req.query.p;
+  var t = req.query.t;
+  var td = req.query.td;
+  var busqueda=0;
+  var busqueda1=0;
   //api-test
   if(car == "loadInitialData" || car == "loadInitialData/"){
     Cities = Cities1;
@@ -152,15 +161,30 @@ module.exports.getCity = function (req, res){
   }else{
   for (var i = 0; i < Cities.length; i++){
     if(Cities[i].name == car){
-        estado = Cities[i];
-        break;
+        var recursos = Cities[i];
+        Cities2.push(recursos);
+        busqueda++;
     }
   }
-  if(estado == 404){
-      res.sendStatus(estado);
-  }else{
-      res.send(estado);
+  if(name||month||year||p||t||td){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].name == name ||Cities2[i].month == month ||Cities2[i].year == year||Cities2[i].p == p || Cities2[i].t == t ||Cities2[i].td == td){
+          var recurso = Cities2[i];
+          Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
   }
+  if(busqueda==0){
+    res.sendStatus(404);
+  }else{
+    if(busqueda1==0){
+      res.send(Cities2);
+    }else{
+      res.send(Cities3);
+    }
+  }
+
   }
 }
 
