@@ -145,7 +145,6 @@ module.exports.deleteCities = function(req, res){
 module.exports.getCity = function (req, res){
   var Cities2 = [];
   var Cities3 = [];
-  var car = req.params.name;
   var name = req.query.name;
   var month = req.query.month;
   var year = req.query.year;
@@ -154,13 +153,15 @@ module.exports.getCity = function (req, res){
   var td = req.query.td;
   var busqueda=0;
   var busqueda1=0;
+  //aportacion nueva
+  var car = req.params.name;
   //api-test
   if(car == "loadInitialData" || car == "loadInitialData/"){
     Cities = Cities1;
     res.sendStatus(200);
   }else{
   for (var i = 0; i < Cities.length; i++){
-    if(Cities[i].name == car){
+    if(Cities[i].name == car||Cities[i].month == car||Cities[i].year == car||Cities[i].p == car||Cities[i].t == car||Cities[i].td == car){
         var recursos = Cities[i];
         Cities2.push(recursos);
         busqueda++;
