@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var port = (process.env.PORT || 16080);
+var port = (process.env.PORT || 16000);
 
 var app = express();
 app.use(bodyParser.json());
@@ -48,6 +48,10 @@ app.get("/api-test/programming_languages/loadInitialData", apicntcar.loadInitial
 
 app.get("/api/v1/average-rainfall/", apicntcar.getBasins);
 
+//app.get("/api/v1/average-rainfall/:year", apicntcar.getBasinsYear);
+
+//app.get("/api/v1/average-rainfall/:month", apicntcar.getBasinsMonth);
+
 app.post("/api/v1/average-rainfall/", apicntcar.postBasins);
 
 app.put("/api/v1/average-rainfall/", apicntcar.putBasins);
@@ -56,6 +60,10 @@ app.delete("/api/v1/average-rainfall/", apicntcar.deleteBasins);
 
 
 app.get("/api/v1/average-rainfall/:river_basin", apicntcar.getBasin);
+
+//app.get("/api/v1/average-rainfall/:river_basin/:year", apicntcar.getBasinYear);
+
+//app.get("/api/v1/average-rainfall/:river_basin/:month", apicntcar.getBasinMonth);
 
 app.post("/api/v1/average-rainfall/:river_basin", apicntcar.postBasin);
 
