@@ -7,7 +7,7 @@ module.exports.getLista = function(req, res){
 module.exports.postLista = function(req, res){
   var car = req.body;
   luxury_cars.push(car);
-  res.sendStatus(200);
+  res.sendStatus(201);
 }
 
 module.exports.putLista = function(req, res){
@@ -129,12 +129,17 @@ module.exports.getCities = function(req, res){
 
 module.exports.postCities = function(req, res){
   var car = req.body;
+  for (var i = 0; i < Cities.length; i++){
+    if(Cities[i] == car){
+      res.sendStatus(409);
+    }
+  }
   Cities.push(car);
-  res.sendStatus(200);
+  res.sendStatus(201);
 }
 
 module.exports.putCities = function(req, res){
-  res.sendStatus(404);
+  res.sendStatus(405);
 }
 
 module.exports.deleteCities = function(req, res){
@@ -210,7 +215,7 @@ module.exports.getCityYear = (req, res) => {
 
 
 module.exports.postCity = function (req, res){
-  res.sendStatus(404);
+  res.sendStatus(405);
 }
 
 module.exports.putCity = function  (req, res){
