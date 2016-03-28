@@ -124,7 +124,7 @@ module.exports.getBasins = (req, res) => {
 
   BasinsSeg = searchs(dat,Basins);
   BasinsSeg2 = pagination(dat,BasinsSeg);
-  if(BasinsSeg2 == 404){
+  if(BasinsSeg2 == 400){
     res.sendStatus(BasinsSeg2);
   }else{
     BasinsSeg3 = field(dat,BasinsSeg2);
@@ -241,7 +241,7 @@ module.exports.getBasin = (req, res) => {
 
       BasinsSeg1 = searchs(dat,BasinsSeg);
       BasinsSeg2 = pagination(dat,BasinsSeg1);
-      if(BasinsSeg2 == 404){
+      if(BasinsSeg2 == 400){
         res.sendStatus(BasinsSeg2);
       }else{
         BasinsSeg3 = field(dat,BasinsSeg2);
@@ -272,7 +272,7 @@ module.exports.putBasin = (req, res) => {
   var basinb = req.body;
   var cod = 404;
   for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basin && Basins[i].year  == basinb.year){
+    if(Basins[i].river_basin == basin && (Basins[i].year  == basinb.year || Basins[i].month  == basinb.month)){
       Basins.splice(i, 1);
       Basins.push(basinb);
       cod = 200;
@@ -388,7 +388,7 @@ function pagination(dat,BasinsSeg){
   var cont = 0;
   if(dat[0] || dat[1]){
       if(dat[0] < 0 || dat[1] > BasinsSeg.length){
-      BasinsSeg2 = 404;
+      BasinsSeg2 = 400;
     }else if(dat[0] >= 0){
       for(var i = dat[1]; i < BasinsSeg.length; i++){
         BasinsSeg2.push(BasinsSeg[i]);
