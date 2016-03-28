@@ -254,10 +254,10 @@ module.exports.putCityYear = function  (req, res){
 }
 
 
-module.exports.deleteCity = function  (req, res){
+module.exports.deleteCity = function(req, res){
   var car = req.params.name;
   var busqueda=0;
-  for (var i=0; i<=Cities.length;i++){
+  for (var i=0; i<Cities.length;i++){
     if(Cities[i].name == car){
       Cities.splice(i, 1);
       busqueda++;
