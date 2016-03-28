@@ -91,6 +91,9 @@ module.exports.getBasins = (req, res) => {
   var pa = req.query.pa;
   var dat = [0,0,0,0,0,0,0,0,0];
   var BasinsSeg = [];
+  var BasinsSeg2 = [];
+  var BasinsSeg3 = [];
+
 
   if(limit){
     dat[0] = limit;
@@ -121,38 +124,14 @@ module.exports.getBasins = (req, res) => {
   }
 
   BasinsSeg = searchs(dat);
-  //console.log(BasinsSeg);
-
-/*
-  if(month || year /*|| pm || pe || pa*//*){
-    var BasinsSeg = [];
-    for (var i = 0; i < Basins.length; i++) {
-      if(month){
-        if(Basins[i].month == month){
-          if(year){
-            if (Basins[i].year == year){
-              BasinsSeg.push(Basins[i]);
-            }
-          }else{
-            BasinsSeg.push(Basins[i]);
-          }
-        }
-      }else if(year){
-        if(Basins[i].year == year){
-              BasinsSeg.push(Basins[i]);
-        }
-      }
-    }*/
-
-    res.send(BasinsSeg);
-  }/*else{
-    res.send(Basins);
+  BasinsSeg2 = pagination(dat,BasinsSeg);
+  if(BasinsSeg2 == 404){
+    res.sendStatus(BasinsSeg2);
+  }else{
+    BasinsSeg3 = field(dat,BasinsSeg2);
+    res.send(BasinsSeg3);
   }
-}*/
-
-
-
-
+}
 /*
 module.exports.getBasinsYear = (req, res) => {
   var year = req.params.year;
@@ -194,56 +173,39 @@ module.exports.deleteBasins = (req, res) => {
 
 
 module.exports.getBasin = (req, res) => {
-  var basin = req.params.river_basin;
-  if(basin == "loadInitialData"){
+  var dat = req.params.dat;
+  // CARGA DE DATOS INICIAL
+  if(dat == "loadInitialData"){
     Basins = [
-      {"river_basin": "Duero", "month": "January", "year": 2015, "p.m.": 56, "p.e.": 40.9, "p.a.": 301.9},
-      {"river_basin": "Tajo", "month": "January", "year": 2015, "p.m.": 60, "p.e.": 36.3, "p.a.": 345.6},
-      {"river_basin": "Guadiana", "month": "January", "year": 2015, "p.m.": 57, "p.e.": 34.2, "p.a.": 302.8},
-      {"river_basin": "Guadalquivir", "month": "January", "year": 2015, "p.m.": 68, "p.e.": 55.2, "p.a.": 331.2},
-      {"river_basin": "Ebro", "month": "January", "year": 2015, "p.m.": 44, "p.e.": 48.8, "p.a.": 306.9},
+      {"river_basin": "Duero", "month": "January", "year": 2015, "pm": 56, "pe": 40.9, "pa": 301.9},
+      {"river_basin": "Tajo", "month": "January", "year": 2015, "pm": 60, "pe": 36.3, "pa": 345.6},
+      {"river_basin": "Guadiana", "month": "January", "year": 2015, "pm": 57, "pe": 34.2, "pa": 302.8},
+      {"river_basin": "Guadalquivir", "month": "January", "year": 2015, "pm": 68, "pe": 55.2, "pa": 331.2},
+      {"river_basin": "Ebro", "month": "January", "year": 2015, "pm": 44, "pe": 48.8, "pa": 306.9},
 
-      {"river_basin": "Duero", "month": "January", "year": 2014, "p.m.": 56, "p.e.": 40.9, "p.a.": 301.9},
-      {"river_basin": "Tajo", "month": "January", "year": 2014, "p.m.": 60, "p.e.": 36.3, "p.a.": 345.6},
-      {"river_basin": "Guadiana", "month": "January", "year": 2014, "p.m.": 57, "p.e.": 34.2, "p.a.": 302.8},
-      {"river_basin": "Guadalquivir", "month": "January", "year": 2014, "p.m.": 68, "p.e.": 55.2, "p.a.": 331.2},
-      {"river_basin": "Ebro", "month": "January", "year": 2014, "p.m.": 44, "p.e.": 48.8, "p.a.": 306.9},
+      {"river_basin": "Duero", "month": "January", "year": 2014, "pm": 56, "pe": 40.9, "pa": 301.9},
+      {"river_basin": "Tajo", "month": "January", "year": 2014, "pm": 60, "pe": 36.3, "pa": 345.6},
+      {"river_basin": "Guadiana", "month": "January", "year": 2014, "pm": 57, "pe": 34.2, "pa": 302.8},
+      {"river_basin": "Guadalquivir", "month": "January", "year": 2014, "pm": 68, "pe": 55.2, "pa": 331.2},
+      {"river_basin": "Ebro", "month": "January", "year": 2014, "pm": 44, "pe": 48.8, "pa": 306.9},
 
-      {"river_basin": "Duero", "month": "January", "year": 2013, "p.m.": 56, "p.e.": 40.9, "p.a.": 301.9},
-      {"river_basin": "Tajo", "month": "January", "year": 2013, "p.m.": 60, "p.e.": 36.3, "p.a.": 345.6},
-      {"river_basin": "Guadiana", "month": "January", "year": 2013, "p.m.": 57, "p.e.": 34.2, "p.a.": 302.8},
-      {"river_basin": "Guadalquivir", "month": "January", "year": 2013, "p.m.": 68, "p.e.": 55.2, "p.a.": 331.2},
-      {"river_basin": "Ebro", "month": "J", "year": 2013, "p.m.": 44, "p.e.": 48.8, "p.a.": 306.9}
+      {"river_basin": "Duero", "month": "January", "year": 2013, "pm": 56, "pe": 40.9, "pa": 301.9},
+      {"river_basin": "Tajo", "month": "January", "year": 2013, "pm": 60, "pe": 36.3, "pa": 345.6},
+      {"river_basin": "Guadiana", "month": "January", "year": 2013, "pm": 57, "pe": 34.2, "pa": 302.8},
+      {"river_basin": "Guadalquivir", "month": "January", "year": 2013, "pm": 68, "pe": 55.2, "pa": 331.2},
+      {"river_basin": "Ebro", "month": "J", "year": 2013, "pm": 44, "pe": 48.8, "pa": 306.9}
     ];
     res.sendStatus(200);
   }else{
     var cod = 404;
-    var limit = req.query.limit;
-    var offset = req.query.offset;
-    var month = req.query.month;
-    var year = req.query.year;
     var BasinsSeg = [];
+    // BUSQUEDA EN /dato/
     for(var i = 0; i < Basins.length; i++){
-      if(Basins[i].river_basin == basin){
-        if(month){
-          if(Basins[i].month == month){
-            if(year){
-              if (Basins[i].year == year){
-                BasinsSeg.push(Basins[i]);
-              }
-            }else{
-              BasinsSeg.push(Basins[i]);
-            }
-          }
-        }else if(year){
-          if(Basins[i].year == year){
-                BasinsSeg.push(Basins[i]);
-          }
-        }else{
-          BasinsSeg.push(Basins[i]);
-        }
+      if(Basins[i].river_basin == dat || Basins[i].month == dat  || Basins[i].year == dat || Basins[i].pm == dat || Basins[i].pe == dat || Basins[i].pa == dat){
+        BasinsSeg.push(Basins[i]);
       }
     }
+    // ENVIO DATOS O CODIGO ESTADO
     if(BasinsSeg.length == 0){
       res.sendStatus(cod);
     }else{
@@ -252,33 +214,17 @@ module.exports.getBasin = (req, res) => {
   }
 }
 
-
-/*
-module.exports.getBasinYear = (req, res) => {
+module.exports.getBasinDat = (req, res) => {
   var basin = req.params.river_basin;
-  var year = req.params.year;
+  var dat = req.params.dat;
   var BasinsSeg = [];
   for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basin && Basins[i].year == year){
+    if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat  || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat)){
       BasinsSeg.push(Basins[i]);
     }
   }
+  res.send(BasinsSeg);
 }
-
-module.exports.getBasinMonth = (req, res) => {
-  var basin = req.params.river_basin;
-  var month = req.params.month;
-  var BasinsSeg = [];
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basin && Basins[i].month == month){
-      BasinsSeg.push(Basins[i]);
-    }
-  }
-}
-
-
-*/
-
 
 module.exports.postBasin = (req, res) => {
   res.sendStatus(405);
@@ -312,29 +258,21 @@ module.exports.deleteBasin = (req, res) => {
   res.sendStatus(cod);
 }
 
-/*module.exports.loadInitialDataV1 = (req, res) => {
-
-}*/
-
-
-
-
 function searchs(dat){
-  console.log(dat);
+
   var BasinsSeg = [];
+  var BasinsSeg2 = [];
 
   if(dat[2] || dat[3] || dat[4] || dat[5] || dat[6] || dat[7] || dat[8]){
-    // Comprueba/Hace FROM y TO (Year)
+    // COMPRUEBA/HACE FROM Y TO (YEAR)
     if(dat[2]){
       if(dat[3]){
-        console.log(dat[2] + " - " + dat[3]);
         for (var i = 0; i < Basins.length; i++){
           if (Basins[i].year >= dat[2] && Basins[i].year <= dat[3]){
             BasinsSeg.push(Basins[i]);
           }
         }
       }else{
-        console.log(dat[2]);
         for (var i = 0; i < Basins.length; i++){
           if (Basins[i].year >= dat[2]){
             BasinsSeg.push(Basins[i]);
@@ -343,7 +281,6 @@ function searchs(dat){
       }
     }
     else if(dat[3]){
-      console.log(dat[3]);
       for (var i = 0; i < Basins.length; i++){
         if (Basins[i].year <= dat[3]){
           BasinsSeg.push(Basins[i]);
@@ -353,99 +290,85 @@ function searchs(dat){
       BasinsSeg = Basins;
     }
 
-//      console.log(BasinsSeg);
-
-    // Filtrado por Year, Month, Pm, Pe, Pa
+    // FILTRADO POR YEAR, MONTH, PM, PE, PA
     if(dat[4]){
-      console.log("En 4");
       for (var i = 0; i < BasinsSeg.length; i++){
-        if (BasinsSeg[i].month != dat[4]){
-          console.log("Elimino 4");
-          BasinsSeg.splice(i,1);
+        if (BasinsSeg[i].month == dat[4]){
+          BasinsSeg2.push(BasinsSeg[i]);
         }
       }
+    }else{
+      BasinsSeg2 = BasinsSeg;
     }
-    console.log(BasinsSeg.length);
     if(dat[5]){
-      console.log(BasinsSeg.length);
-      console.log("En 5");
-      for (var i = 0; i < BasinsSeg.length; i++){
-        console.log(BasinsSeg.length);
-        console.log(BasinsSeg[i]);
-        if (BasinsSeg[i].year != dat[5]){
-          console.log("Elimino 5");
-          BasinsSeg.splice(i,1);
-        }else{
-          console.log("No elimino 5");
+      BasinsSeg = [];
+      for (var i = 0; i < BasinsSeg2.length; i++){
+        if (BasinsSeg2[i].year == dat[5]){
+          BasinsSeg.push(BasinsSeg2[i]);
         }
       }
-//          console.log(BasinsSeg);
+    }else{
+      BasinsSeg = BasinsSeg2;
     }
     if(dat[6]){
-      console.log("En 6");
+      BasinsSeg2 = [];
       for (var i = 0; i < BasinsSeg.length; i++){
-        if (BasinsSeg[i].pm != dat[6]){
-          console.log("Elimino 6");
-          BasinsSeg.splice(i,1);
+        if (BasinsSeg[i].pm == dat[6]){
+          BasinsSeg2.push(BasinsSeg[i]);
         }
       }
+    }else{
+      BasinsSeg2 = BasinsSeg;
     }
     if(dat[7]){
-      console.log("En 7");
-      for (var i = 0; i < BasinsSeg.length; i++){
-        if (BasinsSeg[i].pe != dat[7]){
-          console.log("Elimino 7");
-          BasinsSeg.splice(i,1);
+      BasinsSeg = [];
+      for (var i = 0; i < BasinsSeg2.length; i++){
+        if (BasinsSeg2[i].pe == dat[7]){
+          BasinsSeg.push(BasinsSeg2[i]);
         }
       }
+    }else{
+      BasinsSeg = BasinsSeg2;
     }
     if(dat[8]){
-      console.log("En 8");
+      BasinsSeg2 = [];
       for (var i = 0; i < BasinsSeg.length; i++){
-        if (BasinsSeg[i].pa != dat[8]){
-          console.log("Elimino 8");
-          BasinsSeg.splice(i,1);
+        if (BasinsSeg[i].pa == dat[8]){
+          BasinsSeg2.push(BasinsSeg[i]);
         }
       }
+    }else{
+      BasinsSeg2 = BasinsSeg;
     }
-
-
-
   }else{
-    BasinsSeg = Basins;
+    BasinsSeg2 = Basins;
   }
+  return BasinsSeg2;
+}
 
-
-
-
-/*
-    for (var i = 0; i < Basins.length; i++){
-      if(month){
-        if(Basins[i].month == dat[4]){
-          if(dat[2]){
-            if (Basins[i].year == year){
-              BasinsSeg.push(Basins[i]);
-            }
-          }else{
-            BasinsSeg.push(Basins[i]);
-          }
-        }
-      }else if(year){
-        if(Basins[i].year == year){
-              BasinsSeg.push(Basins[i]);
+// TRATAMIENTO LIMIT Y OFFSET
+function pagination(dat,BasinsSeg){
+  var BasinsSeg2 = [];
+  var cont = 0;
+  if(dat[0] || dat[1]){
+      if(dat[0] < 0 || dat[1] > BasinsSeg.length){
+      BasinsSeg2 = 404;
+    }else if(dat[0] >= 0){
+      for(var i = dat[1]; i < BasinsSeg.length; i++){
+        BasinsSeg2.push(BasinsSeg[i]);
+        cont++;
+        if(cont == dat[0]){
+          break;
         }
       }
     }
   }else{
-    BasinsSeg = Basins;
-  }*/
+    BasinsSeg2 = BasinsSeg;
+  }
+  return BasinsSeg2;
+}
+
+function field(dat,BasinsSeg){
+  var BasinsSeg2 = [];
   return BasinsSeg;
-}
-
-function pagination(){
-  console.log("p");
-}
-
-function field(){
-  console.log("f");
 }
