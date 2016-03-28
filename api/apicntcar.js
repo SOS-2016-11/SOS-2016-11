@@ -134,8 +134,20 @@ module.exports.getBasins = (req, res) => {
 
 module.exports.postBasins = (req, res) => {
   var basinb = req.body;
-  Basins.push(basinb);
-  res.sendStatus(201);
+  var cont = 0;
+  for(var i = 0; i < Basins.length; i++){
+    if(Basins[i].river_basin == basinb.river_basin && Basins[i].year == basinb.year && Basins[i].month == basinb.month){
+      cont++;
+      break;
+    }
+  }
+  if(cont > 0){
+    res.sendStatus(409);
+  }else{
+    Basins.push(basinb);
+    res.sendStatus(201);
+  }
+
 }
 
 module.exports.putBasins = (req, res) => {
@@ -171,7 +183,7 @@ module.exports.getBasin = (req, res) => {
       {"river_basin": "Guadalquivir", "month": "January", "year": 2013, "pm": 68, "pe": 55.2, "pa": 331.2},
       {"river_basin": "Ebro", "month": "J", "year": 2013, "pm": 44, "pe": 48.8, "pa": 306.9}
     ];
-    res.sendStatus(200);
+    res.sendStatus(201);
   }else{
     var cod = 404;
     var BasinsSeg = [];
@@ -260,7 +272,7 @@ module.exports.putBasin = (req, res) => {
   var basinb = req.body;
   var cod = 404;
   for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basin){
+    if(Basins[i].river_basin == basin && Basins[i].year  == basinb.year){
       Basins.splice(i, 1);
       Basins.push(basinb);
       cod = 200;
@@ -274,10 +286,9 @@ module.exports.deleteBasin = (req, res) => {
   var basin = req.params.river_basin;
   var cod = 404;
   for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == pl){
+    if(Basins[i].river_basin == basin){
       Basins.splice(i, 1);
       cod = 200;
-      break;
     }
   }
   res.sendStatus(cod);
