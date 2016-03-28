@@ -94,7 +94,6 @@ module.exports.getBasins = (req, res) => {
   var BasinsSeg2 = [];
   var BasinsSeg3 = [];
 
-
   if(limit){
     dat[0] = limit;
   }
@@ -123,7 +122,7 @@ module.exports.getBasins = (req, res) => {
     dat[8] = pa;
   }
 
-  BasinsSeg = searchs(dat);
+  BasinsSeg = searchs(dat,Basins);
   BasinsSeg2 = pagination(dat,BasinsSeg);
   if(BasinsSeg2 == 404){
     res.sendStatus(BasinsSeg2);
@@ -132,29 +131,6 @@ module.exports.getBasins = (req, res) => {
     res.send(BasinsSeg3);
   }
 }
-/*
-module.exports.getBasinsYear = (req, res) => {
-  var year = req.params.year;
-  var BasinsSeg = [];
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].year == year){
-      BasinsSeg.push(Basins[i]);
-    }
-  }
-}
-
-module.exports.getBasinsMonth = (req, res) => {
-  var month = req.params.month;
-  var BasinsSeg = [];
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].month == month){
-      BasinsSeg.push(Basins[i]);
-    }
-  }
-}
-*/
-
-
 
 module.exports.postBasins = (req, res) => {
   var basinb = req.body;
@@ -205,11 +181,60 @@ module.exports.getBasin = (req, res) => {
         BasinsSeg.push(Basins[i]);
       }
     }
-    // ENVIO DATOS O CODIGO ESTADO
+
     if(BasinsSeg.length == 0){
       res.sendStatus(cod);
     }else{
-      res.send(BasinsSeg);
+      var limit = req.query.limit;
+      var offset = req.query.offset;
+      var frm = req.query.from;
+      var to = req.query.to;
+      var month = req.query.month;
+      var year = req.query.year;
+      var pm = req.query.pm;
+      var pe = req.query.pe;
+      var pa = req.query.pa;
+      var dat = [0,0,0,0,0,0,0,0,0];
+      var BasinsSeg1 = [];
+      var BasinsSeg2 = [];
+      var BasinsSeg3 = [];
+
+      if(limit){
+        dat[0] = limit;
+      }
+      if(offset){
+        dat[1] = offset;
+      }
+      if(frm){
+        dat[2] = frm;
+      }
+      if(to){
+        dat[3] = to;
+      }
+      if(month){
+        dat[4] = month;
+      }
+      if(year){
+        dat[5] = year;
+      }
+      if(pm){
+        dat[6] = pm;
+      }
+      if(pe){
+        dat[7] = pe;
+      }
+      if(pa){
+        dat[8] = pa;
+      }
+
+      BasinsSeg1 = searchs(dat,BasinsSeg);
+      BasinsSeg2 = pagination(dat,BasinsSeg1);
+      if(BasinsSeg2 == 404){
+        res.sendStatus(BasinsSeg2);
+      }else{
+        BasinsSeg3 = field(dat,BasinsSeg2);
+        res.send(BasinsSeg3);
+      }
     }
   }
 }
@@ -258,90 +283,90 @@ module.exports.deleteBasin = (req, res) => {
   res.sendStatus(cod);
 }
 
-function searchs(dat){
+function searchs(dat,BasinsSeg){
 
-  var BasinsSeg = [];
+  var BasinsSeg1 = [];
   var BasinsSeg2 = [];
 
   if(dat[2] || dat[3] || dat[4] || dat[5] || dat[6] || dat[7] || dat[8]){
     // COMPRUEBA/HACE FROM Y TO (YEAR)
     if(dat[2]){
       if(dat[3]){
-        for (var i = 0; i < Basins.length; i++){
-          if (Basins[i].year >= dat[2] && Basins[i].year <= dat[3]){
-            BasinsSeg.push(Basins[i]);
+        for (var i = 0; i < BasinsSeg.length; i++){
+          if (BasinsSeg[i].year >= dat[2] && BasinsSeg[i].year <= dat[3]){
+            BasinsSeg1.push(BasinsSeg[i]);
           }
         }
       }else{
-        for (var i = 0; i < Basins.length; i++){
-          if (Basins[i].year >= dat[2]){
-            BasinsSeg.push(Basins[i]);
+        for (var i = 0; i < BasinsSeg.length; i++){
+          if (BasinsSeg[i].year >= dat[2]){
+            BasinsSeg1.push(BasinsSeg[i]);
           }
         }
       }
     }
     else if(dat[3]){
-      for (var i = 0; i < Basins.length; i++){
-        if (Basins[i].year <= dat[3]){
-          BasinsSeg.push(Basins[i]);
+      for (var i = 0; i < BasinsSeg.length; i++){
+        if (BasinsSeg[i].year <= dat[3]){
+          BasinsSeg1.push(BasinsSeg[i]);
         }
       }
     }else{
-      BasinsSeg = Basins;
+      BasinsSeg1 = BasinsSeg;
     }
 
     // FILTRADO POR YEAR, MONTH, PM, PE, PA
     if(dat[4]){
-      for (var i = 0; i < BasinsSeg.length; i++){
-        if (BasinsSeg[i].month == dat[4]){
-          BasinsSeg2.push(BasinsSeg[i]);
+      for (var i = 0; i < BasinsSeg1.length; i++){
+        if (BasinsSeg1[i].month == dat[4]){
+          BasinsSeg2.push(BasinsSeg1[i]);
         }
       }
     }else{
-      BasinsSeg2 = BasinsSeg;
+      BasinsSeg2 = BasinsSeg1;
     }
     if(dat[5]){
-      BasinsSeg = [];
+      BasinsSeg1 = [];
       for (var i = 0; i < BasinsSeg2.length; i++){
         if (BasinsSeg2[i].year == dat[5]){
-          BasinsSeg.push(BasinsSeg2[i]);
+          BasinsSeg1.push(BasinsSeg2[i]);
         }
       }
     }else{
-      BasinsSeg = BasinsSeg2;
+      BasinsSeg1 = BasinsSeg2;
     }
     if(dat[6]){
       BasinsSeg2 = [];
-      for (var i = 0; i < BasinsSeg.length; i++){
-        if (BasinsSeg[i].pm == dat[6]){
-          BasinsSeg2.push(BasinsSeg[i]);
+      for (var i = 0; i < BasinsSeg1.length; i++){
+        if (BasinsSeg1[i].pm == dat[6]){
+          BasinsSeg2.push(BasinsSeg1[i]);
         }
       }
     }else{
-      BasinsSeg2 = BasinsSeg;
+      BasinsSeg2 = BasinsSeg1;
     }
     if(dat[7]){
-      BasinsSeg = [];
+      BasinsSeg1 = [];
       for (var i = 0; i < BasinsSeg2.length; i++){
         if (BasinsSeg2[i].pe == dat[7]){
-          BasinsSeg.push(BasinsSeg2[i]);
+          BasinsSeg1.push(BasinsSeg2[i]);
         }
       }
     }else{
-      BasinsSeg = BasinsSeg2;
+      BasinsSeg1 = BasinsSeg2;
     }
     if(dat[8]){
       BasinsSeg2 = [];
-      for (var i = 0; i < BasinsSeg.length; i++){
-        if (BasinsSeg[i].pa == dat[8]){
-          BasinsSeg2.push(BasinsSeg[i]);
+      for (var i = 0; i < BasinsSeg1.length; i++){
+        if (BasinsSeg1[i].pa == dat[8]){
+          BasinsSeg2.push(BasinsSeg1[i]);
         }
       }
     }else{
-      BasinsSeg2 = BasinsSeg;
+      BasinsSeg2 = BasinsSeg1;
     }
   }else{
-    BasinsSeg2 = Basins;
+    BasinsSeg2 = BasinsSeg;
   }
   return BasinsSeg2;
 }
