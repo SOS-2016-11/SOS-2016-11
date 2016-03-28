@@ -256,13 +256,17 @@ module.exports.putCityYear = function  (req, res){
 
 module.exports.deleteCity = function  (req, res){
   var car = req.params.name;
-  var estado =404;
+  var busqueda=0;
   for (var i=0; i<=Cities.length;i++){
     if(Cities[i].name == car){
       Cities.splice(i, 1);
-      estado = 200;
+      busqueda++;
       break;
     }
   }
-  res.sendStatus(estado);
+  if(busqueda==0){
+    res.sendStatus(404);
+  }else{
+    res.sendStatus(200);
+  }
 }
