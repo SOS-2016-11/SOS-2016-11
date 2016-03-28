@@ -189,6 +189,26 @@ module.exports.getCity = function (req, res){
   }
 }
 
+module.exports.getCityYear = (req, res) => {
+  var car = req.params.name;
+  var year = req.params.year;
+  var Cities2 = [];
+  var busqueda=0;
+  for(var i = 0; i < Cities.length; i++){
+    if(Cities[i].name == car && Cities[i].year == year){
+      var recurso = Cities[i];
+      Cities2.push(recurso);
+      busqueda++;
+    }
+  }
+  if(busqueda==0){
+    res.sendStatus(404);
+  }else{
+    res.send(Cities2);
+  }
+}
+
+
 module.exports.postCity = function (req, res){
   res.sendStatus(404);
 }
@@ -197,7 +217,7 @@ module.exports.putCity = function  (req, res){
   var car = req.params.name;
   var nuevo = req.body;
   var estado=404;
-    for (var i=0; i<=Cities.length;i++){
+    for (var i=0; i < Cities.length;i++){
       if(Cities[i].name == car){
         Cities.splice(i, 1);
         Cities.push(nuevo);
@@ -207,6 +227,27 @@ module.exports.putCity = function  (req, res){
     }
   res.sendStatus(estado);
 }
+
+module.exports.putCityYear = function  (req, res){
+  var car = req.params.name;
+  var year = req.params.year;
+  var nuevo = req.body;
+  var busqueda=0;
+    for (var i=0; i < Cities.length;i++){
+      if(Cities[i].name == car && Cities[i].year == year){
+        Cities.splice(i, 1);
+        Cities.push(nuevo);
+        busqueda++;
+        break;
+      }
+    }
+    if(busqueda==0){
+      res.sendStatus(404);
+    }else{
+      res.sendStatus(200);
+    }
+}
+
 
 module.exports.deleteCity = function  (req, res){
   var car = req.params.name;
