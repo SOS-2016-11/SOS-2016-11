@@ -133,21 +133,25 @@ module.exports.getBasins = (req, res) => {
 }
 
 module.exports.postBasins = (req, res) => {
-  var basinb = req.body;
-  var cont = 0;
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basinb.river_basin && Basins[i].year == basinb.year && Basins[i].month == basinb.month){
-      cont++;
-      break;
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var basinb = req.body;
+    var cont = 0;
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == basinb.river_basin && Basins[i].year == basinb.year && Basins[i].month == basinb.month){
+        cont++;
+        break;
+      }
     }
-  }
-  if(cont > 0){
-    res.sendStatus(409);
+    if(cont > 0){
+      res.sendStatus(409);
+    }else{
+      Basins.push(basinb);
+      res.sendStatus(201);
+    }
   }else{
-    Basins.push(basinb);
-    res.sendStatus(201);
+    res.sendStatus(401);
   }
-
 }
 
 module.exports.putBasins = (req, res) => {
@@ -155,8 +159,13 @@ module.exports.putBasins = (req, res) => {
 }
 
 module.exports.deleteBasins = (req, res) => {
-  Basins = [];
-  res.sendStatus(200);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    Basins = [];
+    res.sendStatus(200);
+  }else{
+    res.sendStatus(401);
+  }
 }
 
 
@@ -268,30 +277,50 @@ module.exports.postBasin = (req, res) => {
 }
 
 module.exports.putBasin = (req, res) => {
-  var basin = req.params.river_basin;
-  var basinb = req.body;
-  var cod = 404;
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basin && (Basins[i].year  == basinb.year || Basins[i].month  == basinb.month)){
-      Basins.splice(i, 1);
-      Basins.push(basinb);
-      cod = 200;
-      break;
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var basin = req.params.river_basin;
+    var basinb = req.body;
+    var cod = 404;
+    var cont = 0;
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == basin){
+        cont++;
+      }
     }
+    if(cont > 1){
+      cod = 409;
+    }else{
+      for(var i = 0; i < Basins.length; i++){
+        if(Basins[i].river_basin == basin){
+          Basins.splice(i, 1);
+          Basins.push(basinb);
+          cod = 200;
+          break;
+        }
+      }
+    }
+    res.sendStatus(cod);
+  }else{
+    res.sendStatus(401);
   }
-  res.sendStatus(cod);
 }
 
 module.exports.deleteBasin = (req, res) => {
-  var basin = req.params.river_basin;
-  var cod = 404;
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basin){
-      Basins.splice(i, 1);
-      cod = 200;
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var basin = req.params.river_basin;
+    var cod = 404;
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == basin){
+        Basins.splice(i, 1);
+        cod = 200;
+      }
     }
+    res.sendStatus(cod);
+  }else{
+    res.sendStatus(401);
   }
-  res.sendStatus(cod);
 }
 
 function searchs(dat,BasinsSeg){
@@ -407,4 +436,12 @@ function pagination(dat,BasinsSeg){
 function field(dat,BasinsSeg){
   var BasinsSeg2 = [];
   return BasinsSeg;
+}
+
+function compruebaApiKey(key){
+  var res = false;
+  if(key == "sos"){
+    res = true;
+  }
+  return res;
 }
