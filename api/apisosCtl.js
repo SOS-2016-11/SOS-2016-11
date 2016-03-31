@@ -98,17 +98,31 @@ module.exports.getCities = function(req, res){
   var td = req.query.td;
   var contador = offset;
   var busqueda=0;
-  if(limit){
+  if(limit && !offset){
     if(limit > Cities.length){
-      res.sendStatus(404);
+      for (var i=0; i<Cities.length; i++){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+      busqueda++;
     }else{
       for (var i=0; i<limit; i++){
-        var recurso = Cities[contador];
+        var recurso = Cities[i];
         Cities2.push(recurso);
-        contador++;
       }
       busqueda++;
     }
+  }
+  if(!limit && offset){
+    res.sendStatus(400);
+  }
+  if(limit && offset){
+    for (var i=0; i<limit; i++){
+      var recurso = Cities[contador];
+      Cities2.push(recurso);
+      contador++;
+    }
+    busqueda++;
   }
   if(name||month||year||p||t||td){
     for (var i=0; i<Cities.length; i++){
@@ -128,14 +142,25 @@ module.exports.getCities = function(req, res){
 }
 
 module.exports.postCities = function(req, res){
-  var car = req.body;
-  for (var i = 0; i < Cities.length; i++){
-    if(Cities[i] == car){
-      res.sendStatus(409);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var car = req.body;
+    var busqueda=0;
+    for (var i = 0; i < Cities.length; i++){
+      if(Cities[i].name == car.name && Cities[i].year == car.year && Cities[i].month == car.month ){
+        busqueda++;
+        break;
+      }
     }
+    if(busqueda > 0){
+      res.sendStatus(409);
+    }else{
+      Cities.push(car);
+      res.sendStatus(201);
+    }
+  }else{
+    res.sendStatus(401);
   }
-  Cities.push(car);
-  res.sendStatus(201);
 }
 
 module.exports.putCities = function(req, res){
@@ -143,8 +168,13 @@ module.exports.putCities = function(req, res){
 }
 
 module.exports.deleteCities = function(req, res){
-  Cities = [];
-  res.sendStatus(200);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    Cities = [];
+    res.sendStatus(200);
+  }else{
+    res.sendStatus(401);
+  }
 }
 
 module.exports.getCity = function (req, res){
@@ -219,18 +249,33 @@ module.exports.postCity = function (req, res){
 }
 
 module.exports.putCity = function  (req, res){
-  var car = req.params.name;
-  var nuevo = req.body;
-  var estado=404;
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var car = req.params.name;
+    var nuevo = req.body;
+    var estado=404;
+    var busqueda=0;
     for (var i=0; i < Cities.length;i++){
       if(Cities[i].name == car){
-        Cities.splice(i, 1);
-        Cities.push(nuevo);
-        estado=200;
-        break;
+        busqueda++;
       }
     }
-  res.sendStatus(estado);
+    if(busqueda > 1){
+      estado = 409;
+    }else{
+      for (var i=0; i < Cities.length;i++){
+        if(Cities[i].name == car){
+          Cities.splice(i, 1);
+          Cities.push(nuevo);
+          estado=200;
+          break;
+        }
+      }
+    }
+    res.sendStatus(estado);
+  }else{
+    res.sendStatus(401);
+  }
 }
 
 module.exports.putCityYear = function  (req, res){
@@ -255,18 +300,26 @@ module.exports.putCityYear = function  (req, res){
 
 
 module.exports.deleteCity = function(req, res){
-  var car = req.params.name;
-  var busqueda=0;
-  for (var i=0; i<Cities.length;i++){
-    if(Cities[i].name == car){
-      Cities.splice(i, 1);
-      busqueda++;
-      break;
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var car = req.params.name;
+    var estado=404;
+    for (var i=0; i<Cities.length;i++){
+      if(Cities[i].name == car){
+        Cities.splice(i, 1);
+        estado=200;
+      }
     }
-  }
-  if(busqueda==0){
-    res.sendStatus(404);
+    res.sendStatus(estado);
   }else{
-    res.sendStatus(200);
+    res.sendStatus(401);
   }
+}
+
+function compruebaApiKey(key){
+  var res = false;
+  if(key == "sos"){
+    res = true;
+  }
+  return res;
 }
