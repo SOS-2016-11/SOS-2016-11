@@ -124,21 +124,123 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  if(name||month||year||p||t||td){
+  //Busqueda nombre
+  if(name){
     for (var i=0; i<Cities.length; i++){
-      if(Cities[i].name == name ||Cities[i].month == month ||Cities[i].year == year||Cities[i].p == p || Cities[i].t == t ||Cities[i].td == td){
-          var recurso = Cities[i];
-          Cities2.push(recurso);
+      if(Cities[i].name == name){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
       }
     }
     busqueda++;
   }
+  //Busqueda year
+  if(year){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].year == year){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda month
+  if(month){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].month == month){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda p
+  if(p){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].p == p){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda t
+  if(t){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].t == t){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda td
+  if(td){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].td == td){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda nombre&year
+  if(name && year){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].name == name && Cities[i].year == year){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda nombre&month
+  if(name && month){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].name == name && Cities[i].month == month){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda nombre&p
+  if(name && p){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].name == name && Cities[i].p == p){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda nombre&t
+  if(name && t){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].name == name && Cities[i].t == t){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Busqueda nombre&td
+  if(name && td){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].name == name && Cities[i].td == td){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  //Fin busquedas
+
   if(busqueda==0){
     res.send(Cities);
   }else{
     res.send(Cities2);
   }
-
 }
 
 module.exports.postCities = function(req, res){
@@ -164,7 +266,12 @@ module.exports.postCities = function(req, res){
 }
 
 module.exports.putCities = function(req, res){
-  res.sendStatus(405);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    res.sendStatus(405);
+  }else{
+    res.sendStatus(401);
+  }
 }
 
 module.exports.deleteCities = function(req, res){
@@ -245,9 +352,13 @@ module.exports.getCityYear = (req, res) => {
 
 
 module.exports.postCity = function (req, res){
-  res.sendStatus(405);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    res.sendStatus(405);
+  }else{
+    res.sendStatus(401);
+  }
 }
-
 module.exports.putCity = function  (req, res){
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
