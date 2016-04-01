@@ -87,6 +87,7 @@ module.exports.loadInitialDataCities = (req, res) => {*/
 }
 */
 module.exports.getCities = function(req, res){
+  var key = req.query.apikey;
   var Cities2 = [];
   var limit = req.query.limit;
   var offset = req.query.offset;
@@ -98,7 +99,8 @@ module.exports.getCities = function(req, res){
   var td = req.query.td;
   var contador = offset;
   var busqueda=0;
-  if(limit && !offset){
+  //Prueba apikey
+  if(limit && !offset && compruebaApiKey(key)){
     if(limit > Cities.length){
       for (var i=0; i<Cities.length; i++){
         var recurso = Cities[i];
@@ -113,10 +115,16 @@ module.exports.getCities = function(req, res){
       busqueda++;
     }
   }
-  if(!limit && offset){
+  if(limit && !offset && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  if(!limit && offset&&compruebaApiKey(key)){
     res.sendStatus(400);
   }
-  if(limit && offset){
+  if(!limit && offset&&!compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  if(limit && offset && compruebaApiKey(key)){
     for (var i=0; i<limit; i++){
       var recurso = Cities[contador];
       Cities2.push(recurso);
@@ -124,8 +132,13 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  //Busqueda nombre
-  if(name){
+  if(limit && offset && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda nombre y comprueba
+  //Me da conflicto con algunas busquedas
+/*
+  if(name && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].name == name){
         var recurso = Cities[i];
@@ -134,8 +147,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  //Busqueda year
-  if(year){
+  if(name && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda year y comprueba
+  if(year && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].year == year){
         var recurso = Cities[i];
@@ -144,8 +160,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(year && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda month
-  if(month){
+  if(month && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].month == month){
         var recurso = Cities[i];
@@ -154,8 +173,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(month && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda p
-  if(p){
+  if(p && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].p == p){
         var recurso = Cities[i];
@@ -164,8 +186,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(p && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda t
-  if(t){
+  if( t && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].t == t){
         var recurso = Cities[i];
@@ -174,8 +199,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(t && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda td
-  if(td){
+  if( td && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].td == td){
         var recurso = Cities[i];
@@ -184,8 +212,12 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(td && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  */
   //Busqueda nombre&year
-  if(name && year){
+  if(name && year&& compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].name == name && Cities[i].year == year){
         var recurso = Cities[i];
@@ -194,8 +226,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(name && year&& !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda nombre&month
-  if(name && month){
+  if(name && month && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].name == name && Cities[i].month == month){
         var recurso = Cities[i];
@@ -204,8 +239,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(name && month && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda nombre&p
-  if(name && p){
+  if(name && p && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].name == name && Cities[i].p == p){
         var recurso = Cities[i];
@@ -214,8 +252,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(name && p && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda nombre&t
-  if(name && t){
+  if(name && t && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].name == name && Cities[i].t == t){
         var recurso = Cities[i];
@@ -224,8 +265,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(name && t && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Busqueda nombre&td
-  if(name && td){
+  if(name && td && compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].name == name && Cities[i].td == td){
         var recurso = Cities[i];
@@ -234,11 +278,18 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
+  if(name && td && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
   //Fin busquedas
 
-  if(busqueda==0){
+  if(busqueda==0 && compruebaApiKey(key)){
     res.send(Cities);
-  }else{
+  }
+  if(busqueda==0 && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  if(busqueda > 0 ){
     res.send(Cities2);
   }
 }
@@ -332,7 +383,7 @@ module.exports.getCity = function (req, res){
     }
   }else{
     res.sendStatus(401);
-  }    
+  }
 }
 
 module.exports.getCityYear = (req, res) => {
