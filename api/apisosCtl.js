@@ -304,7 +304,7 @@ module.exports.postCities = function(req, res){
         busqueda++;
         break;
       }
-    }
+    }    
     if(busqueda > 0){
       res.sendStatus(409);
     }else{
@@ -518,7 +518,7 @@ module.exports.getCity = function (req, res){
       res.send(Cities3);
     }
   }
-  
+
 }
 
 module.exports.getCityYear = (req, res) => {
@@ -567,7 +567,10 @@ module.exports.putCity = function  (req, res){
       }
     }
     if(busqueda > 1){
-      estado = 409;
+      res.sendStatus(409);
+    }
+    if(car!= nuevo.name){
+      res.sendStatus(400);
     }else{
       for (var i=0; i < Cities.length;i++){
         if(Cities[i].name == car){
