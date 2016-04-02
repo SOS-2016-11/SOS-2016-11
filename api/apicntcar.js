@@ -80,55 +80,60 @@ module.exports.loadInitialData = (req, res) => {
 var Basins = [];
 
 module.exports.getBasins = (req, res) => {
-  var limit = req.query.limit;
-  var offset = req.query.offset;
-  var frm = req.query.from;
-  var to = req.query.to;
-  var month = req.query.month;
-  var year = req.query.year;
-  var pm = req.query.pm;
-  var pe = req.query.pe;
-  var pa = req.query.pa;
-  var dat = [0,0,0,0,0,0,0,0,0];
-  var BasinsSeg = [];
-  var BasinsSeg2 = [];
-  var BasinsSeg3 = [];
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var limit = req.query.limit;
+    var offset = req.query.offset;
+    var frm = req.query.from;
+    var to = req.query.to;
+    var month = req.query.month;
+    var year = req.query.year;
+    var pm = req.query.pm;
+    var pe = req.query.pe;
+    var pa = req.query.pa;
+    var dat = [0,0,0,0,0,0,0,0,0];
+    var BasinsSeg = [];
+    var BasinsSeg2 = [];
+    var BasinsSeg3 = [];
 
-  if(limit){
-    dat[0] = limit;
-  }
-  if(offset){
-    dat[1] = offset;
-  }
-  if(frm){
-    dat[2] = frm;
-  }
-  if(to){
-    dat[3] = to;
-  }
-  if(month){
-    dat[4] = month;
-  }
-  if(year){
-    dat[5] = year;
-  }
-  if(pm){
-    dat[6] = pm;
-  }
-  if(pe){
-    dat[7] = pe;
-  }
-  if(pa){
-    dat[8] = pa;
-  }
+    if(limit){
+      dat[0] = limit;
+    }
+    if(offset){
+      dat[1] = offset;
+    }
+    if(frm){
+      dat[2] = frm;
+    }
+    if(to){
+      dat[3] = to;
+    }
+    if(month){
+      dat[4] = month;
+    }
+    if(year){
+      dat[5] = year;
+    }
+    if(pm){
+      dat[6] = pm;
+    }
+    if(pe){
+      dat[7] = pe;
+    }
+    if(pa){
+      dat[8] = pa;
+    }
 
-  BasinsSeg = searchs(dat,Basins);
-  BasinsSeg2 = pagination(dat,BasinsSeg);
-  if(BasinsSeg2 == 400){
-    res.sendStatus(BasinsSeg2);
+    BasinsSeg = searchs(dat,Basins);
+    BasinsSeg2 = pagination(dat,BasinsSeg);
+    if(BasinsSeg2 == 400){
+      res.sendStatus(BasinsSeg2);
+    }else{
+      BasinsSeg3 = field(dat,BasinsSeg2);
+      res.send(BasinsSeg3);
+    }
   }else{
-    BasinsSeg3 = field(dat,BasinsSeg2);
-    res.send(BasinsSeg3);
+    res.sendStatus(401);
   }
 }
 
@@ -155,7 +160,12 @@ module.exports.postBasins = (req, res) => {
 }
 
 module.exports.putBasins = (req, res) => {
-  res.sendStatus(405);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    res.sendStatus(405);
+  }else{
+    res.sendStatus(401);
+  }
 }
 
 module.exports.deleteBasins = (req, res) => {
@@ -170,110 +180,143 @@ module.exports.deleteBasins = (req, res) => {
 
 
 module.exports.getBasin = (req, res) => {
-  var dat = req.params.dat;
-  // CARGA DE DATOS INICIAL
-  if(dat == "loadInitialData"){
-    Basins = [
-      {"river_basin": "Duero", "month": "January", "year": 2015, "pm": 56, "pe": 40.9, "pa": 301.9},
-      {"river_basin": "Tajo", "month": "January", "year": 2015, "pm": 60, "pe": 36.3, "pa": 345.6},
-      {"river_basin": "Guadiana", "month": "January", "year": 2015, "pm": 57, "pe": 34.2, "pa": 302.8},
-      {"river_basin": "Guadalquivir", "month": "January", "year": 2015, "pm": 68, "pe": 55.2, "pa": 331.2},
-      {"river_basin": "Ebro", "month": "January", "year": 2015, "pm": 44, "pe": 48.8, "pa": 306.9},
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var dat = req.params.dat;
+    // CARGA DE DATOS INICIAL
+    if(dat == "loadInitialData"){
+      Basins = [
+        {"river_basin": "Duero", "month": "January", "year": 2015, "pm": 56, "pe": 40.9, "pa": 301.9},
+        {"river_basin": "Tajo", "month": "January", "year": 2015, "pm": 60, "pe": 36.3, "pa": 345.6},
+        {"river_basin": "Guadiana", "month": "January", "year": 2015, "pm": 57, "pe": 34.2, "pa": 302.8},
+        {"river_basin": "Guadalquivir", "month": "January", "year": 2015, "pm": 68, "pe": 55.2, "pa": 331.2},
+        {"river_basin": "Ebro", "month": "January", "year": 2015, "pm": 44, "pe": 48.8, "pa": 306.9},
 
-      {"river_basin": "Duero", "month": "January", "year": 2014, "pm": 56, "pe": 40.9, "pa": 301.9},
-      {"river_basin": "Tajo", "month": "January", "year": 2014, "pm": 60, "pe": 36.3, "pa": 345.6},
-      {"river_basin": "Guadiana", "month": "January", "year": 2014, "pm": 57, "pe": 34.2, "pa": 302.8},
-      {"river_basin": "Guadalquivir", "month": "January", "year": 2014, "pm": 68, "pe": 55.2, "pa": 331.2},
-      {"river_basin": "Ebro", "month": "January", "year": 2014, "pm": 44, "pe": 48.8, "pa": 306.9},
+        {"river_basin": "Duero", "month": "January", "year": 2014, "pm": 56, "pe": 40.9, "pa": 301.9},
+        {"river_basin": "Tajo", "month": "January", "year": 2014, "pm": 60, "pe": 36.3, "pa": 345.6},
+        {"river_basin": "Guadiana", "month": "January", "year": 2014, "pm": 57, "pe": 34.2, "pa": 302.8},
+        {"river_basin": "Guadalquivir", "month": "January", "year": 2014, "pm": 68, "pe": 55.2, "pa": 331.2},
+        {"river_basin": "Ebro", "month": "January", "year": 2014, "pm": 44, "pe": 48.8, "pa": 306.9},
 
-      {"river_basin": "Duero", "month": "January", "year": 2013, "pm": 56, "pe": 40.9, "pa": 301.9},
-      {"river_basin": "Tajo", "month": "January", "year": 2013, "pm": 60, "pe": 36.3, "pa": 345.6},
-      {"river_basin": "Guadiana", "month": "January", "year": 2013, "pm": 57, "pe": 34.2, "pa": 302.8},
-      {"river_basin": "Guadalquivir", "month": "January", "year": 2013, "pm": 68, "pe": 55.2, "pa": 331.2},
-      {"river_basin": "Ebro", "month": "J", "year": 2013, "pm": 44, "pe": 48.8, "pa": 306.9}
-    ];
-    res.sendStatus(201);
-  }else{
-    var cod = 404;
-    var BasinsSeg = [];
-    // BUSQUEDA EN /dato/
-    for(var i = 0; i < Basins.length; i++){
-      if(Basins[i].river_basin == dat || Basins[i].month == dat  || Basins[i].year == dat || Basins[i].pm == dat || Basins[i].pe == dat || Basins[i].pa == dat){
-        BasinsSeg.push(Basins[i]);
-      }
-    }
-
-    if(BasinsSeg.length == 0){
-      res.sendStatus(cod);
+        {"river_basin": "Duero", "month": "January", "year": 2013, "pm": 56, "pe": 40.9, "pa": 301.9},
+        {"river_basin": "Tajo", "month": "January", "year": 2013, "pm": 60, "pe": 36.3, "pa": 345.6},
+        {"river_basin": "Guadiana", "month": "January", "year": 2013, "pm": 57, "pe": 34.2, "pa": 302.8},
+        {"river_basin": "Guadalquivir", "month": "January", "year": 2013, "pm": 68, "pe": 55.2, "pa": 331.2},
+        {"river_basin": "Ebro", "month": "J", "year": 2013, "pm": 44, "pe": 48.8, "pa": 306.9}
+      ];
+      res.sendStatus(201);
     }else{
-      var limit = req.query.limit;
-      var offset = req.query.offset;
-      var frm = req.query.from;
-      var to = req.query.to;
-      var month = req.query.month;
-      var year = req.query.year;
-      var pm = req.query.pm;
-      var pe = req.query.pe;
-      var pa = req.query.pa;
-      var dat = [0,0,0,0,0,0,0,0,0];
-      var BasinsSeg1 = [];
-      var BasinsSeg2 = [];
-      var BasinsSeg3 = [];
-
-      if(limit){
-        dat[0] = limit;
-      }
-      if(offset){
-        dat[1] = offset;
-      }
-      if(frm){
-        dat[2] = frm;
-      }
-      if(to){
-        dat[3] = to;
-      }
-      if(month){
-        dat[4] = month;
-      }
-      if(year){
-        dat[5] = year;
-      }
-      if(pm){
-        dat[6] = pm;
-      }
-      if(pe){
-        dat[7] = pe;
-      }
-      if(pa){
-        dat[8] = pa;
+      var cod = 404;
+      var BasinsSeg = [];
+      // BUSQUEDA EN /dato/
+      for(var i = 0; i < Basins.length; i++){
+        if(Basins[i].river_basin == dat || Basins[i].month == dat  || Basins[i].year == dat || Basins[i].pm == dat || Basins[i].pe == dat || Basins[i].pa == dat){
+          BasinsSeg.push(Basins[i]);
+        }
       }
 
-      BasinsSeg1 = searchs(dat,BasinsSeg);
-      BasinsSeg2 = pagination(dat,BasinsSeg1);
-      if(BasinsSeg2 == 400){
-        res.sendStatus(BasinsSeg2);
+      if(BasinsSeg.length == 0){
+        res.sendStatus(cod);
       }else{
-        BasinsSeg3 = field(dat,BasinsSeg2);
-        res.send(BasinsSeg3);
+        var limit = req.query.limit;
+        var offset = req.query.offset;
+        var frm = req.query.from;
+        var to = req.query.to;
+        var month = req.query.month;
+        var year = req.query.year;
+        var pm = req.query.pm;
+        var pe = req.query.pe;
+        var pa = req.query.pa;
+        var dat = [0,0,0,0,0,0,0,0,0];
+        var BasinsSeg1 = [];
+        var BasinsSeg2 = [];
+        var BasinsSeg3 = [];
+
+        if(limit){
+          dat[0] = limit;
+        }
+        if(offset){
+          dat[1] = offset;
+        }
+        if(frm){
+          dat[2] = frm;
+        }
+        if(to){
+          dat[3] = to;
+        }
+        if(month){
+          dat[4] = month;
+        }
+        if(year){
+          dat[5] = year;
+        }
+        if(pm){
+          dat[6] = pm;
+        }
+        if(pe){
+          dat[7] = pe;
+        }
+        if(pa){
+          dat[8] = pa;
+        }
+
+        BasinsSeg1 = searchs(dat,BasinsSeg);
+        BasinsSeg2 = pagination(dat,BasinsSeg1);
+        if(BasinsSeg2 == 400){
+          res.sendStatus(BasinsSeg2);
+        }else{
+          BasinsSeg3 = field(dat,BasinsSeg2);
+          res.send(BasinsSeg3);
+        }
       }
     }
+  }else{
+    res.sendStatus(401);
   }
 }
 
 module.exports.getBasinDat = (req, res) => {
-  var basin = req.params.river_basin;
-  var dat = req.params.dat;
-  var BasinsSeg = [];
-  for(var i = 0; i < Basins.length; i++){
-    if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat  || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat)){
-      BasinsSeg.push(Basins[i]);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var basin = req.params.river_basin;
+    var dat = req.params.dat;
+    var BasinsSeg = [];
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat /* || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat*/)){
+        BasinsSeg.push(Basins[i]);
+      }
     }
+    res.send(BasinsSeg);
+  }else{
+    res.sendStatus(401);
   }
-  res.send(BasinsSeg);
+}
+
+module.exports.getBasinDatDat = (req, res) => {
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var basin = req.params.river_basin;
+    var dat1 = req.params.dat1;
+    var dat2 = req.params.dat2;
+    var BasinsSeg = [];
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == basin && (Basins[i].month == dat1  || Basins[i].year == dat1) && (Basins[i].month == dat2  || Basins[i].year == dat2)){
+        BasinsSeg.push(Basins[i]);
+      }
+    }
+    res.send(BasinsSeg);
+  }else{
+    res.sendStatus(401);
+  }
 }
 
 module.exports.postBasin = (req, res) => {
-  res.sendStatus(405);
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    res.sendStatus(405);
+  }else{
+    res.sendStatus(401);
+  }
 }
 
 module.exports.putBasin = (req, res) => {
@@ -301,6 +344,35 @@ module.exports.putBasin = (req, res) => {
       }
     }
     res.sendStatus(cod);
+  }else{
+    res.sendStatus(401);
+  }
+}
+
+module.exports.putBasinDat = (req, res) => {
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var basin = req.params.river_basin;
+    var basinb = req.body;
+    var dat = req.params.dat;
+    var BasinsSeg = [];
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat  || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat)){
+        BasinsSeg.push(Basins[i]);
+      }
+    }
+    if(BasinsSeg.length > 1){
+      res.sendStatus(400);
+    }else{
+      for(var i = 0; i < Basins.length; i++){
+        if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat  || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat)){
+          Basins.splice(i, 1);
+          Basins.push(basinb);
+          break;
+        }
+      }
+      res.sendStatus(200);
+    }
   }else{
     res.sendStatus(401);
   }
