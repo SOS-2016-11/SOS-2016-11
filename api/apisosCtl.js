@@ -137,8 +137,8 @@ module.exports.getCities = function(req, res){
   }
   //Busqueda nombre y comprueba
   //Me da conflicto con algunas busquedas
-/*
-  if(name && compruebaApiKey(key)){
+
+  if(name && compruebaApiKey(key) && !year && !month && !p && !t && !td){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].name == name){
         var recurso = Cities[i];
@@ -147,11 +147,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  if(name && !compruebaApiKey(key)){
+  if(name && !compruebaApiKey(key) && !year && !month && !p && !t && !td){
     res.sendStatus(401);
   }
   //Busqueda year y comprueba
-  if(year && compruebaApiKey(key)){
+  if(year && compruebaApiKey(key) && !name && !month && !p && !t && !td){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].year == year){
         var recurso = Cities[i];
@@ -160,11 +160,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  if(year && !compruebaApiKey(key)){
+  if(year && !compruebaApiKey(key) && !name && !month && !p && !t && !td){
     res.sendStatus(401);
   }
   //Busqueda month
-  if(month && compruebaApiKey(key)){
+  if(month && compruebaApiKey(key) && !year && !name && !p && !t && !td){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].month == month){
         var recurso = Cities[i];
@@ -173,11 +173,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  if(month && !compruebaApiKey(key)){
+  if(month && !compruebaApiKey(key)&& !year && !name && !p && !t && !td){
     res.sendStatus(401);
   }
   //Busqueda p
-  if(p && compruebaApiKey(key)){
+  if(p && compruebaApiKey(key)&& !year && !name && !month && !t && !td){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].p == p){
         var recurso = Cities[i];
@@ -186,11 +186,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  if(p && !compruebaApiKey(key)){
+  if(p && !compruebaApiKey(key) && !year && !name && !month && !t && !td){
     res.sendStatus(401);
   }
   //Busqueda t
-  if( t && compruebaApiKey(key)){
+  if( t && compruebaApiKey(key) && !year && !name && !month && !p && !td){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].t == t){
         var recurso = Cities[i];
@@ -199,11 +199,11 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  if(t && !compruebaApiKey(key)){
+  if(t && !compruebaApiKey(key)&& !year && !name && !month && !p && !td){
     res.sendStatus(401);
   }
   //Busqueda td
-  if( td && compruebaApiKey(key)){
+  if( td && compruebaApiKey(key)&& !year && !name && !month && !t && !p){
     for (var i=0; i<Cities.length; i++){
       if(Cities[i].td == td){
         var recurso = Cities[i];
@@ -212,10 +212,10 @@ module.exports.getCities = function(req, res){
     }
     busqueda++;
   }
-  if(td && !compruebaApiKey(key)){
+  if(td && !compruebaApiKey(key)&& !year && !name && !month && !t && !p){
     res.sendStatus(401);
   }
-  */
+
   //Busqueda nombre&year
   if(name && year&& compruebaApiKey(key)){
     for (var i=0; i<Cities.length; i++){
@@ -337,24 +337,27 @@ module.exports.deleteCities = function(req, res){
 
 module.exports.getCity = function (req, res){
   var key = req.query.apikey;
-  if(compruebaApiKey(key)){
-    var Cities2 = [];
-    var Cities3 = [];
-    var name = req.query.name;
-    var month = req.query.month;
-    var year = req.query.year;
-    var p = req.query.p;
-    var t = req.query.t;
-    var td = req.query.td;
-    var busqueda=0;
-    var busqueda1=0;
+  var Cities2 = [];
+  var Cities3 = [];
+  var name = req.query.name;
+  var month = req.query.month;
+  var year = req.query.year;
+  var p = req.query.p;
+  var t = req.query.t;
+  var td = req.query.td;
+  var busqueda=0;
+  var busqueda1=0;
   //aportacion nueva
-    var car = req.params.name;
+  var car = req.params.name;
   //api-test
-    if(car == "loadInitialData" || car == "loadInitialData/"){
-      Cities = Cities1;
-      res.sendStatus(200);
-    }else{
+  if((car == "loadInitialData" || car == "loadInitialData/") && compruebaApiKey(key)){
+    Cities = Cities1;
+    res.sendStatus(200);
+  }
+  if((car == "loadInitialData" || car == "loadInitialData/") && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  if(!(car == "loadInitialData" || car == "loadInitialData/") && compruebaApiKey(key)){
     for (var i = 0; i < Cities.length; i++){
       if(Cities[i].name == car||Cities[i].month == car||Cities[i].year == car||Cities[i].p == car||Cities[i].t == car||Cities[i].td == car){
         var recursos = Cities[i];
@@ -362,28 +365,160 @@ module.exports.getCity = function (req, res){
         busqueda++;
       }
     }
-    if(name||month||year||p||t||td){
-      for (var i=0; i<Cities2.length; i++){
-        if(Cities2[i].name == name ||Cities2[i].month == month ||Cities2[i].year == year||Cities2[i].p == p || Cities2[i].t == t ||Cities2[i].td == td){
-          var recurso = Cities2[i];
-          Cities3.push(recurso);
-        }
-      }
-      busqueda1++;
-    }
-    if(busqueda==0){
-      res.sendStatus(404);
-    }else{
-      if(busqueda1==0){
-        res.send(Cities2);
-      }else{
-        res.send(Cities3);
+  }
+  //Cambiar para que se pueda acceder dado una ciudad a distintos atributos de ésta
+
+  if(year && compruebaApiKey(key)  && !month && !p && !t && !td){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].year == year){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
       }
     }
-    }
-  }else{
+    busqueda1++;
+  }
+  if(year && !compruebaApiKey(key) && !month && !p && !t && !td){
     res.sendStatus(401);
   }
+  //Busqueda month
+  if(month && compruebaApiKey(key) && !year && !p && !t && !td){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].month == month){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if(month && !compruebaApiKey(key)&& !year && !p && !t && !td){
+    res.sendStatus(401);
+  }
+  //Busqueda p
+  if(p && compruebaApiKey(key)&& !year && !month && !t && !td){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].p == p){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if(p && !compruebaApiKey(key) && !year && !month && !t && !td){
+    res.sendStatus(401);
+  }
+  //Busqueda t
+  if( t && compruebaApiKey(key) && !year && !month && !p && !td){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].t == t){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if(t && !compruebaApiKey(key)&& !year && !month && !p && !td){
+    res.sendStatus(401);
+  }
+  //Busqueda td
+  if( td && compruebaApiKey(key)&& !year && !month && !t && !p){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].td == td){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if(td && !compruebaApiKey(key)&& !year && !month && !t && !p){
+    res.sendStatus(401);
+  }
+
+  //Busqueda month&year
+  if(month && year&& compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].month == month && Cities2[i].year == year){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if(month && year&& !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda p&month
+  if( p && month && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].p == p && Cities2[i].month == month){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if(p && month && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda year&p
+  if(year && p && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].year == year && Cities2[i].p == p){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if(year && p && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda year&p
+  if(year && p && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].year == year && Cities2[i].p == p){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( year && p && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda month&p
+  if( month && p && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].month == month && Cities[i].p == p){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( year && p && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  /*
+  if(name||month||year||p||t||td){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].name == name ||Cities2[i].month == month ||Cities2[i].year == year||Cities2[i].p == p || Cities2[i].t == t ||Cities2[i].td == td){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  */
+  if(busqueda==0){
+    res.sendStatus(404);
+  }else{
+    if(busqueda1==0){
+      res.send(Cities2);
+    }else{
+      res.send(Cities3);
+    }
+  }
+  
 }
 
 module.exports.getCityYear = (req, res) => {
