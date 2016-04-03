@@ -338,6 +338,8 @@ module.exports.putBasin = (req, res) => {
       }
       if(cont > 1){
         cod = 409;
+      }else if(cont == 0){
+        cod = 404;
       }else{
         for(var i = 0; i < Basins.length; i++){
           if(Basins[i].river_basin == basin){
@@ -533,7 +535,7 @@ function compruebaApiKey(key){
 function compruebaJSON(body){
   var res = false;
   if(body.river_basin && body.year && body.month && body.pm && body.pe && body.pa){
-    res = true;
+    res = true;;
   }
   return res;
 }
