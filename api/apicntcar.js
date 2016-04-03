@@ -141,18 +141,22 @@ module.exports.postBasins = (req, res) => {
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
     var basinb = req.body;
-    var cont = 0;
-    for(var i = 0; i < Basins.length; i++){
-      if(Basins[i].river_basin == basinb.river_basin && Basins[i].year == basinb.year && Basins[i].month == basinb.month){
-        cont++;
-        break;
+    if(compruebaJSON(basinb)){
+      var cont = 0;
+      for(var i = 0; i < Basins.length; i++){
+        if(Basins[i].river_basin == basinb.river_basin && Basins[i].year == basinb.year && Basins[i].month == basinb.month){
+          cont++;
+          break;
+        }
       }
-    }
-    if(cont > 0){
-      res.sendStatus(409);
+      if(cont > 0){
+        res.sendStatus(409);
+      }else{
+        Basins.push(basinb);
+        res.sendStatus(201);
+      }
     }else{
-      Basins.push(basinb);
-      res.sendStatus(201);
+      res.sendStatus(400);
     }
   }else{
     res.sendStatus(401);
@@ -282,7 +286,7 @@ module.exports.getBasinDat = (req, res) => {
     var dat = req.params.dat;
     var BasinsSeg = [];
     for(var i = 0; i < Basins.length; i++){
-      if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat /* || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat*/)){
+      if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat)){
         BasinsSeg.push(Basins[i]);
       }
     }
@@ -322,28 +326,32 @@ module.exports.postBasin = (req, res) => {
 module.exports.putBasin = (req, res) => {
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
-    var basin = req.params.river_basin;
     var basinb = req.body;
-    var cod = 404;
-    var cont = 0;
-    for(var i = 0; i < Basins.length; i++){
-      if(Basins[i].river_basin == basin){
-        cont++;
-      }
-    }
-    if(cont > 1){
-      cod = 409;
-    }else{
+    if(compruebaJSON(basinb)){
+      var basin = req.params.river_basin;
+      var cod = 400;
+      var cont = 0;
       for(var i = 0; i < Basins.length; i++){
         if(Basins[i].river_basin == basin){
-          Basins.splice(i, 1);
-          Basins.push(basinb);
-          cod = 200;
-          break;
+          cont++;
         }
       }
+      if(cont > 1){
+        cod = 409;
+      }else{
+        for(var i = 0; i < Basins.length; i++){
+          if(Basins[i].river_basin == basin){
+            Basins.splice(i, 1);
+            Basins.push(basinb);
+            cod = 200;
+            break;
+          }
+        }
+      }
+      res.sendStatus(cod);
+    }else{
+      res.sendStatus(400);
     }
-    res.sendStatus(cod);
   }else{
     res.sendStatus(401);
   }
@@ -352,26 +360,30 @@ module.exports.putBasin = (req, res) => {
 module.exports.putBasinDat = (req, res) => {
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
-    var basin = req.params.river_basin;
     var basinb = req.body;
-    var dat = req.params.dat;
-    var BasinsSeg = [];
-    for(var i = 0; i < Basins.length; i++){
-      if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat  || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat)){
-        BasinsSeg.push(Basins[i]);
-      }
-    }
-    if(BasinsSeg.length > 1){
-      res.sendStatus(400);
-    }else{
+    if(compruebaJSON(basinb)){
+      var basin = req.params.river_basin;
+      var dat = req.params.dat;
+      var BasinsSeg = [];
       for(var i = 0; i < Basins.length; i++){
         if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat  || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat)){
-          Basins.splice(i, 1);
-          Basins.push(basinb);
-          break;
+          BasinsSeg.push(Basins[i]);
         }
       }
-      res.sendStatus(200);
+      if(BasinsSeg.length > 1){
+        res.sendStatus(400);
+      }else{
+        for(var i = 0; i < Basins.length; i++){
+          if(Basins[i].river_basin == basin && (Basins[i].month == dat  || Basins[i].year == dat  || Basins[i].pm == dat  || Basins[i].pe == dat  || Basins[i].pa == dat)){
+            Basins.splice(i, 1);
+            Basins.push(basinb);
+            break;
+          }
+        }
+        res.sendStatus(200);
+      }
+    }else{
+      res.sendStatus(400);
     }
   }else{
     res.sendStatus(401);
@@ -513,6 +525,14 @@ function field(dat,BasinsSeg){
 function compruebaApiKey(key){
   var res = false;
   if(key == "sos"){
+    res = true;
+  }
+  return res;
+}
+
+function compruebaJSON(body){
+  var res = false;
+  if(body.river_basin && body.year && body.month && body.pm && body.pe && body.pa){
     res = true;
   }
   return res;
