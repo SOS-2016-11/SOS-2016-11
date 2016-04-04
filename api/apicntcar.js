@@ -330,27 +330,31 @@ module.exports.putBasin = (req, res) => {
     if(compruebaJSON(basinb)){
       var basin = req.params.river_basin;
       var cod = 400;
-      var cont = 0;
-      for(var i = 0; i < Basins.length; i++){
-        if(Basins[i].river_basin == basin){
-          cont++;
-        }
-      }
-      if(cont > 1){
-        cod = 409;
-      }else if(cont == 0){
-        cod = 404;
+      if(basin != basinb.river_basin){
+        res.sendStatus(cod);
       }else{
+        var cont = 0;
         for(var i = 0; i < Basins.length; i++){
           if(Basins[i].river_basin == basin){
-            Basins.splice(i, 1);
-            Basins.push(basinb);
-            cod = 200;
-            break;
+            cont++;
           }
         }
+        if(cont > 1){
+          cod = 409;
+        }else if(cont == 0){
+          cod = 404;
+        }else{
+          for(var i = 0; i < Basins.length; i++){
+            if(Basins[i].river_basin == basin){
+              Basins.splice(i, 1);
+              Basins.push(basinb);
+              cod = 200;
+              break;
+            }
+          }
+        }
+        res.sendStatus(cod);
       }
-      res.sendStatus(cod);
     }else{
       res.sendStatus(400);
     }
