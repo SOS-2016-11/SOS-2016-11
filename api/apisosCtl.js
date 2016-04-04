@@ -337,7 +337,7 @@ module.exports.deleteCities = function(req, res){
     res.sendStatus(401);
   }
 }
-
+//getCity
 module.exports.getCity = function (req, res){
   var key = req.query.apikey;
   var Cities2 = [];
