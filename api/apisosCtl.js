@@ -298,24 +298,27 @@ module.exports.postCities = function(req, res){
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
     var car = req.body;
-    var busqueda=0;
-    for (var i = 0; i < Cities.length; i++){
-      if(Cities[i].name == car.name && Cities[i].year == car.year && Cities[i].month == car.month ){
-        busqueda++;
-        break;
+    if(compruebaJSON(car)){
+      var busqueda=0;
+      for (var i = 0; i < Cities.length; i++){
+        if(Cities[i].name == car.name && Cities[i].year == car.year && Cities[i].month == car.month ){
+          busqueda++;
+          break;
+        }
       }
-    }
-    if(busqueda > 0){
-      res.sendStatus(409);
+      if(busqueda > 0){
+        res.sendStatus(409);
+      }else{
+        Cities.push(car);
+        res.sendStatus(201);
+      }
     }else{
-      Cities.push(car);
-      res.sendStatus(201);
+      res.sendStatus(400);
     }
   }else{
     res.sendStatus(401);
   }
 }
-
 
 module.exports.putCities = function(req, res){
   var key = req.query.apikey;
@@ -632,6 +635,14 @@ function compruebaApiKey(key){
   var res = false;
   if(key == "sos"){
     res = true;
+  }
+  return res;
+}
+
+function compruebaJSON(body){
+  var res = false;
+  if(body.name && body.year && body.month && body.p && body.t && body.td){
+    res = true;;
   }
   return res;
 }
