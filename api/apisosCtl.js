@@ -475,17 +475,17 @@ module.exports.getCity = function (req, res){
   if(year && p && !compruebaApiKey(key)){
     res.sendStatus(401);
   }
-  //Busqueda year&p
-  if(year && p && compruebaApiKey(key)){
+  //Busqueda year&t
+  if(year && t && compruebaApiKey(key)){
     for (var i=0; i<Cities2.length; i++){
-      if(Cities2[i].year == year && Cities2[i].p == p){
+      if(Cities2[i].year == year && Cities2[i].t == t){
         var recurso = Cities2[i];
         Cities3.push(recurso);
       }
     }
     busqueda1++;
   }
-  if( year && p && !compruebaApiKey(key)){
+  if( year && t && !compruebaApiKey(key)){
     res.sendStatus(401);
   }
   //Busqueda month&p
@@ -498,7 +498,7 @@ module.exports.getCity = function (req, res){
     }
     busqueda1++;
   }
-  if( year && p && !compruebaApiKey(key)){
+  if( month && p && !compruebaApiKey(key)){
     res.sendStatus(401);
   }
   if(busqueda==0){
