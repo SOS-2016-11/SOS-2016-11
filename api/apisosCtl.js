@@ -489,16 +489,82 @@ module.exports.getCity = function (req, res){
     res.sendStatus(401);
   }
   //Busqueda month&p
-  if( month && p && compruebaApiKey(key)){
+  if( month && t && compruebaApiKey(key)){
     for (var i=0; i<Cities2.length; i++){
-      if(Cities2[i].month == month && Cities[i].p == p){
+      if(Cities2[i].month == month && Cities[i].t == t){
         var recurso = Cities2[i];
         Cities3.push(recurso);
       }
     }
     busqueda1++;
   }
-  if( month && p && !compruebaApiKey(key)){
+  if( month && t && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+
+  //Busqueda month&td
+  if( month && td && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].month == month && Cities[i].td == td){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( month && td && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda year&td
+  if(year && td && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].year == year && Cities2[i].td == td){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( year && td && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda p&t
+  if(p && t && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].p == p && Cities2[i].t == t){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( p && t && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda p&td
+  if(p && td && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].p == p && Cities2[i].td == td){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( p && td && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  //Busqueda t&td
+  if(t && td && compruebaApiKey(key)){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].t == t && Cities2[i].td == td){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( t && td && !compruebaApiKey(key)){
     res.sendStatus(401);
   }
   if(busqueda==0){
@@ -548,31 +614,38 @@ module.exports.postCity = function (req, res){
 module.exports.putCity = function  (req, res){
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
-    var car = req.params.name;
     var nuevo = req.body;
-    var estado=404;
-    var busqueda=0;
-    for (var i=0; i < Cities.length;i++){
-      if(Cities[i].name == car){
-        busqueda++;
-      }
-    }
-    if(busqueda > 1){
-      res.sendStatus(409);
-    }
-    if(car!= nuevo.name){
-      res.sendStatus(400);
-    }else{
+    if(compruebaJSON(nuevo)){
+      var car = req.params.name;
+      var estado=404;
+      var busqueda=0;
       for (var i=0; i < Cities.length;i++){
         if(Cities[i].name == car){
-          Cities.splice(i, 1);
-          Cities.push(nuevo);
-          estado=200;
-          break;
+          busqueda++;
         }
       }
+      if(busqueda > 1){
+        res.sendStatus(409);
+      }
+      if(busqueda == 0){
+        res.sendStatus(404);
+      }
+      if(car!= nuevo.name){
+        res.sendStatus(400);
+      }else{
+        for (var i=0; i < Cities.length;i++){
+          if(Cities[i].name == car){
+            Cities.splice(i, 1);
+            Cities.push(nuevo);
+            estado=200;
+            break;
+          }
+        }
+      }
+      res.sendStatus(estado);
+    }else{
+    res.sendStatus(400);
     }
-    res.sendStatus(estado);
   }else{
     res.sendStatus(401);
   }
@@ -581,37 +654,43 @@ module.exports.putCity = function  (req, res){
 module.exports.putCityYear = function  (req, res){
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
-    var car = req.params.name;
-    var year = req.params.year;
     var nuevo = req.body;
-    var estado=404;
-    var busqueda=0;
-    for (var i=0; i < Cities.length;i++){
-      if(Cities[i].name == car&&Cities[i].year == year){
-        busqueda++;
-      }
-    }
-    if(busqueda > 1){
-      res.sendStatus(409);
-    }
-    if(car!= nuevo.name){
-      res.sendStatus(400);
-    }else{
+    if(compruebaJSON(nuevo)){
+      var car = req.params.name;
+      var year = req.params.year;
+      var estado=404;
+      var busqueda=0;
       for (var i=0; i < Cities.length;i++){
-        if(Cities[i].name == car && Cities[i].year == year){
-          Cities.splice(i, 1);
-          Cities.push(nuevo);
-          estado=200;
-          break;
+        if(Cities[i].name == car&&Cities[i].year == year){
+          busqueda++;
         }
       }
+      if(busqueda > 1){
+        res.sendStatus(409);
+      }
+      if(busqueda == 0){
+        res.sendStatus(404);
+      }
+      if(car!= nuevo.name){
+        res.sendStatus(400);
+      }else{
+        for (var i=0; i < Cities.length;i++){
+          if(Cities[i].name == car&&Cities[i].year == year){
+            Cities.splice(i, 1);
+            Cities.push(nuevo);
+            estado=200;
+            break;
+          }
+        }
+      }
+      res.sendStatus(estado);
+    }else{
+    res.sendStatus(400);
     }
-    res.sendStatus(estado);
   }else{
     res.sendStatus(401);
   }
 }
-
 
 module.exports.deleteCity = function(req, res){
   var key = req.query.apikey;
