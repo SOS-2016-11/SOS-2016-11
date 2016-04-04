@@ -191,7 +191,7 @@ module.exports.getBasin = (req, res) => {
     if(dat == "loadInitialData"){
       Basins = [
         {"river_basin": "Duero", "month": "January", "year": 2015, "pm": 56, "pe": 40.9, "pa": 301.9},
-        {"river_basin": "Tajo", "month": "January", "year": 2015, "pm": 60, "pe": 36.3, "pa": 345.6},
+        {"river_basin": "Tajo", "month": "June", "year": 2015, "pm": 60, "pe": 36.3, "pa": 345.6},
         {"river_basin": "Guadiana", "month": "January", "year": 2015, "pm": 57, "pe": 34.2, "pa": 302.8},
         {"river_basin": "Guadalquivir", "month": "January", "year": 2015, "pm": 68, "pe": 55.2, "pa": 331.2},
         {"river_basin": "Ebro", "month": "January", "year": 2015, "pm": 44, "pe": 48.8, "pa": 306.9},
@@ -200,12 +200,12 @@ module.exports.getBasin = (req, res) => {
         {"river_basin": "Tajo", "month": "January", "year": 2014, "pm": 60, "pe": 36.3, "pa": 345.6},
         {"river_basin": "Guadiana", "month": "January", "year": 2014, "pm": 57, "pe": 34.2, "pa": 302.8},
         {"river_basin": "Guadalquivir", "month": "January", "year": 2014, "pm": 68, "pe": 55.2, "pa": 331.2},
-        {"river_basin": "Ebro", "month": "January", "year": 2014, "pm": 44, "pe": 48.8, "pa": 306.9},
+        {"river_basin": "Ebro", "month": "June", "year": 2014, "pm": 44, "pe": 48.8, "pa": 306.9},
 
         {"river_basin": "Duero", "month": "January", "year": 2013, "pm": 56, "pe": 40.9, "pa": 301.9},
         {"river_basin": "Tajo", "month": "January", "year": 2013, "pm": 60, "pe": 36.3, "pa": 345.6},
         {"river_basin": "Guadiana", "month": "January", "year": 2013, "pm": 57, "pe": 34.2, "pa": 302.8},
-        {"river_basin": "Guadalquivir", "month": "January", "year": 2013, "pm": 68, "pe": 55.2, "pa": 331.2},
+        {"river_basin": "Guadalquivir", "month": "June", "year": 2013, "pm": 68, "pe": 55.2, "pa": 331.2},
         {"river_basin": "Ebro", "month": "J", "year": 2013, "pm": 44, "pe": 48.8, "pa": 306.9}
       ];
       res.sendStatus(201);
