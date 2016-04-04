@@ -338,6 +338,7 @@ module.exports.deleteCities = function(req, res){
   }
 }
 //getCity
+
 module.exports.getCity = function (req, res){
   var key = req.query.apikey;
   var Cities2 = [];
@@ -352,11 +353,25 @@ module.exports.getCity = function (req, res){
   var busqueda1=0;
   //aportacion nueva
   var car = req.params.name;
-  //api-test
+  //api-test cambiado !!
+  /*
   if((car == "loadInitialData" || car == "loadInitialData/") && compruebaApiKey(key)){
     Cities = Cities1;
     res.sendStatus(200);
+  }*/
+  //hasta aqui
+  //nuevo
+  if((car == "loadInitialData" || car == "loadInitialData/") && compruebaApiKey(key)){
+    Cities = [
+      {"name": "ACoruña", "month": "Enero", "year": 2015, "p": 1018, "t": 10.9, "td": 7.2},
+      {"name": "Santander", "month": "Enero", "year": 2015, "p": 1019, "t": 10.6, "td": 6.6},
+      {"name": "Madrid", "month": "Enero", "year": 2015, "p": 951, "t": 6.0, "td": -0.9},
+      {"name": "Zaragoza", "month": "Enero", "year": 2015, "p": 991, "t": 6.7, "td": 2.2},
+      {"name": "Mallorca", "month": "Enero", "year": 2015, "p": 1017, "t": 11.0, "td": 5.7}
+    ];
+    res.sendStatus(201);
   }
+  //hasta aqui
   if((car == "loadInitialData" || car == "loadInitialData/") && !compruebaApiKey(key)){
     res.sendStatus(401);
   }
