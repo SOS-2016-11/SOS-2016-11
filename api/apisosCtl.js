@@ -534,7 +534,6 @@ module.exports.getCityYear = (req, res) => {
   }
 }
 
-
 module.exports.postCity = function (req, res){
   var key = req.query.apikey;
   if(compruebaApiKey(key)){
