@@ -282,7 +282,6 @@ module.exports.getCities = function(req, res){
     res.sendStatus(401);
   }
   //Fin busquedas
-
   if(busqueda==0 && compruebaApiKey(key)){
     res.send(Cities);
   }
