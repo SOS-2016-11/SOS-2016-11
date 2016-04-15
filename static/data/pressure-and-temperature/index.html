@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
+    <link rel="stylesheet"type="text/css" href="style.css"/>
+    <script>
+    $(document).ready(function (){
+        console.log("JQuery ready");
+        $("#button").click(()=>{
+            var request= $.ajax({
+              type: "GET",
+              url:"/api/v1/pressure-and-temperatures?apikey=sos",
+              data: "{}",
+              contentType: "application/json",
+              dataType: "json",
+              cache: false,
+              success: (data) => {
+
+              var trHTML = '';
+
+              $.each(data.name, function (i, item) {
+
+                  trHTML += '<tr><td>' + data.name[i] + '</td><td>' + data.month[i] + '</td></tr>'+ '</td><td>' + data.year[i] + '</td></tr>'+ '</td><td>' + data.p[i] + '</td></tr>'+ '</td><td>' + data.t[i] + '</td></tr>'+ '</td><td>' + data.td[i] + '</td></tr>';
+                  console.log("get file");
+              });
+
+              $('#location').append(trHTML);
+
+              }
+
+            });
+
+            request.done((data)=>{
+              console.log("data received");
+              console.log(data);
+              $("#location").text(JSON.stringify(data));
+            });
+            request.always((jqXHR,status)=>{
+                if(status=="error")
+                console.log("Status: "+ jqXHR.status);
+            });
+        });
+    });
+    </script>
+  </head>
+  <body>
+    <h1>Pressure and Temperatures</h1>
+
+    <table id="location1" border='1'>
+        <tr>
+            <th>Name</th>
+             <th>Month</th>
+             <th>Year</th>
+             <th>Pressure</th>
+             <th>Temperature</th>
+             <th>T.D.</th>
+        </tr>
+    </table>
+    <table id="location" border='1'>
+
+    </table>
+    <br/>
+    <span id="button">show data!</span>
+    <br/>
+  </body>
+</html>
