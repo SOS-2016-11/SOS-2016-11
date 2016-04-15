@@ -17,16 +17,14 @@
 
               var trHTML = '';
 
-              $.each(data.name, function (i, item) {
+              $.each(data, function (i, item) {
+              //Cambiar codigo para que muestre los elementos independientes
+                  trHTML = '<tr><td>' + data[i].name + '</td><td>' + data[i].month + '</td><td>'+ data[i].year + '</td><td>' + data[i].p + '</td><td>'+ data[i].t + '</td><td>'+ data[i].td + '</td></tr>';
 
-                  trHTML += '<tr><td>' + data.name[i] + '</td><td>' + data.month[i] + '</td><td>'+ data.year[i] + '</td><td>' + data.p[i] + '</td><td>'+ data.t[i] + '</td><td>'+ data.td[i] + '</td></tr>';
-                  console.log("get file");
+                  $('#location').append(trHTML);
+                  console.log(trHTML);
               });
-
-              $('#location').append(trHTML);
-              console.log("set file");
               }
-
             });
 
             request.done((data)=>{
