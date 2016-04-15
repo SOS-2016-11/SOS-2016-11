@@ -19,12 +19,12 @@
 
               $.each(data.name, function (i, item) {
 
-                  trHTML += '<tr><td>' + data.name[i] + '</td><td>' + data.month[i] + '</td></tr>'+ '</td><td>' + data.year[i] + '</td></tr>'+ '</td><td>' + data.p[i] + '</td></tr>'+ '</td><td>' + data.t[i] + '</td></tr>'+ '</td><td>' + data.td[i] + '</td></tr>';
+                  trHTML += '<tr><td>' + data.name[i] + '</td><td>' + data.month[i] + '</td><td>'+ data.year[i] + '</td><td>' + data.p[i] + '</td><td>'+ data.t[i] + '</td><td>'+ data.td[i] + '</td></tr>';
                   console.log("get file");
               });
 
               $('#location').append(trHTML);
-
+              console.log("set file");
               }
 
             });
