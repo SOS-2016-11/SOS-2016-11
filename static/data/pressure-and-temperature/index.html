@@ -19,18 +19,18 @@
 
               $.each(data, function (i, item) {
               //Cambiar codigo para que muestre los elementos independientes
-                  trHTML = '<tr><td>' + data[i].name + '</td><td>' + data[i].month + '</td><td>'+ data[i].year + '</td><td>' + data[i].p + '</td><td>'+ data[i].t + '</td><td>'+ data[i].td + '</td></tr>';
+                  trHTML += '<tr><td>' + data[i].name + '</td><td>' + data[i].month + '</td><td>'+ data[i].year + '</td><td>' + data[i].p + '</td><td>'+ data[i].t + '</td><td>'+ data[i].td + '</td></tr>';
 
-                  $('#location').append(trHTML);
-                  console.log(trHTML);
               });
+              $('#location').append(trHTML);
+              console.log(trHTML);
               }
             });
 
             request.done((data)=>{
               console.log("data received");
               console.log(data);
-              $("#location").text(JSON.stringify(data));
+              //$("#location").text(JSON.stringify(data));
             });
             request.always((jqXHR,status)=>{
                 if(status=="error")
@@ -46,10 +46,10 @@
     <table id="location1" border='1'>
         <tr>
             <th>Name</th>
-             <th>Month</th>
-             <th>Year</th>
-             <th>Pressure</th>
-             <th>Temperature</th>
+             <th> Month</th>
+             <th> Year</th>
+             <th>Pres</th>
+             <th>Temp</th>
              <th>T.D.</th>
         </tr>
     </table>
