@@ -1,9 +1,9 @@
-table, tr, td {
+location, tr, td {
     border: 1px solid black;
     text-align: center;
 }
 
-#header td{
+#location1 td{
   font-weight: bold;
   height: 30px;
   background-color: #DAD1D1;
@@ -17,12 +17,4 @@ td {
   background-color: #DDDDDD;
   cursor: pointer;
   padding: 5px;
-}
-
-#td1 {
-  background-color: #BCFCB1;
-}
-
-#td2 {
-  background-color: #D6FCCF;
 }
