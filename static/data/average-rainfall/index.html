@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script>
+      console.log("JQuery Init!");
+      $(document).ready(() => {
+        console.log("JQuery Ready!");
+        $("#button").click(()=>{
+          var dat = [];
+          var request = $.ajax({
+                  url: "/api/v1/average-rainfall/?apikey=sos",
+                  type: "GET"
+          });
+
+          request.done(function(data,status,jqXHR) {
+            console.log("Handling request (ok)");
+            console.log("Data received:");
+            console.log(data);
+
+            var table = "";
+            $.each(data, function (i, item) {
+                table += "<tr><td>" + data[i].river_basin + "</td><td>" + data[i].year + "</td><td>" + data[i].month + "</td><td>" + data[i].pm + "</td><td>" + data[i].pe + "</td><td>" + data[i].pa + "</td></tr>";
+            });
+
+            $('#table').append(table);
+          });
+
+          request.always(function(jqXHR, status) {
+            if(status == "error"){
+            console.log("Handling request (error)");
+          }else{
+            console.log("other case");
+          }});
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>average-rainfall Data</h1>
+    <table id="header">
+      <tr><td>river_basin</td><td>year</td><td>month</td><td>pm</td><td>pe</td><td>pa</td></tr>
+    </table>
+
+    <table id="table">
+
+    </table>
+
+    <br/>
+
+    <span id="button">Send</span>
+  </body>
+</html>

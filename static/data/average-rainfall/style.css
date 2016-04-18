@@ -1,0 +1,19 @@
+table, tr, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#header td{
+  font-weight: bold;
+  height: 30px;
+}
+
+td {
+  width: 100px;
+}
+
+#button {
+  background-color: #DDDDDD;
+  cursor: pointer;
+  padding: 5px;
+}

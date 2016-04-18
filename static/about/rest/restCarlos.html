@@ -1,49 +1,49 @@
 <html>
-  <body>
-    <head>
-      <link rel="stylesheet" type="text/css" href="style.css" />
-      <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
-      <script>
-        console.log("JQuery Init!");
-        $(document).ready(() => {
-          console.log("JQuery Ready!");
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script>
+      console.log("JQuery Init!");
+      $(document).ready(() => {
+        console.log("JQuery Ready!");
 
-          $("#button").click(() => {
-            console.log("Handling Click!");
-            var url = $("#url").val();
-            var method = $("input[type=radio]:checked").attr("id");
+        $("#button").click(() => {
+          console.log("Handling Click!");
+          var url = $("#url").val();
+          var method = $("input[type=radio]:checked").attr("id");
 
-            var request = $.ajax({
-                    url: url,
-                    type: method,
-                    data: $("payload").val(),
-                    contentType: "application/json"
-                    // data: '{"name":"sevilla“,…}'
-            });
+          var request = $.ajax({
+                  url: url,
+                  type: method,
+                  data: $("payload").val(),
+                  contentType: "application/json"
+                  // data: '{"name":"sevilla“,…}'
+          });
 
-            request.done(function(data,status,jqXHR) {
-              console.log("Handling request (ok)");
-              console.log("Data received:");
-              console.log(data);
-            // Tratamiento en caso de exito
-              $("#data").text(JSON.stringify(data));
-            });
+          request.done(function(data,status,jqXHR) {
+            console.log("Handling request (ok)");
+            console.log("Data received:");
+            console.log(data);
+          // Tratamiento en caso de exito
+            $("#data").text(JSON.stringify(data));
+          });
 
-            request.always(function(jqXHR, status) {
-              if(status == "error"){
-                console.log("Handling request (error)");
-                $("#log").html("<h1>Error!</h1>");
-              }else{
-                $("#log").html("<h1>Correct!</h1>");
-              }
-              // Tratamiento en cualquier caso
-            });
-
+          request.always(function(jqXHR, status) {
+            if(status == "error"){
+            console.log("Handling request (error)");
+              $("#log").html("<h1>Error!</h1>");
+            }else{
+              $("#log").html("<h1>Correct!</h1>");
+            }
+            // Tratamiento en cualquier caso
           });
 
         });
-      </script>
-    </head>
+
+      });
+    </script>
+  </head>
+  <body>
     <h1>JQuery REST Client</h1>
     URL: <input id="url" size="30" value="/api/v1/towns"/>
     GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
