@@ -17,14 +17,18 @@
             contentType : "application/json"
           });
 
-          request.done((data)=>{
-            console.log("data received");
-            console.log(data);
+          request.done(function(data,status,jqXHR) {
             $("#data").text(JSON.stringify(data));
+            $("#status").html(jqXHR.status);
+            $("#log").html(jqXHR.statusText);
           });
-          request.always((jqXHR,status)=>{
-            if(status=="error")
-            console.log("Status: "+ jqXHR.status);
+
+          request.always(function(jqXHR, status) {
+            if(status == "error"){
+              $("#status").html(jqXHR.status);
+              $("#log").html(jqXHR.statusText);
+              $("#data").html("");
+            }
           });
         });
     });
@@ -38,7 +42,7 @@
         PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
         DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
     <br/>
-    Payload: <input id="payload" size="60" value='{"name":"Jorge"}'/>
+    Payload: <input id="payload" size="60" value='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}'/>
     <br/><br/>
     <span id="button">Send</span>
     <br/><hr/>
