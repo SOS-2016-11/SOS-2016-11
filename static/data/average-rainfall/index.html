@@ -3,35 +3,25 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script>
-      console.log("JQuery Init!");
       $(document).ready(() => {
-        console.log("JQuery Ready!");
         $("#button").click(()=>{
-          var dat = [];
           var request = $.ajax({
                   url: "/api/v1/average-rainfall/?apikey=sos",
                   type: "GET"
           });
 
           request.done(function(data,status,jqXHR) {
-            console.log("Handling request (ok)");
-            console.log("Data received:");
-            console.log(data);
-
             var table = "";
             $.each(data, function (i, item) {
                 table += "<tr><td id='td1'>" + data[i].river_basin + "</td><td id='td2'>" + data[i].year + "</td><td id='td1'>" + data[i].month + "</td><td id='td2'>" + data[i].pm + "</td><td id='td1'>" + data[i].pe + "</td><td id='td2'>" + data[i].pa + "</td></tr>";
             });
 
-            $('#table').append(table);
+            $('#table').html(table);
           });
 
           request.always(function(jqXHR, status) {
-            if(status == "error"){
-            console.log("Handling request (error)");
-          }else{
-            console.log("other case");
-          }});
+
+          });
         });
       });
     </script>
