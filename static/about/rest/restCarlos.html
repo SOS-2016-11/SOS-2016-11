@@ -3,55 +3,53 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script>
-      console.log("JQuery Init!");
+//      console.log("JQuery Init!");
       $(document).ready(() => {
-        console.log("JQuery Ready!");
+//        console.log("JQuery Ready!");
 
         $("#button").click(() => {
-          console.log("Handling Click!");
+//          console.log("Handling Click!");
           var url = $("#url").val();
           var method = $("input[type=radio]:checked").attr("id");
-
+//          var da = JSON.stringify($("payload").text();
+//          console.log(da);
           var request = $.ajax({
                   url: url,
                   type: method,
-                  data: $("payload").val(),
+                  data: $("#payload").val(),
                   contentType: "application/json"
                   // data: '{"name":"sevilla“,…}'
+
           });
 
           request.done(function(data,status,jqXHR) {
-            console.log("Handling request (ok)");
-            console.log("Data received:");
-            console.log(data);
-          // Tratamiento en caso de exito
             $("#data").text(JSON.stringify(data));
+            $("#status").html(jqXHR.status);
+            $("#log").html(jqXHR.statusText);
           });
 
           request.always(function(jqXHR, status) {
             if(status == "error"){
-            console.log("Handling request (error)");
-              $("#log").html("<h1>Error!</h1>");
-            }else{
-              $("#log").html("<h1>Correct!</h1>");
+              $("#status").html(jqXHR.status);
+              $("#log").html(jqXHR.statusText);
+              $("#data").html("");
             }
-            // Tratamiento en cualquier caso
           });
-
         });
-
       });
     </script>
+
   </head>
+
   <body>
     <h1>JQuery REST Client</h1>
-    URL: <input id="url" size="30" value="/api/v1/towns"/>
+    URL: <input id="url" size="30" value="/api/v1/average-rainfall/?apikey=sos"/>
     GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
     POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
     PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
     DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
     <br/>
-    Payload: <input id="payload" size="60" value='{"name":"sevilla","population":99000}'/>
+    Payload: <input id="payload" size="60" value='{"river_basin": "Po", "month": "June", "year": 2012, "pm": 56, "pe": 40.9, "pa": 301.9}'/>
     <br/><br/>
     <span id="button">Send</span>
     <br/><hr/>

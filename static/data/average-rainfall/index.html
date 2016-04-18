@@ -20,7 +20,7 @@
 
             var table = "";
             $.each(data, function (i, item) {
-                table += "<tr><td>" + data[i].river_basin + "</td><td>" + data[i].year + "</td><td>" + data[i].month + "</td><td>" + data[i].pm + "</td><td>" + data[i].pe + "</td><td>" + data[i].pa + "</td></tr>";
+                table += "<tr><td id='td1'>" + data[i].river_basin + "</td><td id='td2'>" + data[i].year + "</td><td id='td1'>" + data[i].month + "</td><td id='td2'>" + data[i].pm + "</td><td id='td1'>" + data[i].pe + "</td><td id='td2'>" + data[i].pa + "</td></tr>";
             });
 
             $('#table').append(table);

@@ -6,6 +6,7 @@ table, tr, td {
 #header td{
   font-weight: bold;
   height: 30px;
+  background-color: #DAD1D1;
 }
 
 td {
@@ -16,4 +17,12 @@ td {
   background-color: #DDDDDD;
   cursor: pointer;
   padding: 5px;
+}
+
+#td1 {
+  background-color: #BCFCB1;
+}
+
+#td2 {
+  background-color: #D6FCCF;
 }
