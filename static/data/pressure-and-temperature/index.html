@@ -4,54 +4,44 @@
     <link rel="stylesheet"type="text/css" href="style.css"/>
     <script>
     $(document).ready(function (){
-        console.log("JQuery ready");
-        $("#button").click(()=>{
-            var request= $.ajax({
-              type: "GET",
-              url:"/api/v1/pressure-and-temperatures?apikey=sos",
-              data: "{}",
-              contentType: "application/json",
-              dataType: "json",
-              cache: false,
-              success: (data) => {
-
-              var trHTML = '';
-
-              $.each(data, function (i, item) {
-              //Cambiar codigo para que muestre los elementos independientes
-                  trHTML += '<tr><td>' + data[i].name + '</td><td>' + data[i].month + '</td><td>'+ data[i].year + '</td><td>' + data[i].p + '</td><td>'+ data[i].t + '</td><td>'+ data[i].td + '</td></tr>';
-
-              });
-              $('#location').append(trHTML);
-              console.log(trHTML);
-              }
-            });
-
-            request.done((data)=>{
-              console.log("data received");
-              console.log(data);
-              //$("#location").text(JSON.stringify(data));
-            });
-            request.always((jqXHR,status)=>{
-                if(status=="error")
-                console.log("Status: "+ jqXHR.status);
-            });
+      console.log("JQuery ready");
+      $("#button").click(()=>{
+        var request= $.ajax({
+          type: "GET",
+          url:"/api/v1/pressure-and-temperatures?apikey=sos"
         });
+
+        request.done((data)=>{
+          var location = "";
+          $.each(data, function (i, item) {
+            location += '<tr><td>' + data[i].name + '</td><td>' + data[i].month + '</td><td>'+ data[i].year + '</td><td>' + data[i].p + '</td><td>'+ data[i].t + '</td><td>'+ data[i].td + '</td></tr>';
+          });
+          $('#location').html(location);
+          console.log(location);
+        });
+
+        request.always((jqXHR,status)=>{
+
+        });
+      });
     });
+
     </script>
   </head>
   <body>
     <h1>Pressure and Temperatures</h1>
 
-    <table id="location1" border='1'>
+    <table id="location1">
       <tr><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
 
     </table>
-    <table id="location" border='1'>
+    <table id="location">
 
     </table>
+
     <br/>
+
     <span id="button">show data!</span>
-    <br/>
+
   </body>
 </html>
