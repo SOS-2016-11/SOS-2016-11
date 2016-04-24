@@ -1,11 +1,17 @@
-<html>
-  <head>
-    <script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
-    <link rel="stylesheet"type="text/css" href="style.css"/>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rest Pedro</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
     $(document).ready(function (){
       console.log("JQuery ready");
-      $("#button").click(()=>{
+      $("#button1").button();
+      $("#button1").click(()=>{
         var request= $.ajax({
           type: "GET",
           url:"/api/v1/pressure-and-temperatures?apikey=sos"
@@ -14,7 +20,7 @@
         request.done((data)=>{
           var location = "";
           $.each(data, function (i, item) {
-            location += '<tr><td>' + data[i].name + '</td><td>' + data[i].month + '</td><td>'+ data[i].year + '</td><td>' + data[i].p + '</td><td>'+ data[i].t + '</td><td>'+ data[i].td + '</td></tr>';
+            location += "<tr><td id='td1'>" + data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
           });
           $('#location').html(location);
           console.log(location);
@@ -29,19 +35,24 @@
     </script>
   </head>
   <body>
-    <h1>Pressure and Temperatures</h1>
+    <div id="accordion">
+      <h3>Pressure and Temperatures</h3>
+      <div>
+        <table id="location1">
+          <tr><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
 
-    <table id="location1">
-      <tr><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
+        </table>
+        <table id="location">
 
-    </table>
-    <table id="location">
+        </table>
 
-    </table>
+        <br/>
 
-    <br/>
-
-    <span id="button">show data!</span>
-
+        <span id="button1">show data!</span>
+      </div>
+    </div>
+  <script>
+  $( "#accordion" ).accordion();
+  </script>
   </body>
 </html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rest Pedro</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script>
+  $(document).ready(function (){
+      console.log("JQuery ready");
+      $("#button").button();
+      $("#button").click(()=>{
+        console.log("Handling click");
+
+        var method= $("input[type=radio]:checked").attr("id");
+
+        var request= $.ajax({
+          url:$("#url").val(),
+          type:method,
+          data: $("#payload").val(),
+          contentType : "application/json"
+        });
+
+        request.done(function(data,status,jqXHR) {
+          $("#data").text(JSON.stringify(data));
+          $("#status").html(jqXHR.status);
+          $("#log").html(jqXHR.statusText);
+        });
+
+        request.always(function(jqXHR, status) {
+          if(status == "error"){
+            $("#status").html(jqXHR.status);
+            $("#log").html(jqXHR.statusText);
+            $("#data").html("");
+          }
+        });
+      });
+  });
+  </script>
+</head>
+<body>
+
+  <div id="accordion">
+    <h3>JQuery REST Client</h3>
+    <div>
+          URL: <input id="url" size="30" value="/api/v1/pressure-and-temperatures?apikey=sos"/>
+          GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
+          POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
+          PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
+          DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
+      <br/>
+      Payload: <input id="payload" size="60" value='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}'/>
+      <br/><br/>
+      <span id="button">Send</span>
+      <br/><hr/>
+      HTTP Status: <span id="status"></span>
+      <br/><hr/>
+      <span id="data"></span>
+      <br/><hr/>
+      Log: <span id="log"></span>
+    </div>
+  </div>
+<script>
+$( "#accordion" ).accordion();
+</script>
+</body>
+</html>
