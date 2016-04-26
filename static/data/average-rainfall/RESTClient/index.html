@@ -1,25 +1,19 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script>
-//      console.log("JQuery Init!");
       $(document).ready(() => {
-//        console.log("JQuery Ready!");
-
         $("#button").click(() => {
-//          console.log("Handling Click!");
           var url = $("#url").val();
           var method = $("input[type=radio]:checked").attr("id");
-//          var da = JSON.stringify($("payload").text();
-//          console.log(da);
           var request = $.ajax({
                   url: url,
                   type: method,
                   data: $("#payload").val(),
                   contentType: "application/json"
-                  // data: '{"name":"sevilla“,…}'
-
           });
 
           request.done(function(data,status,jqXHR) {
@@ -43,22 +37,24 @@
 
   <body>
     <h1>JQuery REST Client</h1>
-    URL: <input id="url" size="30" value="/api/v1/average-rainfall/"/>
-    GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
+    <br/><br/>
+    <div class="font">URL: <input id="url" class="form-control" size="30" value="/api/v1/average-rainfall/"/></div>
+    <br/>
+    <div class="font">GET <input name="method" type="radio" id="GET" checked="checked" /> &nbsp;&nbsp;
     POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
     PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
-    DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
-    <br/>
-    Payload: <input id="payload" size="60" value='{"river_basin": "Po", "month": "June", "year": 2012, "pm": 56, "pe": 40.9, "pa": 301.9}'/>
+    DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;</div>
     <br/><br/>
-    <span id="button">Send</span>
+    <div class="font">Payload: <input id="payload" class="form-control" size="60" value='{"river_basin": "Po", "month": "June", "year": 2012, "pm": 56, "pe": 40.9, "pa": 301.9}'/></div>
+    <br/><br/>
+    <span id="button" class="btn btn-primary">Send</span>
+    <br/><br/><hr/>
+    <div class="font">HTTP Status: <span id="status" class="text-primary"></span></div>
     <br/><hr/>
-    HTTP Status: <span id="status"></span>
-    <br/><hr/>
-    <span id="data"></span>
-    <br/><hr/>
+    <span id="data" class="text-danger"></span>
+    <br/><br/><hr/>
     <ul id="list"></ul>
     <hr/>
-    Log: <span id="log"></span>
+    <div class="font">Log: <span id="log" class="text-primary"></span></div>
   </body>
 </html>

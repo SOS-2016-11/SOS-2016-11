@@ -1,7 +1,9 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css" />
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/js/materialize.min.js"></script>
     <script>
       $(document).ready(() => {
         $("#button").click(()=>{
@@ -13,7 +15,7 @@
           request.done(function(data,status,jqXHR) {
             var table = "";
             $.each(data, function (i, item) {
-                table += "<tr><td id='td1'>" + data[i].river_basin + "</td><td id='td2'>" + data[i].year + "</td><td id='td1'>" + data[i].month + "</td><td id='td2'>" + data[i].pm + "</td><td id='td1'>" + data[i].pe + "</td><td id='td2'>" + data[i].pa + "</td></tr>";
+                table += "<tr><td id='td1' class='center-align'>" + data[i].river_basin + "</td><td id='td2' class='center-align'>" + data[i].year + "</td><td id='td1' class='center-align'>" + data[i].month + "</td><td id='td2' class='center-align'>" + data[i].pm + "</td><td id='td1' class='center-align'>" + data[i].pe + "</td><td id='td2' class='center-align'>" + data[i].pa + "</td></tr>";
             });
 
             $('#table').html(table);
@@ -27,9 +29,10 @@
     </script>
   </head>
   <body>
-    <h1>average-rainfall Data</h1>
-    <table id="header">
-      <tr><td>river_basin</td><td>year</td><td>month</td><td>pm</td><td>pe</td><td>pa</td></tr>
+    <h1 class="center-align">average-rainfall Data</h1>
+    <br/>
+    <table id="header" class="card-panel teal lighten-2">
+      <tr><td class="center-align">river_basin</td><td class="center-align">year</td><td class="center-align">month</td><td class="center-align">pm</td><td class="center-align">pe</td><td class="center-align">pa</td class="center-align"></tr>
     </table>
 
     <table id="table">
@@ -38,6 +41,6 @@
 
     <br/>
 
-    <span id="button">Send</span>
+    <span id="button" class="waves-effect">Send</span>
   </body>
 </html>

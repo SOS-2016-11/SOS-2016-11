@@ -6,7 +6,6 @@ table, tr, td {
 #header td{
   font-weight: bold;
   height: 30px;
-  background-color: #DAD1D1;
 }
 
 td {
@@ -16,7 +15,8 @@ td {
 #button {
   background-color: #DDDDDD;
   cursor: pointer;
-  padding: 5px;
+  padding: 15px;
+  margin-left: 48%;
 }
 
 #td1 {
