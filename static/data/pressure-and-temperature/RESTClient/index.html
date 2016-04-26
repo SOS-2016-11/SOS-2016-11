@@ -1,12 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Rest Pedro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css" type="text/css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script>
   $(document).ready(function (){
       console.log("JQuery ready");
@@ -41,29 +40,27 @@
   </script>
 </head>
 <body>
-
-  <div id="accordion">
-    <h3>JQuery REST Client</h3>
-    <div>
-          URL: <input id="url" size="30" value="/api/v1/pressure-and-temperatures?apikey=sos"/>
-          GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
-          POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
-          PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
-          DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
-      <br/>
-      Payload: <input id="payload" size="60" value='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}'/>
-      <br/><br/>
-      <span id="button">Send</span>
-      <br/><hr/>
-      HTTP Status: <span id="status"></span>
-      <br/><hr/>
-      <span id="data"></span>
-      <br/><hr/>
-      Log: <span id="log"></span>
+  <div class="container">
+    <div class="panel panel-success">
+      <div class="panel-heading">JQuery RESTClient</div>
+      <div class="panel-body">
+            URL: <input id="url" size="30" value="/api/v1/pressure-and-temperatures?apikey=sos"/>
+            GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
+            POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
+            PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
+            DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
+        <br/>
+        Payload: <input id="payload" size="60" value='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}'/>
+        <br/><br/>
+        <span id="button">Send</span>
+        <br/><hr/>
+        HTTP Status: <span id="status"></span>
+        <br/><hr/>
+        <span id="data"></span>
+        <br/><hr/>
+        Log: <span id="log"></span>
+      </div>
     </div>
   </div>
-<script>
-$( "#accordion" ).accordion();
-</script>
 </body>
 </html>
