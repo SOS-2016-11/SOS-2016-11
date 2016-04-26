@@ -1,13 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Rest Pedro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css" type="text/css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script>
     $(document).ready(function (){
       console.log("JQuery ready");
       $("#button1").button();
@@ -35,28 +34,19 @@
     </script>
   </head>
   <body>
-    <div id="accordion">
-      <h3>Pressure and Temperatures</h3>
-      <div>
-          <p>In this section, we will show the resources with their respective attributes of pressure and temperature. </p>
-      </div>
-      <h3>Table</h3>
-      <div>
-        <table id="location1">
-          <tr><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
-
-        </table>
-        <table id="location">
-
-        </table>
-
-        <br/>
-
-        <span id="button1">show data!</span>
+    <div class="container">
+      <div class="panel panel-success">
+        <div class="panel-heading">Pressure and Temperatures</div>
+        <div class="panel-body">
+          <table id="location1">
+            <tr><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
+          </table>
+          <table id="location">
+          </table>
+          <br/>
+          <span id="button1">show data!</span>
+        </div>
       </div>
     </div>
-  <script>
-  $( "#accordion" ).accordion();
-  </script>
   </body>
 </html>
