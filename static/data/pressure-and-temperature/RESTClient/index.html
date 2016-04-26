@@ -1,23 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style.css" type="text/css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/css/materialize.min.css" />
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/js/materialize.min.js"></script>
   <script>
   $(document).ready(function (){
       console.log("JQuery ready");
-      $("#button").button();
+
       $("#button").click(()=>{
         console.log("Handling click");
 
-        var method= $("input[type=radio]:checked").attr("id");
+        var request= $.ajax({
+          url:$("#url").val(),
+          type:"GET",
+          data: $("#payload").val(),
+          contentType : "application/json"
+        });
+
+        request.done(function(data,status,jqXHR) {
+          $("#data").text(JSON.stringify(data));
+          $("#status").html(jqXHR.status);
+          $("#log").html(jqXHR.statusText);
+        });
+
+        request.always(function(jqXHR, status) {
+          if(status == "error"){
+            $("#status").html(jqXHR.status);
+            $("#log").html(jqXHR.statusText);
+            $("#data").html("");
+          }
+        });
+      });
+
+      $("#button2").click(()=>{
+        console.log("Handling click");
 
         var request= $.ajax({
           url:$("#url").val(),
-          type:method,
+          type:"POST",
+          data: $("#payload").val(),
+          contentType : "application/json"
+        });
+
+        request.done(function(data,status,jqXHR) {
+          $("#data").text(JSON.stringify(data));
+          $("#status").html(jqXHR.status);
+          $("#log").html(jqXHR.statusText);
+        });
+
+        request.always(function(jqXHR, status) {
+          if(status == "error"){
+            $("#status").html(jqXHR.status);
+            $("#log").html(jqXHR.statusText);
+            $("#data").html("");
+          }
+        });
+      });
+
+      $("#button3").click(()=>{
+        console.log("Handling click");
+
+        var request= $.ajax({
+          url:$("#url").val(),
+          type:"PUT",
+          data: $("#payload").val(),
+          contentType : "application/json"
+        });
+
+        request.done(function(data,status,jqXHR) {
+          $("#data").text(JSON.stringify(data));
+          $("#status").html(jqXHR.status);
+          $("#log").html(jqXHR.statusText);
+        });
+
+        request.always(function(jqXHR, status) {
+          if(status == "error"){
+            $("#status").html(jqXHR.status);
+            $("#log").html(jqXHR.statusText);
+            $("#data").html("");
+          }
+        });
+      });
+
+      $("#button4").click(()=>{
+        console.log("Handling click");
+
+        var request= $.ajax({
+          url:$("#url").val(),
+          type:"DELETE",
           data: $("#payload").val(),
           contentType : "application/json"
         });
@@ -40,27 +111,23 @@
   </script>
 </head>
 <body>
-  <div class="container">
-    <div class="panel panel-success">
-      <div class="panel-heading">JQuery RESTClient</div>
-      <div class="panel-body">
-            URL: <input id="url" size="30" value="/api/v1/pressure-and-temperatures?apikey=sos"/>
-            GET <input name="method" type="radio" id="GET" checked="checked"/> &nbsp;&nbsp;
-            POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
-            PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
-            DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;
-        <br/>
-        Payload: <input id="payload" size="60" value='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}'/>
-        <br/><br/>
-        <button id="button" type="button" class="btn btn-primary active">Send</button>
-        <br/><hr/>
-        HTTP Status: <span id="status"></span>
-        <br/><hr/>
-        <span id="data"></span>
-        <br/><hr/>
-        Log: <span id="log"></span>
-      </div>
+  <h1 class="center-align">Pressure and Temperatures</h1>
+  <br/>
+    <div class="card-panel teal lighten-2">
+      URL: <input id="url" size="60" value="/api/v1/pressure-and-temperatures?apikey=sos"/>
+      <br/>
+      Payload: <input id="payload" size="60" value='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}'/>
+      <br/><br/>
+      <button id="button" type="button" class="btn btn-primary active">GET</button>
+      <button id="button2" type="button" class="btn btn-primary active">POST</button>
+      <button id="button3" type="button" class="btn btn-primary active">PUT</button>
+      <button id="button4" type="button" class="btn btn-primary active">DELETE</button>
+      <br/><hr/>
+      HTTP Status: <span id="status"></span>
+      <br/><hr/>
+      <span id="data"></span>
+      <br/><hr/>
+      Log: <span id="log"></span>
     </div>
-  </div>
 </body>
 </html>
