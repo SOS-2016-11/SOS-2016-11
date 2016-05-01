@@ -1,8 +1,212 @@
 <html>
   <head>
-    
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="functions.js"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="todo.js"></script>
+    <link rel="stylesheet" href="todo.css"> -->
+
+
+    <script>
+      $(document).ready(() => {
+        var f = [];
+        var url = "";
+        var busq = "";
+        var selected = "";
+        var apikey = "";
+
+        getRutaBase(selected, url, "sos", busq);
+
+        $("#new").click(()=>{
+          loadForm();
+          getRutaBase(selected, url , apikey, busq);
+          f = getData();
+        });
+
+        $("#import").click(()=>{
+          window.alert("11111");
+//          window.alert($('#edit1').getText);
+//          $("#edit1").html("<h1>EY</h1>");
+//          document.getElementById('chart_div')
+
+        });
+
+        $("#reset").click(()=>{
+
+          deleteRutaBase(selected, apikey);
+          eliminaForm();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+          $('#form').html("");
+          $('#btn1').html("");
+        });
+
+
+
+/*        $("#edit1").click(()=>{
+          window.alert("edit1 toma toma")
+        });
+        */
+
+        $("#clear").click(()=>{
+          clear();
+          url = addUrl();
+          busq = addBusq();
+          selected = $("#select").val();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#select").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          selected = $("#select").val();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#year").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#month").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#from").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#to").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#limit").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#offset").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#apikey").change(()=>{
+          url = addUrl();
+          busq = addBusq();
+          apikey = addApiKey();
+          getRutaBase(selected, url, apikey, busq);
+          f = getData();
+        });
+
+        $("#load").click(()=>{
+          getRutaBase("", "loadInitialData", "sos", "");
+          f = getData();
+        });
+
+
+        $("body").on('click', "#cancel",()=>{
+          $('#form').html("");
+          $('#btn1').html("");
+        });
+
+        $("body").on('click', "#create",()=>{
+          createData(selected);
+          getRutaBase(selected, url, apikey, busq);
+          $('#form').html("");
+          $('#btn1').html("");
+        });
+
+
+      });
+    </script>
+
   </head>
   <body>
+    <div id="body">
+      <h1 class="text-center"><a href="/api/v1/average-rainfall/loadInitialData?apikey=sos" target="_blank">Gestión de datos</a></h1>
 
+      </br></br></br>
+
+
+      <div class="text-center">
+        <div id="error"><h3></h3><h4></h4></div>
+        <form class="form-inline">
+          <button type="button" id="clear" class="btn btn-primary">Clear</button>
+          <div class="form-group">
+            <select id="select" class="form-control">
+
+            </select>
+          </div>
+          <div class="form-group">
+            <input id="year" class="form-control" type="number" placeholder="year"/>
+            <input id="month" class="form-control" type="text" placeholder="month"/>
+            <input id="from" class="form-control" type="number" placeholder="from"/>
+            <input id="to" class="form-control" type="number" placeholder="to"/>
+          </div>
+          <div class="form-group">
+            <input id="limit" class="form-control" type="number" placeholder="limit"/>
+            <input id="offset" class="form-control" type="number" placeholder="offset"/>
+            <input id="apikey" class="form-control" type="text" placeholder="apikey"/>
+          </div>
+          <button type="button" id="load" class="btn btn-primary">Load</button>
+        </form>
+      </div>
+
+      </br>
+
+      <div id="tb">
+        <table id="table" class="table table-hover">
+
+        </table>
+
+        </br></br>
+
+        <div id="btn">
+          <button type="button" id="new" class="btn btn-primary">New</button>
+          <button type="button" id="import" class="btn btn-primary">Import</button>
+          <button type="button" id="reset" class="btn btn-primary">Reset</button>
+        </div>
+      </div>
+
+      </br></br>
+
+      <div id="cform" class='text-center'>
+        <div id="error1"><h3></h3><h4></h4></div>
+        <form id="form" class="form-horizontal">
+
+        </form>
+
+        <div id="btn1">
+
+        </div>
+      </div>
+
+      </br></br>
+
+    </div>
   </body>
 </html>

@@ -1,0 +1,24 @@
+body{
+  background-color: #b6fcd5;
+}
+
+#body{
+  margin: auto;
+  width: 1280px;
+}
+
+img{
+  cursor: pointer;
+}
+
+#btn{
+  text-align: center;
+}
+
+#error h3, #error h4{
+  color: red;
+}
+
+#year, #month, #from, #to, #limit, #offset, #apikey{
+  width: 140px;
+}
