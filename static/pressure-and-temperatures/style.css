@@ -1,0 +1,46 @@
+location, tr, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#location1 td{
+  font-weight: bold;
+  height: 30px;
+  background-color: #DAD1D1;
+}
+
+td {
+  width: 100px;
+}
+
+#td1 {
+  background-color: #F6EABE;
+}
+
+#td2 {
+  background-color: #FDEEB7;
+}
+
+body{
+  width: 80%;
+  margin: auto;
+  background-color: #b6fcd5;
+}
+.panel-heading {
+   font-size: 38px;
+   font-style: italic;
+   color: #333;
+   padding: 10px;
+   text-shadow: -1px -1px 0px #101010, 1px 1px 0px #505050;
+ }
+
+.dropdown{ }
+
+#search1{
+    text-align: left;
+}
+
+
+#button7{
+  text-align: left;
+}

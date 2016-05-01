@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script>
+  $(document).ready(function (){
+      console.log("JQuery ready");
+
+      $("#button").click(()=>{
+        var nombre = $("#nombre").val();
+        var apikey = $("#apikey").val();
+        console.log(nombre);
+        var request= $.ajax({
+              type: "GET",
+              url: '/api/v1/pressure-and-temperatures/'+nombre+"?apikey="+apikey,
+              success: function(data) {
+                $('#resultados').html(data);
+                $('#resultados div').slideDown(1000);
+              }
+        });
+
+        request.done((data)=>{
+          var location = "";
+          $.each(data, function (i, item) {
+            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+
+          });
+          $('#location').html(location);
+          console.log(location);
+        });
+
+        request.always((jqXHR,status)=>{
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+
+      $("#button2").click(()=>{
+        console.log("Handling click");
+        var apikey = $("#apikey").val();
+        var prueba='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}';
+        var meta = JSON.parse(prueba);
+
+        var nombre2 = $("#nombre2").val();
+        var mes = $("#mes").val();
+        var year = $("#year").val();
+        var pression = $("#pression").val();
+        var temperature= $("#temperature").val();
+        var td = $("#td").val();
+
+
+        meta["name"] = nombre2;
+        meta["month"] = mes;
+        meta["year"] = year;
+        meta["p"] = pression;
+        meta["t"] = temperature;
+        meta["td"] = td;
+
+        var json = JSON.stringify(meta);
+
+        var request= $.ajax({
+          url:"/api/v1/pressure-and-temperatures?apikey="+apikey,
+          type:"POST",
+          data: json,
+          contentType : "application/json"
+        });
+
+        request.done(function(data,status,jqXHR) {
+
+          $("#data").text(JSON.stringify(data));
+
+        });
+
+        request.always(function(jqXHR, status) {
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+          if(jqXHR.status == 409){
+            $("#log1").html("No se puede añadir un recurso que ya existe");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+
+      $("#button3").click(()=>{
+        console.log("Handling click");
+        var prueba='{"name": "Sevilla","month": "Enero","year": 2015,"p": 879,"t": 9.8,"td": 3.1}';
+        var meta = JSON.parse(prueba);
+        var apikey = $("#apikey").val();
+        var nombre2 = $("#nombre2").val();
+        var mes = $("#mes").val();
+        var year = $("#year").val();
+        var pression = $("#pression").val();
+        var temperature= $("#temperature").val();
+        var td = $("#td").val();
+
+
+        meta["name"] = nombre2;
+        meta["month"] = mes;
+        meta["year"] = year;
+        meta["p"] = pression;
+        meta["t"] = temperature;
+        meta["td"] = td;
+
+        var json = JSON.stringify(meta);
+
+        console.log(json);
+        console.log(json.name);
+        console.log(json.month);
+
+        var request= $.ajax({
+          url: '/api/v1/pressure-and-temperatures/'+nombre2+"?apikey="+apikey,
+          type:"PUT",
+          data:  json ,
+          contentType : "application/json",
+          success: function(data) {
+            $('#resultados').html(data);
+            $('#resultados div').slideDown(1000);
+          }
+        });
+
+        request.done(function(data,status,jqXHR) {
+          $("#data").text(JSON.stringify(data));
+
+        });
+
+        request.always(function(jqXHR, status) {
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+
+      $("#button4").click(()=>{
+        console.log("Handling click");
+        var nombre = $("#nombre").val();
+        var apikey = $("#apikey").val();
+        var request= $.ajax({
+              type: "DELETE",
+              contentType : "application/json",
+              url: '/api/v1/pressure-and-temperatures/'+nombre+"?apikey="+apikey,
+              success: function(data) {
+                $('#resultados').html(data);
+                $('#resultados div').slideDown(1000);
+              }
+        });
+        request.done(function(data,status,jqXHR) {
+        ("#data").text(JSON.stringify(data));
+
+        });
+
+        request.always(function(jqXHR, status) {
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+      $("#button5").click(()=>{
+        console.log("Handling click");
+        var apikey = $("#apikey").val();
+        var request= $.ajax({
+          url:"/api/v1/pressure-and-temperatures/loadInitialData?apikey="+apikey,
+          type:"GET",
+          contentType : "application/json"
+        });
+
+        request.done((data)=>{
+          var location = "";
+          $.each(data, function (i, item) {
+            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+          });
+          $('#location').html(location);
+          console.log(location);
+        });
+
+        request.always((jqXHR,status)=>{
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+      $("#button6").click(()=>{
+        var limit = $("#limit").val();
+        var offset = $("#offset").val();
+        var apikey = $("#apikey").val();
+        console.log(limit);
+        var request= $.ajax({
+              type: "GET",
+              url: '/api/v1/pressure-and-temperatures?limit='+limit+'&offset='+offset+"&apikey="+apikey,
+              success: function(data) {
+                $('#resultados').html(data);
+                $('#resultados div').slideDown(1000);
+              }
+        });
+
+        request.done((data)=>{
+          var location = "";
+          $.each(data, function (i, item) {
+            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+
+          });
+          $('#location').html(location);
+          console.log(location);
+        });
+
+        request.always((jqXHR,status)=>{
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+      $("#button7").click(()=>{
+        var search1 = $("#search1").val();
+        var search2 = $("#search2").val();
+        var method = $("input[type=radio]:checked").attr("id");
+        var method1 = $("input[type=checkbox]:checked").attr("id");
+        var apikey = $("#apikey").val();
+
+        var request= $.ajax({
+              type: "GET",
+              url: '/api/v1/pressure-and-temperatures?'+method+search1+/*"&"+method1+search2+*/"&apikey="+apikey,
+              success: function(data) {
+                $('#resultados').html(data);
+                $('#resultados div').slideDown(1000);
+              }
+        });
+        request.done((data)=>{
+          var location = "";
+          $.each(data, function (i, item) {
+            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+
+          });
+          $('#location').html(location);
+          console.log(location);
+        });
+
+        request.always((jqXHR,status)=>{
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+  });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Gestión de datos</div>
+      <table class="table table-bordered">
+        <table id="location1" class="table table-bordered">
+          <tr><td>Number</td><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
+        </table>
+        <table id="location" class="table table-bordered table-hover">
+        </table>
+    </div>
+      <div class="dropdown">
+        <button id="button" type="button" class="btn btn-primary active">Get Resources</button>
+        <button id="button4" class="btn btn-danger active" type="button">Delete</button>
+        <button id="button5" type="button" class="btn btn-success active">Load</button>
+        Get/Delete Name:<input id="nombre" name="nombre" size="10"/>
+        Apikey:<input id="apikey" name="nombre" size="10" type="text"/>
+        <button id="button6" type="button" class="btn btn-primary active">Pagination</button>
+        Limit:<input id="limit" name="un_numero_decimal" size="10" value="" type="number">
+        Offset:<input id="offset" name="un_numero_decimal" size="10" value="" type="number"></br></br>
+        <!--<button id="button7" type="button" class="btn btn-primary active">Search</button> -->
+        <button id="button7" type="button" class="btn btn-primary active">Search</button>
+        <button id="button3" class="btn btn-warning active" type="button">Put</button>
+        <button id="button2" class="btn btn-success active" type="button" >Post</button>
+  <!--      Name:<input id="nombre2" name="nombre2" size="10" type="text">
+        Month:<input id="mes" name="mes" size="10" type="text">
+        Year:<input id="year" name="year" size="10">
+        Pression:<input id="pression" name="pression" size="10" >
+        Temperature:<input id="temperature" name="temperature" size="10" >
+        TD:<input id="td" name="td" size="10" ></br></br>-->
+
+  <!--  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search1<span class="caret"></span></button>
+        <ul class="dropdown-menu"> -->
+        <button class="btn btn-primary active" type="button" id="menu1" data-toggle="dropdown">POST/PUT<span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation">Name:<input id="nombre2" name="nombre2" size="10" type="text"></li>
+            <li role="presentation">Month:<input id="mes" name="mes" size="10" type="text"></li>
+            <li role="presentation">Year:<input id="year" name="year" size="10"></li>
+            <li role="presentation">Pression:<input id="pression" name="pression" size="10" ></li>
+            <li role="presentation">Temperature:<input id="temperature" name="temperature" size="10" ></li>
+            <li role="presentation">TD:<input id="td" name="td" size="10" ></br></br></li>
+          </ul></br>
+          <input id="name=" type="radio" name="x"  value="name3"> Name <!--<input type="checkbox"  name="y"  id="name="> Name--><br>
+          <input id="month="type="radio" name="x"  value="month2"> Month <!--<input  type="checkbox" name="y"  id="month="> Month--><br>
+          <input id="year=" type="radio" name="x" value="year"> Year <!--<input type="checkbox"  name="y"  id="year="> Year--><br>
+          <input id="p=" type="radio" name="x"   value="pression"> Pression<!--<input type="checkbox" name="y"  id="p="> Pression--><br>
+          <input id="t=" type="radio" name="x"  value="temperature"> Temperature <!--<input type="checkbox" name="y"  id="t="> Temperature--><br>
+          <input id="td=" type="radio" name="x"  value="tdyear"> T.D <!--<input type="checkbox" name="y"  id="td="> T.D--><br>
+          <input id="search1" name="search1" name="y"size="10" ><!--  <input id="search2" name="search1" size="10" type="text">-->
+  <!--    </ul> -->
+      </div>
+      <br>
+      <span id="status"></span>
+      <br/>
+      <span id="data"></span>
+      <br/>
+      <span id="log1"></span>
+      <br/><br/>
+    </div>
+</body>
+</html>
