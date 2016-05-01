@@ -351,6 +351,7 @@ module.exports.getCity = function (req, res){
   var td = req.query.td;
   var busqueda=0;
   var busqueda1=0;
+  var busqueda2=0;
   //aportacion nueva
   var car = req.params.name;
   //api-test cambiado !!
@@ -369,7 +370,8 @@ module.exports.getCity = function (req, res){
       {"name": "Zaragoza", "month": "Enero", "year": 2015, "p": 991, "t": 6.7, "td": 2.2},
       {"name": "Mallorca", "month": "Enero", "year": 2015, "p": 1017, "t": 11.0, "td": 5.7}
     ];
-    res.sendStatus(201);
+    busqueda2++;
+    busqueda++;
   }
   //hasta aqui
   if((car == "loadInitialData" || car == "loadInitialData/") && !compruebaApiKey(key)){
@@ -584,13 +586,16 @@ module.exports.getCity = function (req, res){
   }
   if(busqueda==0){
     res.sendStatus(404);
-  }else{
-    if(busqueda1==0){
-      res.send(Cities2);
-    }else{
-      res.send(Cities3);
-    }
   }
+  if(busqueda2==1){
+    res.send(Cities);
+  }
+  if(busqueda1==0){
+    res.send(Cities2);
+  }else{
+    res.send(Cities3);
+  }
+
 
 }
 
