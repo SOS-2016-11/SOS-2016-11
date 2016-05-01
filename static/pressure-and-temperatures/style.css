@@ -16,6 +16,9 @@ td {
 #td1 {
   background-color: #F6EABE;
 }
+.panel-heading{
+  text-align: center;
+}
 
 #td2 {
   background-color: #FDEEB7;
@@ -34,7 +37,12 @@ body{
    text-shadow: -1px -1px 0px #101010, 1px 1px 0px #505050;
  }
 
-.dropdown{ }
+ .dropdown-menu {
+   position: absolute;
+   top: 70%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+ }
 
 #search1{
     text-align: left;
