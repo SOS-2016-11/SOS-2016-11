@@ -15,10 +15,22 @@ img{
   text-align: center;
 }
 
+#error1 h3, #error1 h4{
+  color: red;
+}
+
 #error h3, #error h4{
   color: red;
 }
 
 #year, #month, #from, #to, #limit, #offset, #apikey{
   width: 140px;
+}
+
+#c_river_basin, #c_month, #c_year, #c_pm, #c_pe, #c_pa{
+/*  width: 300px; */
+}
+
+#form{
+  text-align: right;
 }

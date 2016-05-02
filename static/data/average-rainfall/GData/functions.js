@@ -3,6 +3,9 @@ var sel = new Set();
 var first = true;
 
 function peticion(selected, url, method, json){
+  $('#error h3').html("");
+  $('#error h4').html("");
+  $('#apikey').css("border-color","#ccc");
   var request = $.ajax({
           url: url,
           type: method,
@@ -11,18 +14,14 @@ function peticion(selected, url, method, json){
   });
 
   request.done(function(data,status,jqXHR) {
-    console.log(method);
-    console.log(data);
-    console.log(status);
-    console.log(jqXHR);
     if (method == "GET") {
       if(data == "Created"){
-        console.log("ok");
       }else{
         printData(selected, data);
       }
     }else if("POST"){
-    //  printData(selected, data);
+      $('#form').html("");
+      $('#btn1').html("");
     }else if("PUT"){
 
     }else{
@@ -31,21 +30,19 @@ function peticion(selected, url, method, json){
   });
 
   request.always(function(jqXHR, status) {
-    console.log(method);
-    console.log(status);
-    console.log(jqXHR);
-    if (method == "GET") {
-      if(data == "Created"){
-        console.log("ok");
-      }else{
-        
-      }
-    }else if("POST"){
-    //  printData(selected, data);
-    }else if("PUT"){
-
-    }else{
-
+    if(jqXHR.status == 401){
+      $('#error h3').html("ERROR");
+      $('#error h4').html("wrong apikey");
+      $('#apikey').css("border-color","#FF8989");
+    }else if(jqXHR.status == 409 && method == "POST"){
+      $('#error1 h3').html("ERROR");
+      $('#error1 h4').html("data already exist");
+    }else if(jqXHR.status == 409 && method == "PUT"){
+      $('#error1 h3').html("ERROR");
+      $('#error1 h4').html("Multiple data");
+    }else if(jqXHR.status == 400 && method == "PUT"){
+      $('#error1 h3').html("ERROR");
+      $('#error1 h4').html("Bad data");
     }
   });
 };
@@ -54,14 +51,14 @@ function printData(selected, data){
   f = [];
   var s = new Set();
   var select = ""
-  var table = "<div id='cc'><form><tr class='text-center'><div id='se'><td><strong>Selection</strong></td></div><div id='et'><td><strong>river_basin</strong></td></div><div id='et'><td><strong>year</strong></td></div><div id='et'><td><strong>month</strong></td></div><div id='et'><td><strong>pm</strong></td></div><div id='et'><td><strong>pe</strong></td></div><div id='et'><td><strong>pa</strong></td></div><div id='et'><td><strong>Actions</strong></td></div></tr></div>";
+  var table = "<form><tr class='text-center'><td><strong>Selection</strong></td><td><strong>river_basin</strong></td><td><strong>year</strong></td><td><strong>month</strong></td><td><strong>pm</strong></td><td><strong>pe</strong></td><td><strong>pa</strong></td></tr>";
   $.each(data, function (i, item) {
-      table += "<tr id ='l' class='text-center'><div class='checkbox'><td><input type='checkbox'></td></div>";
-      table += "<div id='et'><td>" + data[i].river_basin + "</td></div>";
-      table += "<div id='et'><td>" + data[i].year + "</td></div><div id='et'><td>" + data[i].month + "</td></div>";
-      table += "<div id='et'><td>" + data[i].pm + "</td></div><div id='et'><td>" + data[i].pe + "</td></div>";
-      table += "<div id='et'><td>" + data[i].pa + "</td></div>";
-      table += "<div id='et'><td><img id='edit" + i + "' src='edit.png'><img id='delete" + i + "' src='delete.png'></td></div></tr></from>";
+      table += "<tr class='text-center'><div class='checkbox'><td><input id='checkbox" + i + "' type='checkbox'></td></div>";
+      table += "<td>" + data[i].river_basin + "</td>";
+      table += "<td>" + data[i].year + "</td><td>" + data[i].month + "</td>";
+      table += "<td>" + data[i].pm + "</td><td>" + data[i].pe + "</td>";
+      table += "<td>" + data[i].pa + "</td>";
+      table += "</tr></from>";
       f.push(data[i]);
       s.add(data[i].river_basin);
 
@@ -150,28 +147,53 @@ function clear(){
   $("#to").val("");
   $("#limit").val("");
   $("#offset").val("");
+  $("#apikey").val("");
 }
 
-function loadForm(){
+function loadForm(data){
 
-  var form = "";
-  var btn = "";
+  if(data == ""){
+    var form = "";
+    var btn = "";
 
-  form += "<div class='form-group>";
-  form += "<input class='form-control/>"; // No sé porque se lo come :/
-  form += "<input id='c_river_basin' class='form-control' type='text' placeholder='River Basin'/></br>";
-  form += "<input id='c_month' class='form-control' type='text' placeholder='month'/></br>";
-  form += "<input id='c_year' class='form-control' type='number' placeholder='year'/></br>";
-  form += "<input id='c_pm' class='form-control' type='number' placeholder='pm'/></br>";
-  form += "<input id='c_pe' class='form-control' type='number' placeholder='pe'/></br>";
-  form += "<input id='c_pa' class='form-control' type='number' placeholder='pa'/>";
-  form += "</div>";
-  form += "</br></br>"
-  btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button>";
-  btn += "<button type='button' id='create' class='btn btn-success'>Create</button></div>";
+    form += "<div class='form-group>";
+    form += "<input class='form-control/>"; // No sé porque se lo come :/
+    form += "<input id='c_river_basin' class='form-control' type='text' placeholder='River Basin'/></br>";
+    form += "<input id='c_month' class='form-control' type='text' placeholder='month'/></br>";
+    form += "<input id='c_year' class='form-control' type='number' placeholder='year'/></br>";
+    form += "<input id='c_pm' class='form-control' type='number' placeholder='pm'/></br>";
+    form += "<input id='c_pe' class='form-control' type='number' placeholder='pe'/></br>";
+    form += "<input id='c_pa' class='form-control' type='number' placeholder='pa'/>";
+    form += "</div>";
+    form += "</br></br>"
+    btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button>";
+    btn += "<button type='button' id='create' class='btn btn-success'>Create</button></div>";
 
-  $('#form').html(form);
-  $('#btn1').html(btn);
+    $('#form').html(form);
+    $('#btn1').html(btn);
+  }else{
+    var form = "";
+    var btn = "";
+    $('#form').html("");
+    $('#btn1').html("");
+
+    form += "<div class='form-group>";
+    form += "<input class='form-control/>"; // No sé porque se lo come :/
+    form += "<input id='c_river_basin' class='form-control' value='" + data.river_basin + "' type='text' placeholder='River Basin' disabled/></br>";
+    form += "<input id='c_month' class='form-control' value='" + data.month + "' type='text' placeholder='month'/></br>";
+    form += "<input id='c_year' class='form-control' value='" + data.year + "' type='number' placeholder='year'/></br>";
+    form += "<input id='c_pm' class='form-control' value='" + data.pm + "' type='number' placeholder='pm'/></br>";
+    form += "<input id='c_pe' class='form-control' value='" + data.pe + "' type='number' placeholder='pe'/></br>";
+    form += "<input id='c_pa' class='form-control' value='" + data.pa + "' type='number' placeholder='pa'/>";
+    form += "</div>";
+    form += "</br></br>"
+    btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button>";
+    btn += "<button type='button' id='edited' class='btn btn-success'>Edit</button></div>";
+
+    $('#form').html(form);
+    $('#btn1').html(btn);
+  }
+
 }
 
 function eliminaForm(){
@@ -179,7 +201,7 @@ function eliminaForm(){
   $('#btn1').html("btn");
 }
 
-function createData(selected){
+function createData(selected, apikey){
   var river_basin = "";
   var month = "";
   var year = "";
@@ -195,9 +217,69 @@ function createData(selected){
   pe = $("#c_pe").val();
   pa = $("#c_pa").val();
 
+  $('#c_river_basin').css("border-color","#ccc");
+  $('#c_month').css("border-color","#ccc");
+  $('#c_year').css("border-color","#ccc");
+  $('#c_pm').css("border-color","#ccc");
+  $('#c_pe').css("border-color","#ccc");
+  $('#c_pa').css("border-color","#ccc");
+
   if(river_basin != "" && month != "" && year != "" && pm != "" && pe != "" && pa != ""){
     json = '{"river_basin": "' + river_basin + '", "month": "' + month + '", "year": ' + year + ', "pm": ' + pm + ', "pe": ' + pe + ', "pa": ' + pa + '}';
-    postRutaBase(selected, json);
+    postRutaBase(selected, apikey, json);
+
+  }else{
+    $('#error1 h3').html("ERROR");
+    $('#error1 h4').html("Rellene todos los campos");
+
+    if(river_basin == ""){
+      $('#c_river_basin').css("border-color","#FF8989");
+    }
+    if(month == ""){
+      $('#c_month').css("border-color","#FF8989");
+    }
+    if(year == ""){
+      $('#c_year').css("border-color","#FF8989");
+    }
+    if(pm == ""){
+      $('#c_pm').css("border-color","#FF8989");
+    }
+    if(pe == ""){
+      $('#c_pe').css("border-color","#FF8989");
+    }
+    if(pa == ""){
+      $('#c_pa').css("border-color","#FF8989");
+    }
+  }
+}
+
+function editData(selected, data, apikey){
+  var river_basin = "";
+  var month = "";
+  var year = "";
+  var pm = "";
+  var pe = "";
+  var pa = "";
+  var json = "";
+
+  river_basin = $("#c_river_basin").val();
+  month = $("#c_month").val();
+  year = $("#c_year").val();
+  pm = $("#c_pm").val();
+  pe = $("#c_pe").val();
+  pa = $("#c_pa").val();
+
+  $('#c_river_basin').css("border-color","#ccc");
+  $('#c_month').css("border-color","#ccc");
+  $('#c_year').css("border-color","#ccc");
+  $('#c_pm').css("border-color","#ccc");
+  $('#c_pe').css("border-color","#ccc");
+  $('#c_pa').css("border-color","#ccc");
+
+  if(river_basin != "" && month != "" && year != "" && pm != "" && pe != "" && pa != ""){
+    json = '{"river_basin":"' + river_basin + '","month":"' + month + '","year":' + year + ',"pm":' + pm + ',"pe":' + pe + ',"pa":' + pa + '}';
+    putRecurso(selected, data[0].river_basin, apikey, json);
+
   }else{
     $('#error1 h3').html("ERROR");
     $('#error1 h4').html("Rellene todos los campos");
@@ -230,11 +312,11 @@ function getData(){
 //------------------------------------------------------------------------------
 
 function getRutaBase(selected, url, apikey, busq){
-  peticion(selected, "/api/v1/average-rainfall/" + url + "?apikey=" + apikey + busq,"GET", "");
+  peticion(selected, "/api/v1/average-rainfall/" + url + "?apikey=" + apikey + busq, "GET", "");
 }
 
 function postRutaBase(selected, apikey, json){
-  peticion(selected, "/api/v1/average-rainfall/?apikey=" + apikey,"POST", json);
+  peticion(selected, "/api/v1/average-rainfall/?apikey=" + apikey, "POST", json);
 }
 
 function putRutaBase(){
@@ -242,45 +324,25 @@ function putRutaBase(){
 }
 
 function deleteRutaBase(selected, apikey){
-
-  peticion(selected, "/api/v1/average-rainfall/?apikey=" + apikey,"DELETE", "");
-
-  getRutaBase("", "", "");
+  peticion(selected, "/api/v1/average-rainfall/?apikey=" + apikey, "DELETE", "");
+  getRutaBase("", "", apikey, "");
 }
 
 
+function getRecurso(selected, url, apikey, busq){
+  // Hecho en Recurso base
+}
 
+function postRecurso(){
+  // NO PERMITIDO
+}
 
+function putRecurso(selected, url, apikey, json){
+  peticion(selected, "/api/v1/average-rainfall/" + url + "?apikey=" + apikey, "PUT", json);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-function d(){
-
-  var request = $.ajax({
-          url: "/api/v1/average-rainfall/?apikey=sos",
-          type: "GET"
-  });
-
-  request.done(function(data,status,jqXHR) {
-    var table = "<tr  class='text-center'><div id='et'><td><strong>river_basin</strong></td></div><div id='et'><td><strong>year</strong></td></div><div id='et'><td><strong>month</strong></td></div><div id='et'><td><strong>pm</strong></td></div><div id='et'><td><strong>pe</strong></td></div><div id='et'><td><strong>pa</strong></td></div><div id='et'><td><strong>Actions</strong></td></div></tr>";
-    $.each(data, function (i, item) {
-        table += "<div id='t'><tr class='text-center'><div id='et'><td>" + data[i].river_basin + "</td></div><div id='et'><td>" + data[i].year + "</td></div><div id='et'><td>" + data[i].month + "</td></div><div id='et'><td>" + data[i].pm + "</td></div><div id='et'><td>" + data[i].pe + "</td></div><div id='et'><td>" + data[i].pa + "</td></div><div id='et'><td><img src='edit.png' id='img'><img src='delete.png'  id='img'></td></div></tr></div>";
-    });
-
-    $('#table').html(table);
-  });
-
-  request.always(function(jqXHR, status) {
-
+function deleteRecurso(selected, data, apikey){
+  $.each(data, function (i, item) {
+    peticion(selected, "/api/v1/average-rainfall/" + item.river_basin + "?apikey=" + apikey, "DELETE", "");
   });
 }

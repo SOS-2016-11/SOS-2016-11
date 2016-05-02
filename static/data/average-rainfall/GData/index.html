@@ -25,40 +25,61 @@
         getRutaBase(selected, url, "sos", busq);
 
         $("#new").click(()=>{
-          loadForm();
-          getRutaBase(selected, url , apikey, busq);
-          f = getData();
+          loadForm("");
         });
 
-        $("#import").click(()=>{
-          window.alert("11111");
-//          window.alert($('#edit1').getText);
-//          $("#edit1").html("<h1>EY</h1>");
-//          document.getElementById('chart_div')
-
-        });
-
-        $("#reset").click(()=>{
-
-          deleteRutaBase(selected, apikey);
-          eliminaForm();
-          getRutaBase(selected, url, apikey, busq);
+        $("#edit").click(()=>{
+          console.log("edit");
+          var selection = [];
           f = getData();
+          $.each(f, function (i, item) {
+            if($("#checkbox" + i).is(':checked')){
+              selection.push(f[i]);
+            }
+          });
           $('#form').html("");
           $('#btn1').html("");
+          if(selection.length == 0){
+            $('#error h3').html("ERROR");
+            $('#error h4').html("Select an item");
+          }else if(selection.length > 1){
+            $('#error h3').html("ERROR");
+            $('#error h4').html("Only one at a time");
+          }else{
+            $('#form').html("");
+            $('#btn1').html("");
+            loadForm(selection[0]);
+          }
         });
 
-
-
-/*        $("#edit1").click(()=>{
-          window.alert("edit1 toma toma")
+        $("#delete").click(()=>{
+          console.log("delete");
+          var selection = [];
+          f = getData();
+          $.each(f, function (i, item) {
+            if($("#checkbox" + i).is(':checked')){
+              selection.push(f[i]);
+            }
+          });
+          deleteRecurso(selected, selection, apikey);
+          getRutaBase(selected, url, apikey, busq);
         });
-        */
+
+        $("#deleteall").click(()=>{
+        deleteRutaBase(selected, apikey);
+        eliminaForm();
+        getRutaBase(selected, url, apikey, busq);
+        f = getData();
+        $('#form').html("");
+        $('#btn1').html("");
+        });
+
 
         $("#clear").click(()=>{
           clear();
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           selected = $("#select").val();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
@@ -67,6 +88,7 @@
         $("#select").change(()=>{
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           selected = $("#select").val();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
@@ -75,6 +97,7 @@
         $("#year").change(()=>{
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
         });
@@ -82,6 +105,7 @@
         $("#month").change(()=>{
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
         });
@@ -89,6 +113,7 @@
         $("#from").change(()=>{
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
         });
@@ -96,6 +121,7 @@
         $("#to").change(()=>{
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
         });
@@ -103,6 +129,7 @@
         $("#limit").change(()=>{
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
         });
@@ -110,6 +137,7 @@
         $("#offset").change(()=>{
           url = addUrl();
           busq = addBusq();
+          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
           f = getData();
         });
@@ -123,7 +151,9 @@
         });
 
         $("#load").click(()=>{
-          getRutaBase("", "loadInitialData", "sos", "");
+          apikey = addApiKey();
+          getRutaBase("", "loadInitialData", apikey, "");
+          getRutaBase("", "", apikey, "");
           f = getData();
         });
 
@@ -134,10 +164,22 @@
         });
 
         $("body").on('click', "#create",()=>{
-          createData(selected);
+          apikey = addApiKey();
+          createData(selected, apikey);
           getRutaBase(selected, url, apikey, busq);
-          $('#form').html("");
-          $('#btn1').html("");
+          f = getData();
+        });
+
+        $("body").on('click', "#edited",()=>{
+          apikey = addApiKey();
+          var selection = [];
+          $.each(f, function (i, item) {
+            if($("#checkbox" + i).is(':checked')){
+              selection.push(f[i]);
+            }
+          });
+          editData(selected, selection, apikey);
+          getRutaBase(selected, url, apikey, busq);
         });
 
 
@@ -147,13 +189,14 @@
   </head>
   <body>
     <div id="body">
-      <h1 class="text-center"><a href="/api/v1/average-rainfall/loadInitialData?apikey=sos" target="_blank">Gestión de datos</a></h1>
+      <h1 class="text-center">Gestión de datos</h1>
 
       </br></br></br>
 
 
       <div class="text-center">
         <div id="error"><h3></h3><h4></h4></div>
+        </br></br>
         <form class="form-inline">
           <button type="button" id="clear" class="btn btn-primary">Clear</button>
           <div class="form-group">
@@ -187,8 +230,9 @@
 
         <div id="btn">
           <button type="button" id="new" class="btn btn-primary">New</button>
-          <button type="button" id="import" class="btn btn-primary">Import</button>
-          <button type="button" id="reset" class="btn btn-primary">Reset</button>
+          <button type="button" id="edit" class="btn btn-primary">Edit</button>
+          <button type="button" id="delete" class="btn btn-primary">Delete</button>
+          <button type="button" id="deleteall" class="btn btn-primary">Delete All</button>
         </div>
       </div>
 
