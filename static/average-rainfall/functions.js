@@ -143,6 +143,7 @@ function addApiKey(){
 function clear(){
   $("#select").val("All");
   $("#year").val("");
+  $("#month").val("");
   $("#from").val("");
   $("#to").val("");
   $("#limit").val("");

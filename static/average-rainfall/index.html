@@ -75,10 +75,14 @@
 
         $("#clear").click(()=>{
           clear();
-          console.log(selected);
-          console.log(url);
-          console.log(apikey);
-          console.log(busq);
+//          console.log(selected);
+//          console.log(url);
+//          console.log(apikey);
+//          console.log(busq);
+          selected = $("#select").val();
+          url = addUrl();
+          apikey = addApiKey();
+          busq = addBusq();
           getRutaBase(selected, url, apikey, busq);
         });
 
