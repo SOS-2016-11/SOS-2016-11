@@ -278,7 +278,7 @@ function editData(selected, data, apikey){
 
   if(river_basin != "" && month != "" && year != "" && pm != "" && pe != "" && pa != ""){
     json = '{"river_basin":"' + river_basin + '","month":"' + month + '","year":' + year + ',"pm":' + pm + ',"pe":' + pe + ',"pa":' + pa + '}';
-    putRecurso(selected, data[0].river_basin, apikey, json);
+    putRecurso(selected, data[0].river_basin + "/" + data[0].year, apikey, json);
 
   }else{
     $('#error1 h3').html("ERROR");
@@ -343,6 +343,6 @@ function putRecurso(selected, url, apikey, json){
 
 function deleteRecurso(selected, data, apikey){
   $.each(data, function (i, item) {
-    peticion(selected, "/api/v1/average-rainfall/" + item.river_basin + "?apikey=" + apikey, "DELETE", "");
+    peticion(selected, "/api/v1/average-rainfall/" + item.river_basin + "/" + item.year + "?apikey=" + apikey, "DELETE", "");
   });
 }

@@ -1,7 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-//var port = (process.env.PORT || 16000);
-var port = (process.env.PORT ||21500);
+var port = (process.env.PORT || 16000);
+//var port = (process.env.PORT ||21500);
 
 var app = express();
 app.use(bodyParser.json());
@@ -69,6 +69,8 @@ app.put("/api/v1/average-rainfall/:river_basin", apicntcar.putBasin);
 app.put("/api/v1/average-rainfall/:river_basin/:dat", apicntcar.putBasinDat);
 
 app.delete("/api/v1/average-rainfall/:river_basin", apicntcar.deleteBasin);
+
+app.delete("/api/v1/average-rainfall/:river_basin/:dat", apicntcar.deleteBasinDat);
 
 // API REST PEDRO
 

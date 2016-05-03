@@ -29,7 +29,6 @@
         });
 
         $("#edit").click(()=>{
-          console.log("edit");
           var selection = [];
           f = getData();
           $.each(f, function (i, item) {
@@ -53,7 +52,6 @@
         });
 
         $("#delete").click(()=>{
-          console.log("delete");
           var selection = [];
           f = getData();
           $.each(f, function (i, item) {
@@ -69,7 +67,7 @@
         deleteRutaBase(selected, apikey);
         eliminaForm();
         getRutaBase(selected, url, apikey, busq);
-        f = getData();
+//        f = getData();
         $('#form').html("");
         $('#btn1').html("");
         });
@@ -77,101 +75,73 @@
 
         $("#clear").click(()=>{
           clear();
-          url = addUrl();
-          busq = addBusq();
-          apikey = addApiKey();
-          selected = $("#select").val();
+          console.log(selected);
+          console.log(url);
+          console.log(apikey);
+          console.log(busq);
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#select").change(()=>{
-          url = addUrl();
-          busq = addBusq();
-          apikey = addApiKey();
           selected = $("#select").val();
+          url = addUrl();
+          console.log(selected);
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#year").change(()=>{
           url = addUrl();
-          busq = addBusq();
-          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#month").change(()=>{
           url = addUrl();
-          busq = addBusq();
-          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#from").change(()=>{
-          url = addUrl();
           busq = addBusq();
-          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#to").change(()=>{
-          url = addUrl();
           busq = addBusq();
-          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#limit").change(()=>{
-          url = addUrl();
           busq = addBusq();
-          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#offset").change(()=>{
-          url = addUrl();
           busq = addBusq();
-          apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#apikey").change(()=>{
-          url = addUrl();
-          busq = addBusq();
           apikey = addApiKey();
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("#load").click(()=>{
-          apikey = addApiKey();
           getRutaBase("", "loadInitialData", apikey, "");
           getRutaBase("", "", apikey, "");
-          f = getData();
         });
 
 
         $("body").on('click', "#cancel",()=>{
           $('#form').html("");
           $('#btn1').html("");
+          $('#error1').html("");
         });
 
         $("body").on('click', "#create",()=>{
-          apikey = addApiKey();
           createData(selected, apikey);
           getRutaBase(selected, url, apikey, busq);
-          f = getData();
         });
 
         $("body").on('click', "#edited",()=>{
-          apikey = addApiKey();
           var selection = [];
           $.each(f, function (i, item) {
             if($("#checkbox" + i).is(':checked')){

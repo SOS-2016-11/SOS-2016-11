@@ -413,6 +413,24 @@ module.exports.deleteBasin = (req, res) => {
   }
 }
 
+module.exports.deleteBasinDat = (req, res) => {
+  var key = req.query.apikey;
+  if(compruebaApiKey(key)){
+    var basin = req.params.river_basin;
+    var dat = req.params.dat
+    var cod = 404;
+    for(var i = 0; i < Basins.length; i++){
+      if(Basins[i].river_basin == basin && (Basins[i].year == dat || Basins[i].month == dat)){
+        Basins.splice(i, 1);
+        cod = 200;
+      }
+    }
+    res.sendStatus(cod);
+  }else{
+    res.sendStatus(401);
+  }
+}
+
 function searchs(dat,BasinsSeg){
 
   var BasinsSeg1 = [];
