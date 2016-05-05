@@ -1,11 +1,17 @@
 var f = [];
 var sel = new Set();
-var first = true;
 
 function peticion(selected, url, method, json){
   $('#error h3').html("");
   $('#error h4').html("");
   $('#apikey').css("border-color","#ccc");
+
+  var dat;
+  if(method == "DELETE"){
+    dat = json
+    json = "";
+  }
+
   var request = $.ajax({
           url: url,
           type: method,
@@ -16,12 +22,22 @@ function peticion(selected, url, method, json){
   request.done(function(data,status,jqXHR) {
     if (method == "GET") {
       if(data == "Created"){
+
       }else{
         printData(selected, data);
       }
-    }else if("POST"){
-      $('#form').html("");
-      $('#btn1').html("");
+    }else if(method == "POST"){
+      eliminaForm();
+
+      $('#error1 h3').html("");
+      $('#error1 h4').html("");
+
+      JSON.parse(json, (key,value) => {
+        if(key == "river_basin"){
+          sel.add(value);
+        }
+      });
+
     }else if("PUT"){
 
     }else{
@@ -30,28 +46,38 @@ function peticion(selected, url, method, json){
   });
 
   request.always(function(jqXHR, status) {
-    if(jqXHR.status == 401){
+    if(method == "GET" && jqXHR.status == 404){
+      $("#select").val("All");
+      getRutaBase("All", "", $("#apikey").val(), "");
       $('#error h3').html("ERROR");
-      $('#error h4').html("wrong apikey");
+      $('#error h4').html("No River Basin to " + selected);
+    }else if(jqXHR.status == 401){
+      $('#error h3').html("ERROR");
+      $('#error h4').html("Wrong apikey");
       $('#apikey').css("border-color","#FF8989");
-    }else if(jqXHR.status == 409 && method == "POST"){
+      printData(selected, []);
+    }else if(method == "POST" && jqXHR.status == 409){
       $('#error1 h3').html("ERROR");
-      $('#error1 h4').html("data already exist");
-    }else if(jqXHR.status == 409 && method == "PUT"){
+      $('#error1 h4').html("Data already exist");
+    }else if(method == "PUT" && jqXHR.status == 409){
       $('#error1 h3').html("ERROR");
       $('#error1 h4').html("Multiple data");
-    }else if(jqXHR.status == 400 && method == "PUT"){
+    }else if(method == "PUT" && jqXHR.status == 400){
       $('#error1 h3').html("ERROR");
       $('#error1 h4').html("Bad data");
+    }else if(jqXHR == "OK" && method == "DELETE"){
+      sel.delete(dat);
     }
   });
 };
 
+// PRINT DATA ------------------------------------------------------------------
 function printData(selected, data){
   f = [];
   var s = new Set();
   var select = ""
   var table = "<form><tr class='text-center'><td><strong>Selection</strong></td><td><strong>river_basin</strong></td><td><strong>year</strong></td><td><strong>month</strong></td><td><strong>pm</strong></td><td><strong>pe</strong></td><td><strong>pa</strong></td></tr>";
+
   $.each(data, function (i, item) {
       table += "<tr class='text-center'><div class='checkbox'><td><input id='checkbox" + i + "' type='checkbox'></td></div>";
       table += "<td>" + data[i].river_basin + "</td>";
@@ -61,13 +87,13 @@ function printData(selected, data){
       table += "</tr></from>";
       f.push(data[i]);
       s.add(data[i].river_basin);
-
   });
+
 
   if(sel.size == 0){
     sel = s;
     select += "<option selected>All</option>";
-    s.forEach(function (item) {
+    sel.forEach(function (item) {
       select += "<option>" + item + "</option>";
     });
   }else{
@@ -83,19 +109,16 @@ function printData(selected, data){
       }else{
         select += "<option>" + item + "</option>";
       }
+
     });
   }
 
-  if(first){
-    first = false;
-    select = "<option selected>All</option>";
-    $('#select').html(select);
-  }else{
-    $('#select').html(select);
-    $('#table').html(table);
-  }
+  $('#select').html(select);
+  $('#table').html(table);
+
 }
 
+// BUSQUEDAS -------------------------------------------------------------------
 function addBusq(){
   var busq = "";
 
@@ -140,6 +163,7 @@ function addApiKey(){
   return apikey;
 }
 
+// CLEAR -----------------------------------------------------------------------
 function clear(){
   $("#select").val("All");
   $("#year").val("");
@@ -151,6 +175,7 @@ function clear(){
   $("#apikey").val("");
 }
 
+// FORMULARIOS -----------------------------------------------------------------
 function loadForm(data){
 
   if(data == ""){
@@ -199,7 +224,7 @@ function loadForm(data){
 
 function eliminaForm(){
   $('#form').html("");
-  $('#btn1').html("btn");
+  $('#btn1').html("");
 }
 
 function createData(selected, apikey){
@@ -231,7 +256,7 @@ function createData(selected, apikey){
 
   }else{
     $('#error1 h3').html("ERROR");
-    $('#error1 h4').html("Rellene todos los campos");
+    $('#error1 h4').html("Imcomplete fields");
 
     if(river_basin == ""){
       $('#c_river_basin').css("border-color","#FF8989");
@@ -310,7 +335,7 @@ function getData(){
   return f;
 }
 
-//------------------------------------------------------------------------------
+// METODOS ---------------------------------------------------------------------
 
 function getRutaBase(selected, url, apikey, busq){
   peticion(selected, "/api/v1/average-rainfall/" + url + "?apikey=" + apikey + busq, "GET", "");
@@ -344,6 +369,6 @@ function putRecurso(selected, url, apikey, json){
 
 function deleteRecurso(selected, data, apikey){
   $.each(data, function (i, item) {
-    peticion(selected, "/api/v1/average-rainfall/" + item.river_basin + "/" + item.year + "?apikey=" + apikey, "DELETE", "");
+    peticion(selected, "/api/v1/average-rainfall/" + item.river_basin + "/" + item.year + "?apikey=" + apikey, "DELETE", item.river_basin);
   });
 }

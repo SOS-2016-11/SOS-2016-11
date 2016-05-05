@@ -9,21 +9,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-    <script src="todo.js"></script>
-    <link rel="stylesheet" href="todo.css"> -->
-
-
     <script>
       $(document).ready(() => {
         var f = [];
         var url = "";
         var busq = "";
         var selected = "";
-        var apikey = "";
+        var apikey = "sos";
+        $("#apikey").val("sos")
 
-        getRutaBase(selected, url, "sos", busq);
+        getRutaBase(selected, url, apikey, busq);
 
+
+        //BOTONES --------------------------------------------------------------
         $("#new").click(()=>{
           loadForm("");
         });
@@ -72,7 +70,7 @@
         $('#btn1').html("");
         });
 
-
+        // BUSQUEDAS -----------------------------------------------------------
         $("#clear").click(()=>{
           clear();
 //          console.log(selected);
@@ -89,7 +87,6 @@
         $("#select").change(()=>{
           selected = $("#select").val();
           url = addUrl();
-          console.log(selected);
           getRutaBase(selected, url, apikey, busq);
         });
 
@@ -133,7 +130,7 @@
           getRutaBase("", "", apikey, "");
         });
 
-
+        // BOTONES FORMULARIOS -------------------------------------------------
         $("body").on('click', "#cancel",()=>{
           $('#form').html("");
           $('#btn1').html("");
@@ -156,14 +153,13 @@
           getRutaBase(selected, url, apikey, busq);
         });
 
-
       });
     </script>
 
   </head>
   <body>
     <div id="body">
-      <h1 class="text-center">Gestión de datos</h1>
+      <h1 class="text-center">Data Management</h1>
 
       </br></br></br>
 
