@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type='text/javascript'>
+     google.charts.load('current', {'packages': ['geochart']});
+
+
+     $(document).ready(function (){
+       var request= $.ajax({
+             type: "GET",
+             url: "/api/v1/pressure-and-temperatures?apikey=sos",
+             success: function(data) {
+               $('#resultados').html(data);
+               $('#resultados div').slideDown(1000);
+             }
+       });
+
+       request.done((dataFromServer,status) =>{
+         google.charts.setOnLoadCallback(drawMarkersMap);
+
+         function drawMarkersMap() {
+           console.log(dataFromServer);
+           var dataForWidget=[["Cities","Pression"]];
+           for(var i=0 ; i<dataFromServer.length ; i++){
+             var item=dataFromServer[i];
+             console.log(item);
+             var itemForWidget=[ item.name, item.p];
+             dataForWidget.push(itemForWidget);
+           }
+
+
+           console.log(dataForWidget);
+           var data = google.visualization.arrayToDataTable(dataForWidget);
+
+           var options = {
+             region: 'ES',
+             displayMode: 'markers',
+             colorAxis: {colors: ['green', 'blue']}
+           };
+
+           var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+           chart.draw(data, options);
+         };
+      });
+
+    });
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
