@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      $(document).ready(() => {
+        var dats = [];
+        var dchart = [];
+        function getRutaBase(dat){
+          var request = $.ajax({
+                  url: "/api/v1/average-rainfall/?apikey=sos",
+                  type: "GET",
+                  data: "",
+                  contentType: "application/json"
+          });
+
+          request.done(function(data,status,jqXHR) {
+            dats = data;
+            jsonToChart(dat);
+          });
+
+          request.always(function(jqXHR, status) {
+
+          });
+        }
+
+        $("#donut").click(()=>{
+          getRutaBase("donut");
+
+        });
+
+        $("#histogram").click(()=>{
+          getRutaBase("histogram");
+        });
+
+        $("#b3").click(()=>{
+          console.log("b3 pulsado");
+        });
+
+
+        function jsonToChart(dat){
+          dchart.push(['River Basin', 'Pm']);
+          $.each(dats, (i, item)=>{
+            if(item.year == 2015){
+              dchart.push([item.river_basin, item.pm]);
+            }
+          });
+          
+          if(dat == "donut"){
+            $('#donutchart').html("");
+            $('#chart_div').html("");
+            printDonutChart();
+          }else if(dat == "histogram"){
+            $('#donutchart').html("");
+            $('#chart_div').html("");
+            printHistogram();
+          }else{
+
+          }
+
+        }
+
+        // DONUT CHART ---------------------------------------------------------
+        // https://developers.google.com/chart/interactive/docs/gallery/piechart#making-a-donut-chart
+        function printDonutChart(){
+          google.charts.load("current", {packages:["corechart"]});
+          google.charts.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable(dchart);
+
+            var options = {
+              title: 'Average rainfall in 2015',
+              pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+          }
+        }
+
+        // HISTOGRAM ---------------------------------------------------------
+        // https://developers.google.com/chart/interactive/docs/gallery/histogram#overview
+        function printHistogram(){
+          google.charts.load("current", {packages:["corechart"]});
+          google.charts.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable(dchart);
+
+            var options = {
+              title: 'Average rainfall in 2015',
+              legend: { position: 'none' },
+            };
+
+            var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+            chart.draw(data, options);
+          }
+        }
+
+      });
+
+    </script>
+
+  </head>
+  <body>
+    <h1 class="text-center">Charts</h1>
+    </br></br>
+    <div class="text-center"><button id="donut" class="btn btn-primary">Donut Chart</button> <button id="histogram" class="btn btn-primary">Histogram</button> <button id="b3" class="btn btn-primary">b3</button></div>
+    </br></br>
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
