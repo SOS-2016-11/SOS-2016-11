@@ -347,38 +347,36 @@
         <table id="location" class="table table-bordered table-hover">
         </table>
     </div>
-      <div class="text-center">
-        <form class="form-inline">
-          <button id="button" type="button" class="btn btn-primary active">Resources</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button id="button4" class="btn btn-danger active" type="button">Delete All</button>
-          <button id="button10" class="btn btn-danger active" type="button">Delete Checked</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-      <!--    <input id="nombre" name="nombre" size="15" value="" onclick="this.value=''";/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-          <!--<input id="nombre" name="nombre" class="form-control" placeholder="delete for name";/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-          <button id="button6" type="button" class="btn btn-primary active">Pagination</button>
-          <div class="form-group">
-            <input id="limit" class="form-control" type="number"size="15" placeholder="limit">
-            <input id="offset" class="form-control" type="number"size="15" placeholder="offset">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </div>
-          <button id="button5" type="button" class="btn btn-success active">Load</button>
-        <b>Apikey:</b><input id="apikey" class="form-control" size="5" type="text" placeholder="apikey" value="sos"/></br></br>
-          <!--<button id="button7" type="button" class="btn btn-primary active">Search</button> -->
-
-    <!--      <button id="button3" class="btn btn-warning active" type="button">Put</button>
-          <button id="button2" class="btn btn-success active" type="button" >Post</button>  -->
-    <!--      Name:<input id="nombre2" name="nombre2" size="10" type="text">
-          Month:<input id="mes" name="mes" size="10" type="text">
-          Year:<input id="year" name="year" size="10">
-          Pression:<input id="pression" name="pression" size="10" >
-          Temperature:<input id="temperature" name="temperature" size="10" >
-          TD:<input id="td" name="td" size="10" ></br></br>-->
-
-      </form>
-      </div>
       <div class="dropdown">
         <form class="form-inline">
+          <button class="btn btn-primary active" type="button" id="menu2" data-toggle="dropdown">Search<span class="caret"></span></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+              <li role="presentation"><b>Choose an option and</b>
+              <li role="presentation"><b>write your search:</b>
+              <li role="presentation"><input id="name=" type="radio" name="x"  value="name3"><b> Name </b><br>
+              <li role="presentation"><input id="month="type="radio" name="x"  value="month2"><b> Month </b><!-- <input  type="checkbox" name="y"  id="month="> Month--><br>
+              <li role="presentation"><input id="year=" type="radio" name="x" value="year"> <b>Year </b><!-- <input type="checkbox"  name="y"  id="year="> Year--><br>
+              <li role="presentation"><input id="p=" type="radio" name="x"   value="pression"><b> Pression</b><!-- <input type="checkbox" name="y"  id="p="> Pression--><br>
+              <li role="presentation"><input id="t=" type="radio" name="x"  value="temperature"> <b>Temperature </b><!-- <input type="checkbox" name="y"  id="t="> Temperature--><br>
+              <li role="presentation"><input id="td=" type="radio" name="x"  value="tdyear"> <b>T.D </b><!-- <input type="checkbox" name="y"  id="td="> T.D--></br>
+              <li role="presentation"><input id="search1" class="form-control" size="15" type="text" placeholder="search" ></br><!--  <input id="search2" name="search1" size="10" type="text">-->
+              <li role="presentation"><button id="button7" type="button" class="btn btn-primary active" onclick="this.value=''";>Search</button></br>
+            </ul>
+            <button id="button" type="button" class="btn btn-primary active">Resources</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-          <button class="btn btn-success active" type="button" id="menu1" data-toggle="dropdown">Resource<span class="caret"></span></button>
+            <button id="button6" type="button" class="btn btn-primary active">Pagination</button>
+            <div class="form-group">
+              <input id="limit" class="form-control" type="number"size="15" placeholder="limit">
+              <input id="offset" class="form-control" type="number"size="15" placeholder="offset">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <button id="button5" type="button" class="btn btn-success active">Load</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Apikey:</b><input id="apikey" class="form-control" size="5" type="text" placeholder="apikey" value="sos"/></br></br>
+      </form>
+    </div>
+
+      <div class="dropdown">
+        <form class="form-inline">
+          <button class="btn btn-success active" type="button" id="menu1" data-toggle="dropdown">Resource<span class="caret"></span></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <ul class="dropdown-menu" id="pedro" role="menu" aria-labelledby="menu1">
               <li role="presentation"><b>Write each of the fields:</b>
               <li role="presentation"><input id="nombre2" class="form-control" size="15" type="text" placeholder="name"></li>
@@ -394,30 +392,14 @@
               <input id="nombre3" class="form-control" size="10" type="text" placeholder="Name" >
               <input id="from" class="form-control" type="number"size="15" placeholder="From">
               <input id="to" class="form-control" type="number"size="15" placeholder="To">
-            </div>
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <button id="button4" class="btn btn-danger active" type="button">Delete All</button>
+            <button id="button10" class="btn btn-danger active" type="button">Delete Checked</button>
         </form>
 
       </div></br>
-      <div class="text-left">
-        <div class="dropdown">
-          <form class="form-inline">
-            <button class="btn btn-primary active" type="button" id="menu2" data-toggle="dropdown">Search<span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
-                <li role="presentation"><b>Choose an option and</b>
-                <li role="presentation"><b>write your search:</b>
-                <li role="presentation"><input id="name=" type="radio" name="x"  value="name3"><b> Name </b><br>
-                <li role="presentation"><input id="month="type="radio" name="x"  value="month2"><b> Month </b><!-- <input  type="checkbox" name="y"  id="month="> Month--><br>
-                <li role="presentation"><input id="year=" type="radio" name="x" value="year"> <b>Year </b><!-- <input type="checkbox"  name="y"  id="year="> Year--><br>
-                <li role="presentation"><input id="p=" type="radio" name="x"   value="pression"><b> Pression</b><!-- <input type="checkbox" name="y"  id="p="> Pression--><br>
-                <li role="presentation"><input id="t=" type="radio" name="x"  value="temperature"> <b>Temperature </b><!-- <input type="checkbox" name="y"  id="t="> Temperature--><br>
-                <li role="presentation"><input id="td=" type="radio" name="x"  value="tdyear"> <b>T.D </b><!-- <input type="checkbox" name="y"  id="td="> T.D--></br>
-                <li role="presentation"><input id="search1" class="form-control" size="15" type="text" placeholder="search" ></br><!--  <input id="search2" name="search1" size="10" type="text">-->
-                <li role="presentation"><button id="button7" type="button" class="btn btn-primary active" onclick="this.value=''";>Search</button></br>
-              </ul>
 
-          </form>
-        </div>
-      </div>
       <br>
       <!--
       <span id="status"></span>

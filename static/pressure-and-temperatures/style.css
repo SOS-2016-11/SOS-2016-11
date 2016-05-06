@@ -12,7 +12,9 @@ location, tr, td {
 td {
   width: 100px;
 }
-
+.form-inline{
+  text-align: center;
+}
 #td1 {
   background-color: #F6EABE;
 }
