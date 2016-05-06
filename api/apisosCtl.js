@@ -343,6 +343,8 @@ module.exports.getCity = function (req, res){
   var key = req.query.apikey;
   var Cities2 = [];
   var Cities3 = [];
+  var from1 = req.query.from;
+  var to1 = req.query.to;
   var name = req.query.name;
   var month = req.query.month;
   var year = req.query.year;
@@ -386,8 +388,21 @@ module.exports.getCity = function (req, res){
       }
     }
   }
-  //Cambiar para que se pueda acceder dado una ciudad a distintos atributos de ésta
+  //Nueva aportacion
+  if( from1 && compruebaApiKey(key)  && to1){
+    for (var i=0; i<Cities2.length; i++){
+      if(Cities2[i].year >= from1 && Cities2[i].year <= to1){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+    }
+    busqueda1++;
+  }
+  if( from1 && !compruebaApiKey(key)  && to1){
+    res.sendStatus(401);
+  }
 
+//Nueva aportcaion
   if(year && compruebaApiKey(key)  && !month && !p && !t && !td){
     for (var i=0; i<Cities2.length; i++){
       if(Cities2[i].year == year){

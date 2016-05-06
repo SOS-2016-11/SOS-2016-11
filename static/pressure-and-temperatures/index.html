@@ -154,7 +154,7 @@
               }
         });
         request.done(function(data,status,jqXHR) {
-
+          $("#data").text(JSON.stringify(data));
 
         });
 
@@ -224,6 +224,7 @@
           }
         });
       });
+
       $("#button7").click(()=>{
         var search1 = $("#search1").val();
         var search2 = $("#search2").val();
@@ -242,7 +243,7 @@
         request.done((data)=>{
           var location = "";
           $.each(data, function (i, item) {
-            location +="<tr class='text-center'><div class='checkbox'><td id='td2'><input id='checkbox" + i + "' type='checkbox'></td></div>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+            location +="<tr><td id='td2'>" + i +"</td><td id='td1'>" + data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
 
           });
           $('#location').html(location);
@@ -257,6 +258,7 @@
           }
         });
       });
+
       $("#button10").click(()=>{
         var apikey = $("#apikey").val();
         var request= $.ajax({
@@ -291,6 +293,38 @@
             }
           });
         });
+        request.always((jqXHR,status)=>{
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+      $("#button11").click(()=>{
+        var nombre3 = $("#nombre3").val();
+        var apikey = $("#apikey").val();
+        var frm = $("#from").val();
+        var to1 = $("#to").val();
+
+        var request= $.ajax({
+              type: "GET",
+              url: '/api/v1/pressure-and-temperatures/'+nombre3+"?from="+frm+"&to="+to1+"&apikey="+apikey,
+              success: function(data) {
+                $('#resultados').html(data);
+                $('#resultados div').slideDown(1000);
+              }
+        });
+        request.done((data)=>{
+          var location = "";
+          $.each(data, function (i, item) {
+            location +="<tr><td id='td2'>" + i +"</td><td id='td1'>" + data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+
+          });
+          $('#location').html(location);
+          console.log(location);
+        });
+
         request.always((jqXHR,status)=>{
           if(jqXHR.status == 401){
             $("#log1").html("No se puede utilizar una apikey inválida");
@@ -355,7 +389,14 @@
               <li role="presentation"><input id="td" class="form-control" size="15" type="number" placeholder="t.d."></br></br></li>
               <li role="presentation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="button3" class="btn btn-warning active" type="button">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button id="button2" class="btn btn-success active" type="button" >New</button></li>
             </ul>
+            <button id="button11" type="button" class="btn btn-primary active">FROM/TO</button>
+            <div class="form-group">
+              <input id="nombre3" class="form-control" size="10" type="text" placeholder="Name" >
+              <input id="from" class="form-control" type="number"size="15" placeholder="From">
+              <input id="to" class="form-control" type="number"size="15" placeholder="To">
+            </div>
         </form>
+
       </div></br>
       <div class="text-left">
         <div class="dropdown">
