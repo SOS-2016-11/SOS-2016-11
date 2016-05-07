@@ -39,13 +39,12 @@
           if(selection.length == 0){
             $('#error h3').html("ERROR");
             $('#error h4').html("Select an item");
-          }else if(selection.length > 1){
-            $('#error h3').html("ERROR");
-            $('#error h4').html("Only one at a time");
           }else{
+            $('#error h3').html("");
+            $('#error h4').html("");
             $('#form').html("");
             $('#btn1').html("");
-            loadForm(selection[0]);
+            loadForm(selection);
           }
         });
 
@@ -65,7 +64,6 @@
         deleteRutaBase(selected, apikey);
         eliminaForm();
         getRutaBase(selected, url, apikey, busq);
-//        f = getData();
         $('#form').html("");
         $('#btn1').html("");
         });
@@ -73,10 +71,6 @@
         // BUSQUEDAS -----------------------------------------------------------
         $("#clear").click(()=>{
           clear();
-//          console.log(selected);
-//          console.log(url);
-//          console.log(apikey);
-//          console.log(busq);
           selected = $("#select").val();
           url = addUrl();
           apikey = addApiKey();

@@ -28,10 +28,8 @@ function peticion(selected, url, method, json){
       }
     }else if(method == "POST"){
       eliminaForm();
-
       $('#error1 h3').html("");
       $('#error1 h4').html("");
-
       JSON.parse(json, (key,value) => {
         if(key == "river_basin"){
           sel.add(value);
@@ -39,7 +37,9 @@ function peticion(selected, url, method, json){
       });
 
     }else if("PUT"){
-
+      eliminaForm();
+      $('#error1 h3').html("");
+      $('#error1 h4').html("");
     }else{
 
     }
@@ -177,7 +177,6 @@ function clear(){
 
 // FORMULARIOS -----------------------------------------------------------------
 function loadForm(data){
-
   if(data == ""){
     var form = "";
     var btn = "";
@@ -192,8 +191,29 @@ function loadForm(data){
     form += "<input id='c_pa' class='form-control' type='number' placeholder='pa'/>";
     form += "</div>";
     form += "</br></br>"
-    btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button>";
+    btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button> ";
     btn += "<button type='button' id='create' class='btn btn-success'>Create</button></div>";
+
+    $('#form').html(form);
+    $('#btn1').html(btn);
+  }else if(data.length == 1){
+    var form = "";
+    var btn = "";
+    $('#form').html("");
+    $('#btn1').html("");
+
+    form += "<div class='form-group>";
+    form += "<input class='form-control/>"; // No sé porque se lo come :/
+    form += "<input id='c_river_basin' class='form-control' value='" + data[0].river_basin + "' type='text' placeholder='River Basin' disabled/></br>";
+    form += "<input id='c_month' class='form-control' value='" + data[0].month + "' type='text' placeholder='month'/></br>";
+    form += "<input id='c_year' class='form-control' value='" + data[0].year + "' type='number' placeholder='year' disabled/></br>";
+    form += "<input id='c_pm' class='form-control' value='" + data[0].pm + "' type='number' placeholder='pm'/></br>";
+    form += "<input id='c_pe' class='form-control' value='" + data[0].pe + "' type='number' placeholder='pe'/></br>";
+    form += "<input id='c_pa' class='form-control' value='" + data[0].pa + "' type='number' placeholder='pa'/>";
+    form += "</div>";
+    form += "</br></br>"
+    btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button> ";
+    btn += "<button type='button' id='edited' class='btn btn-success'>Edit</button></div>";
 
     $('#form').html(form);
     $('#btn1').html(btn);
@@ -205,15 +225,15 @@ function loadForm(data){
 
     form += "<div class='form-group>";
     form += "<input class='form-control/>"; // No sé porque se lo come :/
-    form += "<input id='c_river_basin' class='form-control' value='" + data.river_basin + "' type='text' placeholder='River Basin' disabled/></br>";
-    form += "<input id='c_month' class='form-control' value='" + data.month + "' type='text' placeholder='month'/></br>";
-    form += "<input id='c_year' class='form-control' value='" + data.year + "' type='number' placeholder='year'/></br>";
-    form += "<input id='c_pm' class='form-control' value='" + data.pm + "' type='number' placeholder='pm'/></br>";
-    form += "<input id='c_pe' class='form-control' value='" + data.pe + "' type='number' placeholder='pe'/></br>";
-    form += "<input id='c_pa' class='form-control' value='" + data.pa + "' type='number' placeholder='pa'/>";
+    form += "<input id='c_river_basin' class='form-control' type='text' placeholder='River Basin' disabled/></br>";
+    form += "<input id='c_month' class='form-control' type='text' placeholder='month'/></br>";
+    form += "<input id='c_year' class='form-control' type='number' placeholder='year' disabled/></br>";
+    form += "<input id='c_pm' class='form-control' type='number' placeholder='pm'/></br>";
+    form += "<input id='c_pe' class='form-control' type='number' placeholder='pe'/></br>";
+    form += "<input id='c_pa' class='form-control' type='number' placeholder='pa'/>";
     form += "</div>";
     form += "</br></br>"
-    btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button>";
+    btn += "<div><button type='button' id='cancel' class='btn btn-danger'>Cancel</button> ";
     btn += "<button type='button' id='edited' class='btn btn-success'>Edit</button></div>";
 
     $('#form').html(form);
@@ -302,31 +322,70 @@ function editData(selected, data, apikey){
   $('#c_pe').css("border-color","#ccc");
   $('#c_pa').css("border-color","#ccc");
 
-  if(river_basin != "" && month != "" && year != "" && pm != "" && pe != "" && pa != ""){
-    json = '{"river_basin":"' + river_basin + '","month":"' + month + '","year":' + year + ',"pm":' + pm + ',"pe":' + pe + ',"pa":' + pa + '}';
-    putRecurso(selected, data[0].river_basin + "/" + data[0].year, apikey, json);
+  if(data.length == 1){
+    if(river_basin != "" && month != "" && year != "" && pm != "" && pe != "" && pa != ""){
+      json = '{"river_basin":"' + river_basin + '","month":"' + month + '","year":' + year + ',"pm":' + pm + ',"pe":' + pe + ',"pa":' + pa + '}';
+      putRecurso(selected, data[0].river_basin + "/" + data[0].year, apikey, json);
 
+    }else{
+      $('#error1 h3').html("ERROR");
+      $('#error1 h4').html("Rellene todos los campos");
+
+      if(river_basin == ""){
+        $('#c_river_basin').css("border-color","#FF8989");
+      }
+      if(month == ""){
+        $('#c_month').css("border-color","#FF8989");
+      }
+      if(year == ""){
+        $('#c_year').css("border-color","#FF8989");
+      }
+      if(pm == ""){
+        $('#c_pm').css("border-color","#FF8989");
+      }
+      if(pe == ""){
+        $('#c_pe').css("border-color","#FF8989");
+      }
+      if(pa == ""){
+        $('#c_pa').css("border-color","#FF8989");
+      }
+    }
   }else{
-    $('#error1 h3').html("ERROR");
-    $('#error1 h4').html("Rellene todos los campos");
+    if(river_basin != "" || month != "" || year != "" || pm != "" || pe != "" || pa != ""){
+      $.each(data, function (i, item) {
+        river_basin = data[i].river_basin;
+        if($("#c_month").val() != "" && $("#c_month").val() != data[i].month){
+          month = $("#c_month").val();
+        }else{
+          month = data[i].month;
+        }
+        if($("#c_year").val() != "" && $("#c_year").val() != data[i].year){
+          year = $("#c_year").val();
+        }else{
+          year = data[i].year;
+        }
+        if($("#c_pm").val() != "" && $("#c_pm").val() != data[i].pm){
+          pm = $("#c_pm").val();
+        }else{
+          pm = data[i].pm;
+        }
+        if($("#c_pe").val() != "" && $("#c_pe").val() != data[i].pe){
+          pe = $("#c_pe").val();
+        }else{
+          pe = data[i].pe;
+        }
+        if($("#c_pa").val() != "" && $("#c_pa").val() != data[i].pa){
+          pa = $("#c_pa").val();
+        }else{
+          pa = data[i].pa;
+        }
 
-    if(river_basin == ""){
-      $('#c_river_basin').css("border-color","#FF8989");
-    }
-    if(month == ""){
-      $('#c_month').css("border-color","#FF8989");
-    }
-    if(year == ""){
-      $('#c_year').css("border-color","#FF8989");
-    }
-    if(pm == ""){
-      $('#c_pm').css("border-color","#FF8989");
-    }
-    if(pe == ""){
-      $('#c_pe').css("border-color","#FF8989");
-    }
-    if(pa == ""){
-      $('#c_pa').css("border-color","#FF8989");
+        json = '{"river_basin":"' + river_basin + '","month":"' + month + '","year":' + year + ',"pm":' + pm + ',"pe":' + pe + ',"pa":' + pa + '}';
+        putRecurso(selected, item.river_basin + "/" + item.year, apikey, json);
+      });
+    }else{
+      $('#error1 h3').html("ERROR");
+      $('#error1 h4').html("Rellene todos los campos");
     }
   }
 }
