@@ -12,7 +12,6 @@
 
       $("#button").click(()=>{
         var apikey = $("#apikey").val();
-        console.log(nombre);
         var request= $.ajax({
               type: "GET",
               url: "/api/v1/pressure-and-temperatures?apikey="+apikey,
@@ -25,7 +24,7 @@
         request.done((data)=>{
           var location = "";
           $.each(data, function (i, item) {
-            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+            location += "<tr class='text-center'><div class='checkbox'><td id='td2'><input id='checkbox" + i + "' type='checkbox'></td></div>"+"<td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
 
           });
           $('#location').html(location);
@@ -144,19 +143,18 @@
 
       $("#button4").click(()=>{
         console.log("Handling click");
-        var nombre = $("#nombre").val();
         var apikey = $("#apikey").val();
         var request= $.ajax({
               type: "DELETE",
               contentType : "application/json",
-              url: '/api/v1/pressure-and-temperatures/'+nombre+"?apikey="+apikey,
+              url: "/api/v1/pressure-and-temperatures?apikey="+apikey,
               success: function(data) {
                 $('#resultados').html(data);
                 $('#resultados div').slideDown(1000);
               }
         });
         request.done(function(data,status,jqXHR) {
-        ("#data").text(JSON.stringify(data));
+          $("#data").text(JSON.stringify(data));
 
         });
 
@@ -180,7 +178,7 @@
         request.done((data)=>{
           var location = "";
           $.each(data, function (i, item) {
-            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+            location += "<tr class='text-center'><div class='checkbox'><td id='td2'><input id='checkbox" + i + "' type='checkbox'></td></div>"+"<td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
           });
           $('#location').html(location);
           console.log(location);
@@ -211,7 +209,7 @@
         request.done((data)=>{
           var location = "";
           $.each(data, function (i, item) {
-            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+            location += "<tr class='text-center'><div class='checkbox'><td id='td2'><input id='checkbox" + i + "' type='checkbox'></td></div>"+"<td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
 
           });
           $('#location').html(location);
@@ -226,6 +224,7 @@
           }
         });
       });
+
       $("#button7").click(()=>{
         var search1 = $("#search1").val();
         var search2 = $("#search2").val();
@@ -244,7 +243,7 @@
         request.done((data)=>{
           var location = "";
           $.each(data, function (i, item) {
-            location += "<tr><td id='td2'>"+i+"</td><td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+            location +="<tr><td id='td2'>" + i +"</td><td id='td1'>" + data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
 
           });
           $('#location').html(location);
@@ -259,7 +258,82 @@
           }
         });
       });
-  });
+
+      $("#button10").click(()=>{
+        var apikey = $("#apikey").val();
+        var request= $.ajax({
+          url:"/api/v1/pressure-and-temperatures?apikey="+apikey,
+          type:"GET",
+          contentType : "application/json"
+        });
+
+        request.done((data)=>{
+          var selection = [];
+          $.each(data, function (i, item) {
+            if($("#checkbox" + i).is(':checked')){
+
+              console.log(item);
+              selection.push(item);
+              var name5=item.name;
+              console.log(name5);
+              console.log(selection);
+              var request1= $.ajax({
+                    type: "DELETE",
+                    contentType : "application/json",
+                    url: '/api/v1/pressure-and-temperatures/'+name5+"?apikey="+apikey,
+                    success: function(data) {
+                      $('#resultados').html(data);
+                      $('#resultados div').slideDown(1000);
+                    }
+              });
+              request1.done(function(data,status,jqXHR) {
+              });
+              request1.always(function(jqXHR, status) {
+              });
+            }
+          });
+        });
+        request.always((jqXHR,status)=>{
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+      $("#button11").click(()=>{
+        var nombre3 = $("#nombre3").val();
+        var apikey = $("#apikey").val();
+        var frm = $("#from").val();
+        var to1 = $("#to").val();
+
+        var request= $.ajax({
+              type: "GET",
+              url: '/api/v1/pressure-and-temperatures/'+nombre3+"?from="+frm+"&to="+to1+"&apikey="+apikey,
+              success: function(data) {
+                $('#resultados').html(data);
+                $('#resultados div').slideDown(1000);
+              }
+        });
+        request.done((data)=>{
+          var location = "";
+          $.each(data, function (i, item) {
+            location +="<tr><td id='td2'>" + i +"</td><td id='td1'>" + data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
+
+          });
+          $('#location').html(location);
+          console.log(location);
+        });
+
+        request.always((jqXHR,status)=>{
+          if(jqXHR.status == 401){
+            $("#log1").html("No se puede utilizar una apikey inválida");
+          }else{
+              $("#log1").html("");
+          }
+        });
+      });
+    });
   </script>
 </head>
 <body>
@@ -268,44 +342,41 @@
       <div class="panel-heading">Data management</div>
       <table class="table table-bordered">
         <table id="location1" class="table table-bordered">
-          <tr><td>Number</td><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
+          <tr><td>Check</td><td>Name</td><td>Month</td><td>Year</td><td>Pres</td><td>Temp</td><td>T.D.</td></tr>
         </table>
         <table id="location" class="table table-bordered table-hover">
         </table>
     </div>
-      <div class="text-center">
-        <form class="form-inline">
-          <button id="button" type="button" class="btn btn-primary active">Resources</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button id="button4" class="btn btn-danger active" type="button">Delete</button>
-          <div class="form-group">
-            <input id="nombre" class="form-control" type="text" size="15"placeholder="delete for name"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </div>
-      <!--    <input id="nombre" name="nombre" size="15" value="" onclick="this.value=''";/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-          <!--<input id="nombre" name="nombre" class="form-control" placeholder="delete for name";/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-          <button id="button6" type="button" class="btn btn-primary active">Pagination</button>
-          <div class="form-group">
-            <input id="limit" class="form-control" type="number"size="15" placeholder="limit">
-            <input id="offset" class="form-control" type="number"size="15" placeholder="offset">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </div>
-          <button id="button5" type="button" class="btn btn-success active">Load</button>
-        <b>Apikey:</b><input id="apikey" class="form-control" size="5" type="text" placeholder="apikey" value="sos"/></br></br>
-          <!--<button id="button7" type="button" class="btn btn-primary active">Search</button> -->
-
-    <!--      <button id="button3" class="btn btn-warning active" type="button">Put</button>
-          <button id="button2" class="btn btn-success active" type="button" >Post</button>  -->
-    <!--      Name:<input id="nombre2" name="nombre2" size="10" type="text">
-          Month:<input id="mes" name="mes" size="10" type="text">
-          Year:<input id="year" name="year" size="10">
-          Pression:<input id="pression" name="pression" size="10" >
-          Temperature:<input id="temperature" name="temperature" size="10" >
-          TD:<input id="td" name="td" size="10" ></br></br>-->
-
-      </form>
-      </div>
       <div class="dropdown">
         <form class="form-inline">
+          <button class="btn btn-primary active" type="button" id="menu2" data-toggle="dropdown">Search<span class="caret"></span></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
+              <li role="presentation"><b>Choose an option and</b>
+              <li role="presentation"><b>write your search:</b>
+              <li role="presentation"><input id="name=" type="radio" name="x"  value="name3"><b> Name </b><br>
+              <li role="presentation"><input id="month="type="radio" name="x"  value="month2"><b> Month </b><!-- <input  type="checkbox" name="y"  id="month="> Month--><br>
+              <li role="presentation"><input id="year=" type="radio" name="x" value="year"> <b>Year </b><!-- <input type="checkbox"  name="y"  id="year="> Year--><br>
+              <li role="presentation"><input id="p=" type="radio" name="x"   value="pression"><b> Pression</b><!-- <input type="checkbox" name="y"  id="p="> Pression--><br>
+              <li role="presentation"><input id="t=" type="radio" name="x"  value="temperature"> <b>Temperature </b><!-- <input type="checkbox" name="y"  id="t="> Temperature--><br>
+              <li role="presentation"><input id="td=" type="radio" name="x"  value="tdyear"> <b>T.D </b><!-- <input type="checkbox" name="y"  id="td="> T.D--></br>
+              <li role="presentation"><input id="search1" class="form-control" size="15" type="text" placeholder="search" ></br><!--  <input id="search2" name="search1" size="10" type="text">-->
+              <li role="presentation"><button id="button7" type="button" class="btn btn-primary active" onclick="this.value=''";>Search</button></br>
+            </ul>
+            <button id="button" type="button" class="btn btn-primary active">Resources</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-          <button class="btn btn-success active" type="button" id="menu1" data-toggle="dropdown">Resource<span class="caret"></span></button>
+            <button id="button6" type="button" class="btn btn-primary active">Pagination</button>
+            <div class="form-group">
+              <input id="limit" class="form-control" type="number"size="15" placeholder="limit">
+              <input id="offset" class="form-control" type="number"size="15" placeholder="offset">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <button id="button5" type="button" class="btn btn-success active">Load</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Apikey:</b><input id="apikey" class="form-control" size="5" type="text" placeholder="apikey" value="sos"/></br></br>
+      </form>
+    </div>
+
+      <div class="dropdown">
+        <form class="form-inline">
+          <button class="btn btn-success active" type="button" id="menu1" data-toggle="dropdown">Resource<span class="caret"></span></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <ul class="dropdown-menu" id="pedro" role="menu" aria-labelledby="menu1">
               <li role="presentation"><b>Write each of the fields:</b>
               <li role="presentation"><input id="nombre2" class="form-control" size="15" type="text" placeholder="name"></li>
@@ -316,28 +387,19 @@
               <li role="presentation"><input id="td" class="form-control" size="15" type="number" placeholder="t.d."></br></br></li>
               <li role="presentation">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="button3" class="btn btn-warning active" type="button">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;<button id="button2" class="btn btn-success active" type="button" >New</button></li>
             </ul>
-        </form>
-      </div></br>
-      <div class="text-left">
-        <div class="dropdown">
-          <form class="form-inline">
-            <button class="btn btn-primary active" type="button" id="menu2" data-toggle="dropdown">Search<span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
-                <li role="presentation"><b>Choose an option and</b>
-                <li role="presentation"><b>write your search:</b>
-                <li role="presentation"><input id="name=" type="radio" name="x"  value="name3"><b> Name </b><br>
-                <li role="presentation"><input id="month="type="radio" name="x"  value="month2"><b> Month </b><!-- <input  type="checkbox" name="y"  id="month="> Month--><br>
-                <li role="presentation"><input id="year=" type="radio" name="x" value="year"> <b>Year </b><!-- <input type="checkbox"  name="y"  id="year="> Year--><br>
-                <li role="presentation"><input id="p=" type="radio" name="x"   value="pression"><b> Pression</b><!-- <input type="checkbox" name="y"  id="p="> Pression--><br>
-                <li role="presentation"><input id="t=" type="radio" name="x"  value="temperature"> <b>Temperature </b><!-- <input type="checkbox" name="y"  id="t="> Temperature--><br>
-                <li role="presentation"><input id="td=" type="radio" name="x"  value="tdyear"> <b>T.D </b><!-- <input type="checkbox" name="y"  id="td="> T.D--></br>
-                <li role="presentation"><input id="search1" class="form-control" size="15" type="text" placeholder="search" ></br><!--  <input id="search2" name="search1" size="10" type="text">-->
-                <li role="presentation"><button id="button7" type="button" class="btn btn-primary active" onclick="this.value=''";>Search</button></br>
-              </ul>
+            <button id="button11" type="button" class="btn btn-primary active">FROM/TO</button>
+            <div class="form-group">
+              <input id="nombre3" class="form-control" size="10" type="text" placeholder="Name" >
+              <input id="from" class="form-control" type="number"size="15" placeholder="From">
+              <input id="to" class="form-control" type="number"size="15" placeholder="To">
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-          </form>
-        </div>
-      </div>
+            <button id="button4" class="btn btn-danger active" type="button">Delete All</button>
+            <button id="button10" class="btn btn-danger active" type="button">Delete Checked</button>
+        </form>
+
+      </div></br>
+
       <br>
       <!--
       <span id="status"></span>
