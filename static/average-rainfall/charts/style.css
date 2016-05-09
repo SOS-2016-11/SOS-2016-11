@@ -1,4 +1,19 @@
 #marco{
   text-align: center;
   margin: auto;
+  width: 900px;
+}
+
+#year{
+  width: 200px;
+}
+
+#input{
+  margin: auto;
+  text-align: center;
+  width: 200px;
+}
+
+#eh3, #eh4{
+  color: #FF8989;
 }

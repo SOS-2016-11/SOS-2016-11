@@ -14,95 +14,163 @@
       $(document).ready(() => {
         var dats = [];
         var dchart = [];
-        function getRutaBase(dat){
+        google.charts.load("current", {packages:["corechart"]});
+
+        function getRutaBase(dat, year){
           var request = $.ajax({
-                  url: "/api/v1/average-rainfall/?apikey=sos",
+                  url: "/api/v1/average-rainfall/" + year + "/?apikey=sos",
                   type: "GET",
                   data: "",
                   contentType: "application/json"
           });
 
           request.done(function(data,status,jqXHR) {
+            dats = [];
             dats = data;
-            jsonToChart(dat);
+            jsonToChart(dat, year);
           });
 
           request.always(function(jqXHR, status) {
-
+            if(status == "error"){
+              $('#eh3').html("Error");
+              $('#eh4').html("Bad year");
+              $('#year').css("border-color","#FF8989");
+            }
           });
         }
 
         $("#donut").click(()=>{
-          getRutaBase("donut");
-
+          $('#eh3').html("");
+          $('#eh4').html("");
+          $('#year').css("border-color","#ccc");
+          var year = $("#year").val();
+          if(year != ""){
+            getRutaBase("donut", year);
+          }else{
+            $('#eh3').html("Error");
+            $('#eh4').html("Year is empty");
+            $('#year').css("border-color","#FF8989");
+          }
         });
 
         $("#histogram").click(()=>{
-          getRutaBase("histogram");
-        });
-
-        $("#b3").click(()=>{
-          console.log("b3 pulsado");
-        });
-
-
-        function jsonToChart(dat){
-          dchart.push(['River Basin', 'Pm']);
-          $.each(dats, (i, item)=>{
-            if(item.year == 2015){
-              dchart.push([item.river_basin, item.pm]);
-            }
-          });
-          
-          if(dat == "donut"){
-            $('#donutchart').html("");
-            $('#chart_div').html("");
-            printDonutChart();
-          }else if(dat == "histogram"){
-            $('#donutchart').html("");
-            $('#chart_div').html("");
-            printHistogram();
+          $('#eh3').html("");
+          $('#eh4').html("");
+          $('#year').css("border-color","#ccc");
+          var year = $("#year").val();
+          if(year != ""){
+            getRutaBase("histogram", year);
           }else{
-
+            $('#eh3').html("Error");
+            $('#eh4').html("Year is empty");
+            $('#year').css("border-color","#FF8989");
           }
+        });
 
+        $("#column").click(()=>{
+          $('#eh3').html("");
+          $('#eh4').html("");
+          $('#year').css("border-color","#ccc");
+          var year = $("#year").val();
+          if(year != ""){
+            getRutaBase("column", year);
+          }else{
+            $('#eh3').html("Error");
+            $('#eh4').html("Year is empty");
+            $('#year').css("border-color","#FF8989");
+          }
+        });
+
+
+        function jsonToChart(dat, year){
+            dchart = [];
+          if(dat  == "donut" || dat == "histogram"){
+            dchart.push(['River Basin', 'Pm']);
+            $.each(dats, (i, item)=>{
+              if(item.year == year){
+                dchart.push([item.river_basin, item.pm]);
+              }
+            });
+          }else{
+            dchart.push(['River Basin', 'Pm', { role: 'style' }]);
+            $.each(dats, (i, item)=>{
+              if(item.year == year){
+                dchart.push([item.river_basin, item.pm, "#2E2EFE"]);
+              }
+            });
+          }
+          if(dat == "donut"){
+            $('#chart').html("");
+            printDonutChart(year);
+          }else if(dat == "histogram"){
+            $('#chart').html("");
+            printHistogram(year);
+          }else{
+            $('#chart').html("");
+            printColumn(year);
+          }
         }
 
         // DONUT CHART ---------------------------------------------------------
         // https://developers.google.com/chart/interactive/docs/gallery/piechart#making-a-donut-chart
-        function printDonutChart(){
-          google.charts.load("current", {packages:["corechart"]});
+        function printDonutChart(year){
           google.charts.setOnLoadCallback(drawChart);
           function drawChart() {
             var data = google.visualization.arrayToDataTable(dchart);
 
             var options = {
-              title: 'Average rainfall in 2015',
+              title: 'Average rainfall in ' + year,
               pieHole: 0.4,
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            var chart = new google.visualization.PieChart(document.getElementById('chart'));
             chart.draw(data, options);
           }
         }
 
         // HISTOGRAM ---------------------------------------------------------
         // https://developers.google.com/chart/interactive/docs/gallery/histogram#overview
-        function printHistogram(){
-          google.charts.load("current", {packages:["corechart"]});
+        function printHistogram(year){
           google.charts.setOnLoadCallback(drawChart);
           function drawChart() {
             var data = google.visualization.arrayToDataTable(dchart);
 
             var options = {
-              title: 'Average rainfall in 2015',
+              title: 'Average rainfall in ' + year,
               legend: { position: 'none' },
             };
 
-            var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+            var chart = new google.visualization.Histogram(document.getElementById('chart'));
             chart.draw(data, options);
           }
         }
+
+        // COLUMNCHART
+        // https://developers.google.com/chart/interactive/docs/gallery/columnchart#overview
+        function printColumn(year){
+          google.charts.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable(dchart);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+            var options = {
+              title: 'Average rainfall in ' + year,
+              width: 600,
+              height: 400,
+              bar: {groupWidth: "95%"},
+              legend: { position: "none" },
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById("chart"));
+            chart.draw(view, options);
+            }
+          }
 
       });
 
@@ -112,9 +180,13 @@
   <body>
     <h1 class="text-center">Charts</h1>
     </br></br>
-    <div class="text-center"><button id="donut" class="btn btn-primary">Donut Chart</button> <button id="histogram" class="btn btn-primary">Histogram</button> <button id="b3" class="btn btn-primary">b3</button></div>
+    <h3 id="eh3" class="text-center"></h4>
+    <h4 id="eh4" class="text-center"></h4>
+    </br>
+    <div id="input" class="text-center"><input id="year" class="form-control" type="number" placeholder="year"/></div>
+    </br>
+    <div class="text-center"><button id="donut" class="btn btn-primary">Donut Chart</button> <button id="histogram" class="btn btn-primary">Histogram</button> <button id="column" class="btn btn-primary">Column</button></div>
     </br></br>
-    <div id="donutchart" style="width: 900px; height: 500px;"></div>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="chart" style="width: 900px; height: 500px;"></div>
   </body>
 </html>
