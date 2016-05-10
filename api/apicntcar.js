@@ -190,23 +190,23 @@ module.exports.getBasin = (req, res) => {
     // CARGA DE DATOS INICIAL
     if(dat == "loadInitialData"){
       Basins = [
-        {"river_basin": "Duero", "month": "January", "year": 2015, "pm": 56, "pe": 40.9, "pa": 301.9},
-        {"river_basin": "Tajo", "month": "June", "year": 2015, "pm": 60, "pe": 36.3, "pa": 345.6},
-        {"river_basin": "Guadiana", "month": "January", "year": 2015, "pm": 57, "pe": 34.2, "pa": 302.8},
-        {"river_basin": "Guadalquivir", "month": "January", "year": 2015, "pm": 68, "pe": 55.2, "pa": 331.2},
-        {"river_basin": "Ebro", "month": "January", "year": 2015, "pm": 44, "pe": 48.8, "pa": 306.9},
+        {"river_basin": "Duero", "month": "January", "year": 2015, "pm": 56.0, "pe": 40.9, "pa": 301.9},
+        {"river_basin": "Tajo", "month": "January", "year": 2015, "pm": 60.0, "pe": 36.3, "pa": 345.6},
+        {"river_basin": "Guadiana", "month": "January", "year": 2015, "pm": 57.0, "pe": 34.2, "pa": 302.8},
+        {"river_basin": "Guadalquivir", "month": "January", "year": 2015, "pm": 68.0, "pe": 55.2, "pa": 331.2},
+        {"river_basin": "Ebro", "month": "January", "year": 2015, "pm": 44.0, "pe": 48.8, "pa": 306.9},
 
-        {"river_basin": "Duero", "month": "January", "year": 2014, "pm": 56, "pe": 40.9, "pa": 301.9},
-        {"river_basin": "Tajo", "month": "January", "year": 2014, "pm": 60, "pe": 36.3, "pa": 345.6},
-        {"river_basin": "Guadiana", "month": "January", "year": 2014, "pm": 57, "pe": 34.2, "pa": 302.8},
-        {"river_basin": "Guadalquivir", "month": "January", "year": 2014, "pm": 68, "pe": 55.2, "pa": 331.2},
-        {"river_basin": "Ebro", "month": "June", "year": 2014, "pm": 44, "pe": 48.8, "pa": 306.9},
+        {"river_basin": "Duero", "month": "October", "year": 2014, "pm": 62.1, "pe": 68.4, "pa": 198.0},
+        {"river_basin": "Tajo", "month": "October", "year": 2014, "pm": 66.2, "pe": 86.7, "pa": 151.9},
+        {"river_basin": "Guadiana", "month": "October", "year": 2014, "pm": 56.9, "pe": 67.2, "pa": 124.4},
+        {"river_basin": "Guadalquivir", "month": "October", "year": 2014, "pm": 60.2, "pe": 57.0, "pa": 103.6},
+        {"river_basin": "Ebro", "month": "October", "year": 2014, "pm": 59.1, "pe": 29.9, "pa": 90.4},
 
-        {"river_basin": "Duero", "month": "January", "year": 2013, "pm": 56, "pe": 40.9, "pa": 301.9},
-        {"river_basin": "Tajo", "month": "January", "year": 2013, "pm": 60, "pe": 36.3, "pa": 345.6},
-        {"river_basin": "Guadiana", "month": "January", "year": 2013, "pm": 57, "pe": 34.2, "pa": 302.8},
-        {"river_basin": "Guadalquivir", "month": "June", "year": 2013, "pm": 68, "pe": 55.2, "pa": 331.2},
-        {"river_basin": "Ebro", "month": "J", "year": 2013, "pm": 44, "pe": 48.8, "pa": 306.9}
+        {"river_basin": "Duero", "month": "June", "year": 2013, "pm": 39.9, "pe": 29.5, "pa": 601.4},
+        {"river_basin": "Tajo", "month": "June", "year": 2013, "pm": 30.9, "pe": 9.0, "pa": 663.1},
+        {"river_basin": "Guadiana", "month": "June", "year": 2013, "pm": 23.6, "pe": 5.7, "pa": 663.1},
+        {"river_basin": "Guadalquivir", "month": "June", "year": 2013, "pm": 19.0, "pe": 3.3, "pa": 866.9},
+        {"river_basin": "Ebro", "month": "June", "year": 2013, "pm": 49.2, "pe": 70.7, "pa": 718.5}
       ];
       res.sendStatus(201);
     }else{
