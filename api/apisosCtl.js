@@ -89,6 +89,8 @@ module.exports.loadInitialDataCities = (req, res) => {*/
 module.exports.getCities = function(req, res){
   var key = req.query.apikey;
   var Cities2 = [];
+  var from1 = req.query.from;
+  var to1 = req.query.to;
   var limit = req.query.limit;
   var offset = req.query.offset;
   var name = req.query.name;
@@ -137,6 +139,22 @@ module.exports.getCities = function(req, res){
   }
   //Busqueda nombre y comprueba
   //Me da conflicto con algunas busquedas
+
+  //Nueva aportacion
+  if( from1 && compruebaApiKey(key)  && to1){
+    for (var i=0; i<Cities.length; i++){
+      if(Cities[i].year >= from1 && Cities[i].year <= to1){
+        var recurso = Cities[i];
+        Cities2.push(recurso);
+      }
+    }
+    busqueda++;
+  }
+  if( from1 && !compruebaApiKey(key)  && to1){
+    res.sendStatus(401);
+  }
+
+//Nueva aportcaion
 
   if(name && compruebaApiKey(key) && !year && !month && !p && !t && !td){
     for (var i=0; i<Cities.length; i++){
