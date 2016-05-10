@@ -362,6 +362,8 @@ module.exports.getCity = function (req, res){
   var Cities2 = [];
   var Cities3 = [];
   var from1 = req.query.from;
+  var limit = req.query.limit;
+  var offset = req.query.offset;
   var to1 = req.query.to;
   var name = req.query.name;
   var month = req.query.month;
@@ -393,6 +395,45 @@ module.exports.getCity = function (req, res){
     busqueda2++;
     busqueda++;
   }
+///paginacion
+  if(limit && !offset && compruebaApiKey(key)){
+    if(limit > Cities2.length){
+      for (var i=0; i<Cities2.length; i++){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+      busqueda1++;
+    }else{
+      for (var i=0; i<limit; i++){
+        var recurso = Cities2[i];
+        Cities3.push(recurso);
+      }
+      busqueda1++;
+    }
+  }
+  if(limit && !offset && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  if(!limit && offset&&compruebaApiKey(key)){
+    res.sendStatus(400);
+  }
+  if(!limit && offset&&!compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+  if(limit && offset && compruebaApiKey(key)){
+    for (var i=0; i<limit; i++){
+      var recurso = Cities[contador];
+      Cities3.push(recurso);
+      contador++;
+    }
+    busqueda1++;
+  }
+  if(limit && offset && !compruebaApiKey(key)){
+    res.sendStatus(401);
+  }
+
+//fin paginacion
+
   //hasta aqui
   if((car == "loadInitialData" || car == "loadInitialData/") && !compruebaApiKey(key)){
     res.sendStatus(401);

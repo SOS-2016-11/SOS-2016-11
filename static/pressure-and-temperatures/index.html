@@ -195,11 +195,12 @@
       $("#button6").click(()=>{
         var limit = $("#limit").val();
         var offset = $("#offset").val();
+        var nombre3 = $("#nombre3").val();
         var apikey = $("#apikey").val();
         console.log(limit);
         var request= $.ajax({
               type: "GET",
-              url: '/api/v1/pressure-and-temperatures?limit='+limit+'&offset='+offset+"&apikey="+apikey,
+              url: '/api/v1/pressure-and-temperatures/'+nombre3+'?limit='+limit+'&offset='+offset+"&apikey="+apikey,
               success: function(data) {
                 $('#resultados').html(data);
                 $('#resultados div').slideDown(1000);
