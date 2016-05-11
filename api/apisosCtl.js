@@ -396,9 +396,7 @@ module.exports.getCity = function (req, res){
     busqueda2++;
     busqueda++;
   }
-<<<<<<< HEAD
 
-=======
 ///paginacion
   if(limit && !offset && compruebaApiKey(key)){
     if(limit > Cities2.length){
@@ -439,7 +437,7 @@ module.exports.getCity = function (req, res){
 //fin paginacion
 
   //hasta aqui
->>>>>>> 101485c0fbdbc16323d094732215c2d71f1540da
+
   if((car == "loadInitialData" || car == "loadInitialData/") && !compruebaApiKey(key)){
     res.sendStatus(401);
   }
