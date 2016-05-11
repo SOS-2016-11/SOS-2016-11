@@ -162,44 +162,7 @@
 
         request.always((jqXHR,status)=>{
           if(jqXHR.status == 401){
-<<<<<<< HEAD
             $("#log1").html("No se puede utilizar una apikey inválida");
-=======
-            $("#log1").html("invalid apikey");
-          }else{
-              $("#log1").html("");
-          }
-        });
-      });
-      $("#button6").click(()=>{
-        var limit = $("#limit").val();
-        var offset = $("#offset").val();
-        var nombre3 = $("#nombre3").val();
-        var apikey = $("#apikey").val();
-        console.log(limit);
-        var request= $.ajax({
-              type: "GET",
-              url: '/api/v1/pressure-and-temperatures/'+nombre3+'?limit='+limit+'&offset='+offset+"&apikey="+apikey,
-              success: function(data) {
-                $('#resultados').html(data);
-                $('#resultados div').slideDown(1000);
-              }
-        });
-
-        request.done((data)=>{
-          var location = "";
-          $.each(data, function (i, item) {
-            location += "<tr class='text-center'><div class='checkbox'><td id='td2'><input id='checkbox" + i + "' type='checkbox'></td></div>"+"<td id='td1'>"+ data[i].name + "</td><td id='td2'>" + data[i].month +"</td><td id='td1'>"+ data[i].year + "</td><td id='td2'>" + data[i].p + "</td><td id='td1'>"+ data[i].t +  "</td><td id='td2'>"+ data[i].td + '</td></tr>';
-
-          });
-          $('#location').html(location);
-          console.log(location);
-        });
-
-        request.always((jqXHR,status)=>{
-          if(jqXHR.status == 401){
-            $("#log1").html("invalid apikey");
->>>>>>> 101485c0fbdbc16323d094732215c2d71f1540da
           }else{
               $("#log1").html("");
           }
