@@ -1,11 +1,13 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+var cors = require('cors');
 var port = (process.env.PORT || 16000);
 //var port = (process.env.PORT ||29600);
 
 var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/static"));
+app.use(cors());
 
 var apisosCtl = require('./api/apisosCtl.js');
 var apicntcar = require("./api/apicntcar.js");
