@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(() => {
+        $("#button").click(() => {
+          var url = $("#url").val();
+          var method = $("input[type=radio]:checked").attr("id");
+          var request = $.ajax({
+                  url: url,
+                  type: method,
+                  data: $("#payload").val(),
+                  contentType: "application/json"
+          });
+
+          request.done(function(data,status,jqXHR) {
+            console.log(data);
+            $("#data").text(JSON.stringify(data));
+            $("#status").html(jqXHR.status);
+            $("#log").html(jqXHR.statusText);
+          });
+
+          request.always(function(jqXHR, status) {
+            if(status == "error"){
+              $("#status").html(jqXHR.status);
+              $("#log").html(jqXHR.statusText);
+              $("#data").html("");
+            }
+          });
+        });
+      });
+    </script>
+
+  </head>
+
+  <body>
+    <h1>JQuery REST Client</h1>
+    <br/><br/>
+    <div class="font">URL: <input id="url" class="form-control" size="30" value="/api/v1/average-rainfall/?apikey=sos"/></div>
+    <br/>
+    <div class="font">GET <input name="method" type="radio" id="GET" checked="checked" /> &nbsp;&nbsp;
+    POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
+    PUT <input name="method" type="radio" id="PUT" /> &nbsp;&nbsp;
+    DELETE <input name="method" type="radio" id="DELETE" /> &nbsp;&nbsp;</div>
+    <br/><br/>
+    <div class="font">Payload: <input id="payload" class="form-control" size="60" value='{"river_basin": "Po", "month": "June", "year": 2012, "pm": 56, "pe": 40.9, "pa": 301.9}'/></div>
+    <br/><br/>
+    <span id="button" class="btn btn-primary">Send</span>
+    <br/><br/><hr/>
+    <div class="font">HTTP Status: <span id="status" class="text-primary"></span></div>
+    <br/><hr/>
+    <span id="data" class="text-danger"></span>
+    <br/><br/><hr/>
+    <ul id="list"></ul>
+    <hr/>
+    <div class="font">Log: <span id="log" class="text-primary"></span></div>
+  </body>
+</html>

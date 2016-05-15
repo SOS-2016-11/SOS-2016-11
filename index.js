@@ -1,13 +1,14 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var cors = require('cors');
+var request = require('request');
+//var cors = require('cors');
 var port = (process.env.PORT || 16000);
 //var port = (process.env.PORT ||29600);
 
 var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/static"));
-app.use(cors());
+//app.use(cors());
 
 var apisosCtl = require('./api/apisosCtl.js');
 var apicntcar = require("./api/apicntcar.js");
@@ -23,10 +24,24 @@ app.get("/time", (req,res)=>{
   res.send("Today is  " + day + ", and are " + hour + ":" + minutes + ":" + seconds);
 });
 
-// API REST CARLOS
+// API REST CARLOS /////////////////////////////////////////////////////////////
+// PROXY
+var paths='/api/v1/divorces-spanish/';
+var apiServerHost = 'http://sos-2016-10.herokuapp.com';
+app.use(paths, function(req, res) {
+  var url = apiServerHost + req.baseUrl + req.url;
+  console.log('piped: '+req.baseUrl + '///' +req.url);
+  req.pipe(request(url,(error, response, body)=>{
+  /*  if (error.code === 'ECONNREFUSED'){
+      console.error('Refused connection');
+    } else {
+      throw error;
+    }
+  */})).pipe(res);
+});
+
 
 // SANDBOX
-
 app.get("/api/sandbox/programming_languages/", apicntcar.getPLs);
 
 app.post("/api/sandbox/programming_languages/", apicntcar.postPLs);
@@ -48,7 +63,6 @@ app.delete("/api/sandbox/programming_languages/:name", apicntcar.deletePL);
 app.get("/api-test/programming_languages/loadInitialData", apicntcar.loadInitialData);
 
 // V1
-
 app.get("/api/v1/average-rainfall/", apicntcar.getBasins);
 
 app.post("/api/v1/average-rainfall/", apicntcar.postBasins);
@@ -73,6 +87,8 @@ app.put("/api/v1/average-rainfall/:river_basin/:dat", apicntcar.putBasinDat);
 app.delete("/api/v1/average-rainfall/:river_basin", apicntcar.deleteBasin);
 
 app.delete("/api/v1/average-rainfall/:river_basin/:dat", apicntcar.deleteBasinDat);
+
+
 
 // API REST PEDRO
 

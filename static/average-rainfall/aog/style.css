@@ -1,0 +1,17 @@
+body {
+  margin: auto;
+  text-align: center;
+}
+
+hr {
+  border: 1px solid grey;
+}
+
+.font{
+  font-size: 20px;
+}
+/*#button {
+  background-color: #DDDDDD;
+  cursor: pointer;
+  padding: 5px;
+}*/
