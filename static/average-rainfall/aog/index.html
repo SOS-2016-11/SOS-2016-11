@@ -9,10 +9,15 @@
         $("#button").click(() => {
           var url = $("#url").val();
           var method = $("input[type=radio]:checked").attr("id");
+          var dat = "";
+          if(method == "POST" || method == "PUT"){
+            var dat = $("#payload").val();
+          }
+
           var request = $.ajax({
                   url: url,
                   type: method,
-                  data: $("#payload").val(),
+                  data: dat,
                   contentType: "application/json"
           });
 
@@ -37,9 +42,9 @@
   </head>
 
   <body>
-    <h1>JQuery REST Client</h1>
+    <h1>JQuery REST Client Other API</h1>
     <br/><br/>
-    <div class="font">URL: <input id="url" class="form-control" size="30" value="/api/v1/average-rainfall/?apikey=sos"/></div>
+    <div class="font">URL: <input id="url" class="form-control" size="30" value="/api/v1/divorces-spanish/?apikey=juanlur"/></div>
     <br/>
     <div class="font">GET <input name="method" type="radio" id="GET" checked="checked" /> &nbsp;&nbsp;
     POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;

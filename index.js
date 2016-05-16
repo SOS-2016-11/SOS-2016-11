@@ -1,14 +1,14 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var request = require('request');
-//var cors = require('cors');
+var cors = require('cors');
 var port = (process.env.PORT || 16000);
 //var port = (process.env.PORT ||29600);
 
 var app = express();
-app.use(bodyParser.json());
+
 app.use("/", express.static(__dirname + "/static"));
-//app.use(cors());
+app.use(cors());
 
 var apisosCtl = require('./api/apisosCtl.js');
 var apicntcar = require("./api/apicntcar.js");
@@ -24,25 +24,32 @@ app.get("/time", (req,res)=>{
   res.send("Today is  " + day + ", and are " + hour + ":" + minutes + ":" + seconds);
 });
 
-// API REST CARLOS /////////////////////////////////////////////////////////////
-// PROXY
-var paths='/api/v1/average-rainfall/';
-var apiServerHost = 'http://sos-2016-11.herokuapp.com';
-//var paths='/api/v1/divorces-spanish/';
-//var apiServerHost = 'http://sos-2016-10.herokuapp.com';
+
+// PROXY CARLOS
+var paths='/api/v1/divorces-spanish/';
+var apiServerHost = 'http://sos-2016-10.herokuapp.com';
 app.use(paths, function(req, res) {
   var url = apiServerHost + req.baseUrl + req.url;
-  console.log('piped: '+req.baseUrl + '///' +req.url);
+  console.log('piped: '+ url);
   req.pipe(request(url,(error, response, body)=>{
-  /*  if (error.code === 'ECONNREFUSED'){
-      console.error('Refused connection');
-    } else {
-      throw error;
+    if(error != null){
+      if (error.code == 'ECONNREFUSED'){
+        console.error('Refused connection');
+      } else {
+        throw error;
+      }
     }
-  */})).pipe(res);
+  })).pipe(res);
 });
 
+// PROXY PEDRO
 
+
+
+// BODYPASER -- SI NO ESTA AQUI FALLA LOS PROXYS
+app.use(bodyParser.json());
+
+// API REST CARLOS /////////////////////////////////////////////////////////////
 // SANDBOX
 app.get("/api/sandbox/programming_languages/", apicntcar.getPLs);
 
