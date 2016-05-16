@@ -11,7 +11,6 @@
   $(document).ready(function (){
       console.log("JQuery ready");
       var url = "";
-      var apikey = "sos";
 
       $("#button").click(()=>{
         getRutaBase( url, apikey);
@@ -120,7 +119,7 @@
             <button id="button" type="button" class="btn btn-primary active">Resources</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="button5" type="button" class="btn btn-success active">Load</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="button10" class="btn btn-danger active" type="button">Delete Checked</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <b>Apikey:</b><input id="apikey" class="form-control" size="5" type="text" placeholder="apikey" value="sos"/></br></br>
+            <b>Apikey:</b><input id="apikey" class="form-control" size="5" type="text" placeholder="apikey" value="multiPlan_C2_sos-2016-11-pgt_ag"/></br></br>
       </form>
     </div>
       <div class="dropdown">
@@ -141,11 +140,14 @@
               <input id="nombre3" class="form-control" size="10" type="text" placeholder="Name" >
               <input id="from" class="form-control" type="number"size="15" placeholder="From">
               <input id="to" class="form-control" type="number"size="15" placeholder="To">
+              <a href="http://portal.governify.io/app/#/portal?configurl=http://labs.isa.us.es/ir/pedroganga99/Governify-API/Plans/portal-config.json">Access to portal</a></li>
+
             </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </form>
       </div></br><br>
       <span id="log1"></span>
       <br/><br/>
+      <span id="log2"></span>
     </div>
 </body>
 </html>
