@@ -51,7 +51,7 @@ app.use(pathsc, function(req, res) {
 });
 
 // PROXY PEDRO
-var pathsp='/api/v1/electrical-consume';
+var pathsp='/api/v1/electrical-consume/';
 var apiServerHostp = 'http://sos-2016-01.herokuapp.com';
 
 app.use(pathsp, function(req, res) {
