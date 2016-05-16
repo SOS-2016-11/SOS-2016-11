@@ -5,15 +5,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/js/materialize.min.js"></script>
   <script>
   $(document).ready(function (){
-//      var urlbase="http://sos-2016-01.herokuapp.com";
-//      var url1=$("#url").val();
+      var urlbase="http://sos-2016-01.herokuapp.com";
+      var url1=$("#url").val();
       console.log("JQuery ready");
 
       $("#button").click(()=>{
         console.log("Handling click");
 
         var request= $.ajax({
-  //        url:urlbase+url1,
+          url:urlbase+url1,
           type:"GET",
           data: $("#payload").val(),
           contentType : "application/json"
@@ -38,7 +38,7 @@
         console.log("Handling click");
 
         var request= $.ajax({
-//          url:urlbase+url1,
+          url:urlbase+url1,
           type:"POST",
           data: $("#payload").val(),
           contentType : "application/json"
@@ -63,7 +63,7 @@
         console.log("Handling click");
 
         var request= $.ajax({
-  //        url:urlbase+url1,
+          url:urlbase+url1,
           type:"PUT",
           data: $("#payload").val(),
           contentType : "application/json"
@@ -88,7 +88,7 @@
         console.log("Handling click");
 
         var request= $.ajax({
-//          url:urlbase+url1,
+          url:urlbase+url1,
           type:"DELETE",
           data: $("#payload").val(),
           contentType : "application/json"
@@ -115,7 +115,7 @@
   <h1 class="center-align">Pressure and Temperatures</h1>
   <br/>
     <div class="card-panel teal lighten-2">
-<!--      URL: <input id="url" size="60" value="/api/v1/electrical-consume?apikey=multiPlan_C3_sos-2016-01-asm_ag"/>   -->
+      URL: <input id="url" size="60" value="/api/v1/electrical-consume?apikey=multiPlan_C3_sos-2016-01-asm_ag"/>  
       <br/>
       Payload: <input id="payload" size="60" value='{"country":"brazil","year":"2015","ePowerConsum":"2044859","energyUse":"116843","urbanPopulation":"12239"}'/>
       <br/><br/>
