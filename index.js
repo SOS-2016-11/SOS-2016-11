@@ -2,8 +2,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var request = require('request');
 var cors = require('cors');
-var port = (process.env.PORT || 16000);
-//var port = (process.env.PORT ||29600);
+//var port = (process.env.PORT || 16000);
+var port = (process.env.PORT ||12320);
 
 var app = express();
 
@@ -43,7 +43,20 @@ app.use(paths, function(req, res) {
 });
 
 // PROXY PEDRO
+var paths='/api/v1/electrical-consume/';
+var apiServerHost = 'http://sos-2016-01.herokuapp.com';
 
+app.use(paths, function(req, res) {
+  var url = apiServerHost + req.baseUrl + req.url;
+  console.log('piped: '+req.baseUrl + req.url);
+  console.log('URL accessed '+ url);
+  req.pipe(request(url,(error,response,body)=>{
+    if(error){
+      console.error(error);
+      res.sendStatus(503);
+    }
+  })).pipe(res);
+});
 
 
 // BODYPASER -- SI NO ESTA AQUI FALLA LOS PROXYS
