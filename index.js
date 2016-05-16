@@ -4,8 +4,8 @@ var request = require('request');
 var cors = require('cors');
 var governify = require('governify');
 
-//var port = (process.env.PORT || 16000);
-var port = (process.env.PORT ||27120);
+var port = (process.env.PORT || 16000);
+//var port = (process.env.PORT ||27120);
 
 var app = express();
 
@@ -29,8 +29,14 @@ app.get("/time", (req,res)=>{
 // GOVERNIFY
 governify.control(app, {
   datastore: "http://datastore.governify.io/api/v6.1/",
+  namespace: "sos-2016-11-cam",
+  defaultPath: "/api/v1/average-rainfall/"
+});
+
+governify.control(app, {
+  datastore: "http://datastore.governify.io/api/v6.1/",
   namespace: "sos-2016-11-pgt",
-  defaultPath: "/api/v1/"
+  defaultPath: "/api/v1/pressure-and-temperatures/"
 });
 
 

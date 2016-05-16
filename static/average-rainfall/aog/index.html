@@ -22,7 +22,6 @@
           });
 
           request.done(function(data,status,jqXHR) {
-            console.log(data);
             $("#data").text(JSON.stringify(data));
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
@@ -35,7 +34,7 @@
               $("#data").html("");
             }
             if(jqXHR.status == 429 || jqXHR.status == 402){
-              $('#data').html("<a href='http://portal.governify.io/app/#/portal?configurl=http://labs.isa.us.es/ir/pedroganga99/Governify-API/Plans/portal-config.json'>Go to Portal</a>");
+              $('#data').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fc.arnaudmartin%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
             }
           });
         });
@@ -47,7 +46,7 @@
   <body>
     <h1>JQuery REST Client Other API</h1>
     <br/><br/>
-    <div class="font">URL: <input id="url" class="form-control" size="30" value="/api/v1/divorces-spanish/?apikey=juanlur"/></div>
+    <div class="font">URL: <input id="url" class="form-control" size="30" value="/api/v1/divorces-spanish/?apikey=multiPlan_C4_sos-2016-10-jldl_ag"/></div>
     <br/>
     <div class="font">GET <input name="method" type="radio" id="GET" checked="checked" /> &nbsp;&nbsp;
     POST <input name="method" type="radio" id="POST" /> &nbsp;&nbsp;
