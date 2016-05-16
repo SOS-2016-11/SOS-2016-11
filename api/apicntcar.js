@@ -547,11 +547,12 @@ function field(dat,BasinsSeg){
 }
 
 function compruebaApiKey(key){
-  var res = false;
+/*  var res = false;
   if(key == "sos"){
     res = true;
   }
-  return res;
+  return res;*/
+  return true;
 }
 
 function compruebaJSON(body){
