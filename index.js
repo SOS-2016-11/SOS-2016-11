@@ -2,8 +2,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var request = require('request');
 var cors = require('cors');
-//var port = (process.env.PORT || 16000);
-var port = (process.env.PORT ||12320);
+var port = (process.env.PORT || 16000);
+//var port = (process.env.PORT ||12320);
 
 var app = express();
 
@@ -26,15 +26,14 @@ app.get("/time", (req,res)=>{
 
 
 // PROXY CARLOS
-var paths='/api/v1/divorces-spanish/';
-var apiServerHost = 'http://sos-2016-10.herokuapp.com';
-app.use(paths, function(req, res) {
-  var url = apiServerHost + req.baseUrl + req.url;
-  console.log('piped: '+ url);
+var pathsc = '/api/v1/divorces-spanish/';
+var apiServerHostc = 'http://sos-2016-10.herokuapp.com';
+app.use(pathsc, function(req, res) {
+  var url = apiServerHostc + req.baseUrl + req.url;
   req.pipe(request(url,(error, response, body)=>{
     if(error != null){
       if (error.code == 'ECONNREFUSED'){
-        console.error('Refused connection');
+        res.sendStatus(503);
       } else {
         throw error;
       }
@@ -43,16 +42,13 @@ app.use(paths, function(req, res) {
 });
 
 // PROXY PEDRO
-var paths='/api/v1/electrical-consume/';
-var apiServerHost = 'http://sos-2016-01.herokuapp.com';
+var pathsp='/api/v1/electrical-consume/';
+var apiServerHostp = 'http://sos-2016-01.herokuapp.com';
 
-app.use(paths, function(req, res) {
-  var url = apiServerHost + req.baseUrl + req.url;
-  console.log('piped: '+req.baseUrl + req.url);
-  console.log('URL accessed '+ url);
+app.use(pathsp, function(req, res) {
+  var url = apiServerHostp + req.baseUrl + req.url;
   req.pipe(request(url,(error,response,body)=>{
     if(error){
-      console.error(error);
       res.sendStatus(503);
     }
   })).pipe(res);
