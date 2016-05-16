@@ -69,7 +69,7 @@ function peticion(selected, url, method, json){
       sel.delete(dat);
     }else if(jqXHR.status == 402 || jqXHR.status == 429){
       $('#error1 h3').html("ERROR");
-      $('#error1 h4').html("<a href='http://portal.governify.io/app/#/portal?configurl=http://labs.isa.us.es/ir/c.arnaudmartin/Governify-API/Plans/portal-config.json'>Go to Portal</a>");
+      $('#error1 h4').html("<a href='http://portal.governify.io/app/#/portal?configurl=http://labs.isa.us.es/ir/pedroganga99/Governify-API/Plans/portal-config.json'>Go to Portal</a>");
     }
   });
 };
