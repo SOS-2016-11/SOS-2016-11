@@ -4,8 +4,8 @@ var request = require('request');
 var cors = require('cors');
 var governify = require('governify');
 
-var port = (process.env.PORT || 16000);
-//var port = (process.env.PORT ||11220);
+//var port = (process.env.PORT || 16000);
+var port = (process.env.PORT ||27120);
 
 var app = express();
 
@@ -51,11 +51,12 @@ app.use(pathsc, function(req, res) {
 });
 
 // PROXY PEDRO
-var pathsp='/api/v1/electrical-consume/';
+var pathsp='/api/v1/electrical-consume';
 var apiServerHostp = 'http://sos-2016-01.herokuapp.com';
 
 app.use(pathsp, function(req, res) {
   var url = apiServerHostp + req.baseUrl + req.url;
+  console.log(url);
   req.pipe(request(url,(error,response,body)=>{
     if(error){
       res.sendStatus(503);
