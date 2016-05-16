@@ -2,6 +2,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var request = require('request');
 var cors = require('cors');
+var governify = require('governify');
+
 var port = (process.env.PORT || 16000);
 //var port = (process.env.PORT ||12320);
 
@@ -22,6 +24,13 @@ app.get("/time", (req,res)=>{
   var minutes = ("0" + now.getMinutes()).slice(-2);
   var seconds = ("0" + now.getSeconds()).slice(-2);
   res.send("Today is  " + day + ", and are " + hour + ":" + minutes + ":" + seconds);
+});
+
+// GOVERNIFY
+governify.control(app, {
+  datastore: "http://datastore.governify.io/api/v6.1/",
+  namespace: "",
+  defaultPath: "/api/v1/"
 });
 
 
