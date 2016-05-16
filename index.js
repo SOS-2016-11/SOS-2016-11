@@ -51,7 +51,7 @@ app.use(pathsc, function(req, res) {
 });
 
 // PROXY PEDRO
-var pathsp='/api/v1/electrical-consume?apikey=multiPlan_C2_sos-2016-01-asm_ag';
+var pathsp='/api/v1/electrical-consume?apikey=multiPlan_C3_sos-2016-01-asm_ag';
 var apiServerHostp = 'http://sos-2016-01.herokuapp.com';
 
 app.use(pathsp, function(req, res) {
