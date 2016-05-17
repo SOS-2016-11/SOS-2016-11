@@ -26,6 +26,9 @@
         });
 
         request.always(function(jqXHR, status) {
+          if(jqXHR.status == 429 || jqXHR.status == 402){
+            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+          }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
@@ -51,6 +54,9 @@
         });
 
         request.always(function(jqXHR, status) {
+          if(jqXHR.status == 429 || jqXHR.status == 402){
+            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+          }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
@@ -76,6 +82,9 @@
         });
 
         request.always(function(jqXHR, status) {
+          if(jqXHR.status == 429 || jqXHR.status == 402){
+            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+          }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
@@ -101,6 +110,9 @@
         });
 
         request.always(function(jqXHR, status) {
+          if(jqXHR.status == 429 || jqXHR.status == 402){
+            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+          }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
@@ -115,7 +127,7 @@
   <h1 class="center-align">Pressure and Temperatures</h1>
   <br/>
     <div class="card-panel teal lighten-2">
-      URL: <input id="url" size="60" value="/api/v1/electrical-consume?apikey=multiPlan_C3_sos-2016-01-asm_ag"/>  
+      URL: <input id="url" size="60" value="/api/v1/electrical-consume?apikey=multiPlan_C3_sos-2016-01-asm_ag"/>
       <br/>
       Payload: <input id="payload" size="60" value='{"country":"brazil","year":"2015","ePowerConsum":"2044859","energyUse":"116843","urbanPopulation":"12239"}'/>
       <br/><br/>
@@ -123,6 +135,7 @@
       <button id="button2" type="button" class="btn btn-primary active">POST</button>
       <button id="button3" type="button" class="btn btn-primary active">PUT</button>
       <button id="button4" type="button" class="btn btn-primary active">DELETE</button>
+      <span id="portal26" class="text-danger"></span>
       <br/><hr/>
       HTTP Status: <span id="status"></span>
       <br/><hr/>

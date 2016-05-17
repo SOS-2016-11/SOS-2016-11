@@ -98,7 +98,7 @@ console.log(url);
       $("#log1").html("");
     }
     if(jqXHR.status == 429 || jqXHR.status == 402){
-      $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fc.arnaudmartin%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+      $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
     }
   });
 };
