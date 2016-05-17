@@ -5,16 +5,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.0/js/materialize.min.js"></script>
   <script>
   $(document).ready(function (){
-      var urlbase="http://sos-2016-01.herokuapp.com";
       var url1=$("#url").val();
-    
+
       console.log("JQuery ready");
 
       $("#button").click(()=>{
         console.log("Handling click");
 
         var request= $.ajax({
-          url:urlbase+url1,
+          url:url1,
           type:"GET",
           data: $("#payload").val(),
           contentType : "application/json"
@@ -40,7 +39,7 @@
         console.log("Handling click");
 
         var request= $.ajax({
-          url:urlbase+url1,
+          url:url1,
           type:"POST",
           data: $("#payload").val(),
           contentType : "application/json"
@@ -66,7 +65,7 @@
         console.log("Handling click");
 
         var request= $.ajax({
-          url:urlbase+url1,
+          url:url1,
           type:"PUT",
           data: $("#payload").val(),
           contentType : "application/json"
@@ -96,7 +95,7 @@
         console.log("Handling click");
 
         var request= $.ajax({
-          url:urlbase+url1,
+          url:url1,
           type:"DELETE",
           data: $("#payload").val(),
           contentType : "application/json"
