@@ -7,6 +7,7 @@
   $(document).ready(function (){
       var urlbase="http://sos-2016-01.herokuapp.com";
       var url1=$("#url").val();
+    
       console.log("JQuery ready");
 
       $("#button").click(()=>{
@@ -26,13 +27,11 @@
         });
 
         request.always(function(jqXHR, status) {
-          if(jqXHR.status == 429 || jqXHR.status == 402){
-            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
-          }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
             $("#data").html("");
+            $('#portal26').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
           }
         });
       });
@@ -54,13 +53,11 @@
         });
 
         request.always(function(jqXHR, status) {
-          if(jqXHR.status == 429 || jqXHR.status == 402){
-            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
-          }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
             $("#data").html("");
+            $('#portal26').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
           }
         });
       });
@@ -83,12 +80,14 @@
 
         request.always(function(jqXHR, status) {
           if(jqXHR.status == 429 || jqXHR.status == 402){
-            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+            $('#portal26').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
           }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
             $("#data").html("");
+            $('#portal26').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+
           }
         });
       });
@@ -110,13 +109,12 @@
         });
 
         request.always(function(jqXHR, status) {
-          if(jqXHR.status == 429 || jqXHR.status == 402){
-            $('#portal25').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
-          }
           if(status == "error"){
             $("#status").html(jqXHR.status);
             $("#log").html(jqXHR.statusText);
             $("#data").html("");
+            $('#portal26').html("<a href='http://portal.governify.io/app/#/portal?configurl=http:%2F%2Flabs.isa.us.es%2Fir%2Fpedroganga99%2FGovernify-API%2FPlans%2Fportal-config.json' target='_blank'>Go to Portal</a>");
+
           }
         });
       });
@@ -135,13 +133,14 @@
       <button id="button2" type="button" class="btn btn-primary active">POST</button>
       <button id="button3" type="button" class="btn btn-primary active">PUT</button>
       <button id="button4" type="button" class="btn btn-primary active">DELETE</button>
-      <span id="portal26" class="text-danger"></span>
       <br/><hr/>
       HTTP Status: <span id="status"></span>
       <br/><hr/>
       <span id="data"></span>
       <br/><hr/>
       Log: <span id="log"></span>
+      <br/><hr/>
+      Protal: <span id="portal26" class="text-danger"></span>
     </div>
 </body>
 </html>
