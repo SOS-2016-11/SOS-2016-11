@@ -1,0 +1,70 @@
+
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+
+      $(document).ready(function (){
+        var request= $.ajax({
+          url: "/api/v1/pressure-and-temperatures?apikey=multiPlan_C2_sos-2016-11-pgt_ag",
+          type:"GET",
+          contentType : "application/json"
+        });
+
+        request.done((data)=>{
+          var selection = [];
+          $.each(data, function (i, item) {
+              selection.push(item);
+          });
+          var request1= $.ajax({
+              type: "GET",
+              contentType : "application/json",
+              url: "/api/v1/electrical-consume?apikey=multiPlan_C2_sos-2016-01-asm_ag",
+          });
+          request1.done((data1)=>{
+            $.each(data1, function (i, item) {
+                selection.push(item);
+            });
+            google.charts.setOnLoadCallback(drawChart);
+              function drawChart() {
+                var dataForWidget=[["Year","Pression"]];
+                for(var i=0 ; i<selection.length ; i++){
+                  if(selection[i].name){
+                    var item= selection[i];
+                    console.log(item);
+                    console.log("bucle1");
+                    var itemForWidget=[ item.year, item.p];
+                    dataForWidget.push(itemForWidget);
+                  }else{
+                    var item= selection[i];
+                    console.log(item);
+                    console.log("bucle2");
+                    var itemForWidget=[item.year, item.ePowerConsum];
+                    dataForWidget.push(itemForWidget);
+                  }
+                }
+                var data = google.visualization.arrayToDataTable(dataForWidget);
+                var options = {
+                  title: 'Pressures and temperatures with electrical consume integration',
+                  hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+                  vAxis: {minValue: 0}
+                };
+
+                var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+              };
+          });
+        });
+        request.always((jqXHR,status)=>{
+        });
+
+
+      });
+     </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

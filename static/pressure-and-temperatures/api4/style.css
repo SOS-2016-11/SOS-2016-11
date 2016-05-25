@@ -1,0 +1,47 @@
+location,location3, tr, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#location1 td{
+  font-weight: bold;
+  height: 30px;
+  background-color: #DAD1D1;
+}
+
+#location2 td{
+  font-weight: bold;
+  height: 30px;
+  background-color: #DAD1D1;
+}
+
+td {
+  width: 100px;
+}
+
+.form-inline{
+  text-align: center;
+}
+
+
+#td1 {
+  background-color: #E0E0E0;
+}
+
+.panel-heading{
+  text-align: center;
+}
+
+#td2 {
+  background-color: #D7D7D7;
+}
+
+
+#search1{
+    text-align: left;
+}
+
+
+#button7{
+  text-align: left;
+}

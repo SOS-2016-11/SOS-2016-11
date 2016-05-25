@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script>
+    $(document).ready(function (){
+      $("#button").click(()=>{
+        console.log("Handling click");
+
+        var request= $.ajax({
+          url:'/rest/v1/lang/no',
+          type:"GET",
+          contentType : "application/json"
+        });
+
+        request.done(function(data,status,jqXHR) {
+          var location = "";
+          var location3= "";
+          $.each(data, function (i, item) {
+            location += "<tr><td>"+i+"</td><td>" + data[i].name + "</td><td>"+ data[i].capital + "</td><td>" + data[i].relevance +"</td><td>"+ data[i].region + "</td><td>" + data[i].subregion +"</td><td>"+ data[i].population +'</td></tr>';
+          });
+          $('#location').html(location);
+          $.each(data, function (i, item) {
+            location3 += "<tr><td>"+i+"</td><td>" + data[i].demonym + "</td><td>"+ data[i].area + "</td><td>" + data[i].gini +"</td><td>"+ data[i].nativeName + "</td><td>" + data[i].alpha2Code +"</td><td>"+ data[i].alpha3Code +'</td></tr>';
+          });
+          $('#location3').html(location3);
+
+
+        });
+
+        request.always(function(jqXHR, status) {
+        });
+      });
+    });
+
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Data Consume ISO 639-1 Language Norwegian</div>
+      <table class="table table-bordered">
+        <table id="location1" class="table table-bordered">
+          <tr><td>Number</td><td>Name</td><td>Capital</td><td>Relevance</td><td>Region</td><td>Subregion</td><td>Population</td></tr>
+        </table>
+        <table id="location" class="table table-bordered table-hover">
+        </table>
+        <table id="location2" class="table table-bordered">
+          <tr><td>Number</td><td>Demonym</td><td>Area</td><td>Gini</td><td>NativeName</td><td>Alpha2Code</td><td>Alpha3Code</td></tr>
+        </table>
+        <table id="location3" class="table table-bordered table-hover">
+        </table>
+    </div>
+      <div class="dropdown">
+        <form class="form-inline">
+          <button id="button" type="button" class="btn btn-primary active">Resources</button>
+        </form>
+      </div>
+      <span id="log1"></span>
+      <br/><br/>
+      <span id="portal25" class="text-danger"></span>
+    </div>
+</body>
+</html>

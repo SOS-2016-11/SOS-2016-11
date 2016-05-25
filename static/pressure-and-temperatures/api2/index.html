@@ -1,0 +1,75 @@
+
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+
+      $(document).ready(function (){
+        var request= $.ajax({
+          url: "/api/v1/pressure-and-temperatures?apikey=multiPlan_C2_sos-2016-11-pgt_ag",
+          type:"GET",
+          contentType : "application/json"
+        });
+
+        request.done((data)=>{
+          var selection = [];
+          $.each(data, function (i, item) {
+              selection.push(item);
+          });
+          var request1= $.ajax({
+              type: "GET",
+              contentType : "application/json",
+              url: '/api/v1/average-rainfall?apikey=multiPlan_C2_sos-2016-11-cam_ag',
+          });
+          request1.done((data1)=>{
+            $.each(data1, function (i, item) {
+                selection.push(item);
+            });
+            console.log(selection);
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+              var dataForWidget=[["Year","Pression","Temperature","TD"]];
+              for(var i=0 ; i<selection.length ; i++){
+                if(selection[i].name){
+                  var item= selection[i];
+                  console.log("Entra en el bucle");
+                  console.log(item);
+                  var itemForWidget=[ item.year, item.p, item.t , item.td];
+                  dataForWidget.push(itemForWidget);
+                }else{
+                  var item= selection[i];
+                  console.log("Entra en el bucle2");
+                  console.log(item);
+                  var itemForWidget=[ item.year, item.pe, item.pa , item.pm];
+                  dataForWidget.push(itemForWidget);
+                }
+              }
+
+              var data = google.visualization.arrayToDataTable(dataForWidget);
+
+              var options = {
+                chart: {
+                  title: 'pressure-and-temperatures with average rainfall integration',
+                  subtitle: ' ',
+                },
+                bars: 'horizontal' // Required for Material Bar Charts.
+              };
+
+              var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+              chart.draw(data, options);
+            };
+          });
+        });
+        request.always((jqXHR,status)=>{
+        });
+
+
+      });
+     </script>
+  </head>
+  <body>
+    <div id="barchart_material" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

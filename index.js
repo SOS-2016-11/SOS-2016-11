@@ -70,6 +70,36 @@ app.use(pathsp, function(req, res) {
   })).pipe(res);
 });
 
+// Proxy Externa1
+
+var pathsE1= '/rest/v1/lang/no';
+var apiServerHostE1 = 'https://restcountries.eu';
+
+app.use(pathsE1, function(req, res) {
+  var url = apiServerHostE1 + req.baseUrl + req.url;
+  console.log(url);
+  req.pipe(request(url,(error,response,body)=>{
+    if(error){
+      res.sendStatus(503);
+    }
+  })).pipe(res);
+});
+
+// Proxy Externa2
+
+var pathsE1= '/rest/v1/region/africa';
+var apiServerHostE1 = 'https://restcountries.eu';
+
+app.use(pathsE1, function(req, res) {
+  var url = apiServerHostE1 + req.baseUrl + req.url;
+  console.log(url);
+  req.pipe(request(url,(error,response,body)=>{
+    if(error){
+      res.sendStatus(503);
+    }
+  })).pipe(res);
+});
+
 
 // BODYPASER -- SI NO ESTA AQUI FALLA LOS PROXYS
 app.use(bodyParser.json());
