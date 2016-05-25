@@ -19,7 +19,7 @@ td {
 
 
 #td1 {
-  background-color: #F6EABE;
+  background-color: #E0E0E0;
 }
 
 .panel-heading{
@@ -27,14 +27,10 @@ td {
 }
 
 #td2 {
-  background-color: #FDEEB7;
+  background-color: #D7D7D7;
 }
 
-body{
-  width: 80%;
-  margin: auto;
-  background-color: #b6fcd5;
-}
+
 .panel-heading {
    font-size: 38px;
    font-style: italic;
@@ -48,7 +44,7 @@ body{
    top: 130%;
    left: 50%;
    transform: translate(-50%, -50%);
-   background-color: #b6fcd5;
+   background-color: #D7D7D7;
  }
 
 #pedro {
@@ -56,7 +52,7 @@ body{
    top: 130%;
    left: 50%;
    transform: translate(-50%, -50%);
-   background-color: #b6fcd5;
+   background-color: #D7D7D7;
 
  }
 
