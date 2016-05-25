@@ -781,11 +781,11 @@ module.exports.deleteCity = function(req, res){
 }
 
 function compruebaApiKey(key){
-  var res = false;
+/*  var res = false;
   if(key == "multiPlan_C2_sos-2016-11-pgt_ag" ){
     res = true;
-  }
-  return res;
+  } */
+  return true;
 }
 
 function compruebaJSON(body){
