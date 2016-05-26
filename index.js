@@ -27,11 +27,11 @@ app.get("/time", (req,res)=>{
 });
 
 // GOVERNIFY
-/*governify.control(app, {
+governify.control(app, {
   datastore: "http://datastore.governify.io/api/v6.1/",
   namespace: "sos-2016-11-cam",
   defaultPath: "/api/v1/average-rainfall/"
-});*/
+});
 
 governify.control(app, {
   datastore: "http://datastore.governify.io/api/v6.1/",
