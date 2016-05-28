@@ -8,7 +8,7 @@
 
       $(document).ready(function (){
         var request= $.ajax({
-          url: "/api/v1/pressure-and-temperatures?apikey=multiPlan_C2_sos-2016-11-pgt_ag",
+          url: "/api/v1/pressure-and-temperatures?apikey=multiPlan_C3_sos-2016-11-pgt_ag",
           type:"GET",
           contentType : "application/json"
         });
@@ -21,7 +21,7 @@
           var request1= $.ajax({
               type: "GET",
               contentType : "application/json",
-              url: '/api/v1/average-rainfall?apikey=multiPlan_C2_sos-2016-11-cam_ag',
+              url: '/api/v1/average-rainfall?apikey=multiPlan_C4_sos-2016-11-cam_ag',
           });
           request1.done((data1)=>{
             $.each(data1, function (i, item) {

@@ -10,7 +10,7 @@
      $(document).ready(function (){
        var request= $.ajax({
              type: "GET",
-             url: "/api/v1/pressure-and-temperatures?apikey=sos",
+             url: "/api/v1/pressure-and-temperatures?apikey=multiPlan_C3_sos-2016-11-pgt_ag",
              success: function(data) {
                $('#resultados').html(data);
                $('#resultados div').slideDown(1000);
