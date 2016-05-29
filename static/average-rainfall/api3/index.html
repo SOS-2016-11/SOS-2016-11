@@ -12,7 +12,7 @@
 
     $(document).ready(() => {
 
-      google.charts.load('current', {'packages':['bar']});
+      google.charts.load('current', {'packages':['corechart']});
 
 
       $("#get").click(()=>{
@@ -34,7 +34,7 @@
         request.done(function(data,status,jqXHR) {
           if(i == 0){
             data1 = data;
-            readData("/api/v1/pressure-and-temperatures/?apikey=multiPlan_C3_sos-2016-11-pgt_ag", 1);
+            readData("/rest/v1/", 1);
           }else{
             data2 = data;
             printTables();
@@ -61,13 +61,13 @@
 
         });
 
-        var table2 = "<form><tr class='text-center'><td><strong>name</strong></td><td><strong>year</strong></td><td><strong>month</strong></td><td><strong>p</strong></td><td><strong>t</strong></td><td><strong>td</strong></td></tr>";
+        var table2 = "<form><tr class='text-center'><td><strong>name</strong></td><td><strong>capital</strong></td><td><strong>region</strong></td><td><strong>subregion</strong></td><td><strong>population</strong></td><td><strong>demonym</strong></td></tr>";
         $.each(data2, function (i, item) {
             table2 += "<tr class='text-center'>";
             table2 += "<td>" + data2[i].name+ "</td>";
-            table2 += "<td>" + data2[i].year + "</td><td>" + data2[i].month + "</td>";
-            table2 += "<td>" + data2[i].p + "</td><td>" + data2[i].t + "</td>";
-            table2 += "<td>" + data2[i].td + "</td>";
+            table2 += "<td>" + data2[i].capital + "</td><td>" + data2[i].region + "</td>";
+            table2 += "<td>" + data2[i].subregion + "</td><td>" + data2[i].population + "</td>";
+            table2 += "<td>" + data2[i].demonym + "</td>";
             table2 += "</tr></from>";
 
         });
@@ -78,35 +78,11 @@
 
       function jsonToChart(){
         var dat1 = [], dat2 = [];
-        dchart.push(['Year', 'Pm', 'P', 'caca']);
-        dchart.push(['2013', 10, 900, 666]);
-        dchart.push(['2014', 20, 800, 666]);
-        dchart.push(['2015', 30, 1000, 666]);
+        dchart.push(['Name', 'Population']);
 
-        /*$.each(data1, (i, item)=>{
-          if(item.river_basin == "Ebro"){
-            dat1.push([item.year, item.pm]);
-          }
+        $.each(data2, function (i, item) {
+          dchart.push([item.name, item.population]);
         });
-        $.each(data2, (i, item)=>{
-          if(item.name == "Zaragoza"){
-            dat2.push([item.year, item.p]);
-          }
-        });
-
-        for(i = 0; i <= dat1.length && i <= dat2.length; i++){
-          for(a = 2012; a < 2018; a++){
-            if(dat1[i].year == a && dat2[i].year == a){
-              dchart.push([a, dat1[i].pm, dat2[i].p]);
-            }else if(dat1[i].year == a){
-              dchart.push([a, dat1[i].pm, 0]);
-            }else if(dat2[i].year == a){
-              dchart.push([a, 0, dat2[i].p]);
-            }else{
-              dchart.push([a, 0, 0]);
-            }
-          }
-        }*/
 
         printChart();
       }
@@ -114,29 +90,18 @@
       function printChart(){
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses', 'Profit'],
-          ['2014', 1000, 400, 200],
-          ['2015', 1170, 460, 250],
-          ['2016', 660, 1120, 300],
-          ['2017', 1030, 540, 350]
+          var data = google.visualization.arrayToDataTable(dchart);
 
-        ]);
+          var options = {
+            title: 'My Daily Activities',
+            pieHole: 0.4,
+          };
 
-        var options = {
-          chart: {
-            title: 'Integration Average rainfall and Pressure and temperatures (Zaragoza - Ebro)',
-            subtitle: 'Precipitación media (PM) and Presión media (P)',
-          }
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('chart'));
-
-        chart.draw(data, options);
+          var chart = new google.visualization.PieChart(document.getElementById('chart'));
+          chart.draw(data, options);
         }
 
       }
-
 
     });
 
@@ -147,7 +112,7 @@
   </head>
   <body>
 
-    <h1 class="text-center">INTEGRATION WITH XXX</h1>
+    <h1 class="text-center">INTEGRATION WITH RESTCOUNTRIES</h1>
 
     </br></br>
 
@@ -159,7 +124,7 @@
 
         </table>
         </br>
-        <div class="text-center"><h4>Pressure and temperatures</h4></div>
+        <div class="text-center"><h4>Restcountries</h4></div>
         <table class="table table-hover" id="t2">
 
         </table>
