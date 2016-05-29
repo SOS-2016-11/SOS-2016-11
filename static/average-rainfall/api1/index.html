@@ -1,0 +1,189 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+
+
+
+    $(document).ready(() => {
+
+      google.charts.load('current', {'packages':['bar']});
+
+
+      $("#get").click(()=>{
+        readData("/api/v1/average-rainfall/?apikey=multiPlan_C4_sos-2016-11-cam_ag", 0);
+      });
+
+      var data1 = [];
+      var data2 = [];
+      var dchart = [];
+
+      function readData(url, i){
+        var request = $.ajax({
+                url: url,
+                type: "GET",
+                data: "",
+                contentType: "application/json"
+        });
+
+        request.done(function(data,status,jqXHR) {
+          if(i == 0){
+            data1 = data;
+            readData("/api/v1/pressure-and-temperatures/?apikey=multiPlan_C3_sos-2016-11-pgt_ag", 1);
+          }else{
+            data2 = data;
+            printTables();
+            jsonToChart();
+          }
+        });
+
+        request.always(function(jqXHR, status) {
+
+        });
+      };
+
+      function printTables(){
+
+        var table1, table2;
+        var table1 = "<form><tr class='text-center'><td><strong>river_basin</strong></td><td><strong>year</strong></td><td><strong>month</strong></td><td><strong>pm</strong></td><td><strong>pe</strong></td><td><strong>pa</strong></td></tr>";
+        $.each(data1, function (i, item) {
+            table1 += "<tr class='text-center'>";
+            table1 += "<td>" + data1[i].river_basin + "</td>";
+            table1 += "<td>" + data1[i].year + "</td><td>" + data1[i].month + "</td>";
+            table1 += "<td>" + data1[i].pm + "</td><td>" + data1[i].pe + "</td>";
+            table1 += "<td>" + data1[i].pa + "</td>";
+            table1 += "</tr></from>";
+
+        });
+
+        var table2 = "<form><tr class='text-center'><td><strong>name</strong></td><td><strong>year</strong></td><td><strong>month</strong></td><td><strong>p</strong></td><td><strong>t</strong></td><td><strong>td</strong></td></tr>";
+        $.each(data2, function (i, item) {
+            table2 += "<tr class='text-center'>";
+            table2 += "<td>" + data2[i].name+ "</td>";
+            table2 += "<td>" + data2[i].year + "</td><td>" + data2[i].month + "</td>";
+            table2 += "<td>" + data2[i].p + "</td><td>" + data2[i].t + "</td>";
+            table2 += "<td>" + data2[i].td + "</td>";
+            table2 += "</tr></from>";
+
+        });
+
+        $('#t1').html(table1);
+        $('#t2').html(table2);
+      }
+
+      function jsonToChart(){
+        var dat1 = [], dat2 = [];
+        dchart.push(['Year', 'Pm', 'P']);
+
+        $.each(data1, (i, item)=>{
+          if(item.river_basin == "Ebro"){
+            dat1.push([item.year, item.pm]);
+          }
+        });
+        $.each(data2, (i, item)=>{
+          if(item.name == "Zaragoza"){
+            dat2.push([item.year, item.p]);
+          }
+        });
+        var r = -1;
+        if(dat1.length > dat2.length){
+          for(i = 0; i < dat1.length; i++){
+            r = -1;
+            for(j = 0; j < dat2.length; j++){
+              if(dat1[i][0] == dat2[j][0]){
+                dchart.push([dat1[i][0], dat1[i][1], dat2[i][1]]);
+                r = 0;
+              }
+            }
+            if(r == -1){
+              dchart.push([dat1[i][0], dat1[i][1], 0]);
+            }
+          }
+        }else{
+          for(i = 0; i < dat2.length; i++){
+            r = -1;
+            for(j = 0; j < dat1.length; j++){
+              if(dat2[i][0] == dat1[j][0]){
+                dchart.push([dat2[i][0], dat1[i][1], dat2[i][1]]);
+                r = 0;
+              }
+            }
+            if(r == -1){
+              dchart.push([dat2[i][0], 0, dat2[i][1]]);
+            }
+          }
+        }
+
+        printChart();
+      }
+
+      function printChart(){
+
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+
+          console.log(dchart);
+        var data = google.visualization.arrayToDataTable(dchart);
+
+        var options = {
+          chart: {
+            title: 'Integration Average rainfall and Pressure and temperatures (Zaragoza - Ebro)',
+            subtitle: 'Precipitación media (PM) and Presión media (P)',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('chart'));
+
+        chart.draw(data, options);
+        }
+
+      }
+
+
+    });
+
+    </script
+
+
+
+  </head>
+  <body>
+
+    <h1 class="text-center">INTEGRATION WITH PRESSURE AND TEMPERATURES (SAME GROUP 11)</h1>
+
+    </br></br>
+
+    <div class="body2">
+
+      <div class="tablee">
+        <div class="text-center"><h4>Average rainfall</h4></div>
+        <table class="table table-hover" id="t1">
+
+        </table>
+        </br>
+        <div class="text-center"><h4>Pressure and temperatures</h4></div>
+        <table class="table table-hover" id="t2">
+
+        </table>
+        </br>
+        <div class="text-center"><button type="button" id="get" class="btn btn-primary">GET</button></div>
+
+      </div>
+
+      </br></br>
+
+      <div class="chart">
+        <div class="text-center"><h4>Chart</h4></div>
+        </br>
+        <div id="chart" style="width: 900px; height: 500px;"></div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

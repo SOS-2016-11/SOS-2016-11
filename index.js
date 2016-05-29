@@ -4,8 +4,8 @@ var request = require('request');
 var cors = require('cors');
 var governify = require('governify');
 
-//var port = (process.env.PORT || 16000);
-var port = (process.env.PORT ||14320);
+var port = (process.env.PORT || 16000);
+//var port = (process.env.PORT ||14320);
 
 var app = express();
 
@@ -55,6 +55,38 @@ app.use(pathsc, function(req, res) {
     }
   })).pipe(res);
 });
+
+var pathsc = '/rest/v1/';
+var apiServerHostc = 'https://restcountries.eu';
+app.use(pathsc, function(req, res) {
+  var url = apiServerHostc + req.baseUrl + req.url;
+  req.pipe(request(url,(error, response, body)=>{
+    if(error != null){
+      if (error.code == 'ECONNREFUSED'){
+        res.sendStatus(503);
+      } else {
+        throw error;
+      }
+    }
+  })).pipe(res);
+});
+
+var pathsc = '/api/v1/crime/';
+var apiServerHostc = 'http://nflarrest.com';
+app.use(pathsc, function(req, res) {
+  var url = apiServerHostc + req.baseUrl + req.url;
+  req.pipe(request(url,(error, response, body)=>{
+    if(error != null){
+      if (error.code == 'ECONNREFUSED'){
+        res.sendStatus(503);
+      } else {
+        throw error;
+      }
+    }
+  })).pipe(res);
+});
+
+
 
 // PROXY PEDRO
 var pathsp='/api/v1/electrical-consume/';
