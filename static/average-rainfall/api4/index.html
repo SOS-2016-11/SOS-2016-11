@@ -12,16 +12,16 @@
 
     $(document).ready(() => {
 
-      google.charts.load('current', {'packages':['bar']});
-
-
-      $("#get").click(()=>{
-        readData("/api/v1/average-rainfall/?apikey=multiPlan_C4_sos-2016-11-cam_ag", 0);
-      });
+      google.charts.load('current', {'packages':['corechart']});
 
       var data1 = [];
       var data2 = [];
       var dchart = [];
+
+      $("#get").click(()=>{
+        dchart = [];
+        readData("/api/v1/average-rainfall/?apikey=multiPlan_C4_sos-2016-11-cam_ag", 0);
+      });
 
       function readData(url, i){
         var request = $.ajax({
@@ -34,12 +34,11 @@
         request.done(function(data,status,jqXHR) {
           if(i == 0){
             data1 = data;
-            readData("/api/v1/crime/", 1);
+            readData("http://gsx2json.com/api?id=1whk_tXTs4rzcpMQGDSBkMjnuaZSpGpuEvcK0ah5p3gY", 1);
           }else{
             data2 = data;
-            JSON.parse(data2);
             printTables();
-            //jsonToChart();
+            jsonToChart();
           }
         });
 
@@ -61,27 +60,26 @@
             table1 += "</tr></from>";
 
         });
-        console.log(data2[3]);
-        var table2 = "<form><tr class='text-center'><td><strong>Category</strong></td><td><strong>arrest_count</strong></td></tr>";
-/*        $.each(data2, function (i, item) {
+        var table2 = "<form><tr class='text-center'><td><strong>asignatura</strong></td><td><strong>horas</strong></td></tr>";
+        for(var i = 0; i<data2.rows.length; i++){
             table2 += "<tr class='text-center'>";
-            table2 += "<td>" + data2[i].Category+ "</td>";
-            table2 += "<td>" + data2[i].arrest_count + "</td>";
+            table2 += "<td>" + data2.rows[i].asignatura + "</td>";
+            table2 += "<td>" + data2.rows[i].horas + "</td>";
             table2 += "</tr></from>";
 
-        });
-        */
+        }
+
         $('#t1').html(table1);
-        //$('#t2').html(table2);
+        $('#t2').html(table2);
       }
 
       function jsonToChart(){
         var dat1 = [], dat2 = [];
-        dchart.push(['Name', 'Population']);
+        dchart.push(['Asignatura', 'Horas']);
 
-        $.each(data2, function (i, item) {
-          dchart.push([item.Category, item.arrest_count]);
-        });
+        for(var i = 0; i<data2.rows.length; i++){
+          dchart.push([data2.rows[i].asignatura, data2.rows[i].horas]);
+        }
 
         printChart();
       }
@@ -92,7 +90,7 @@
           var data = google.visualization.arrayToDataTable(dchart);
 
           var options = {
-            title: 'My Daily Activities',
+            title: 'Horas por asignaturas',
             pieHole: 0.4,
           };
 
@@ -111,7 +109,7 @@
   </head>
   <body>
 
-    <h1 class="text-center">INTEGRATION WITH XXX</h1>
+    <h1 class="text-center">INTEGRATION WITH GXS2JSON</h1>
 
     </br></br>
 
@@ -123,7 +121,7 @@
 
         </table>
         </br>
-        <div class="text-center"><h4>Pressure and temperatures</h4></div>
+        <div class="text-center"><h4>Gxs2json</h4></div>
         <table class="table table-hover" id="t2">
 
         </table>

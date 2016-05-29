@@ -56,11 +56,12 @@ app.use(pathsc, function(req, res) {
   })).pipe(res);
 });
 
-var pathsc = '/rest/v1/';
-var apiServerHostc = 'https://restcountries.eu';
-app.use(pathsc, function(req, res) {
-  var url = apiServerHostc + req.baseUrl + req.url;
+var pathsex1 = '/rest/v1/';
+var apiServerHostex1 = 'http://restcountries.eu';
+app.use(pathsex1, function(req, res) {
+  var url = apiServerHostex1 + req.baseUrl + req.url;
   req.pipe(request(url,(error, response, body)=>{
+    console.log("ENTRE!");
     if(error != null){
       if (error.code == 'ECONNREFUSED'){
         res.sendStatus(503);
@@ -71,20 +72,7 @@ app.use(pathsc, function(req, res) {
   })).pipe(res);
 });
 
-var pathsc = '/api/v1/crime/';
-var apiServerHostc = 'http://nflarrest.com';
-app.use(pathsc, function(req, res) {
-  var url = apiServerHostc + req.baseUrl + req.url;
-  req.pipe(request(url,(error, response, body)=>{
-    if(error != null){
-      if (error.code == 'ECONNREFUSED'){
-        res.sendStatus(503);
-      } else {
-        throw error;
-      }
-    }
-  })).pipe(res);
-});
+
 
 
 

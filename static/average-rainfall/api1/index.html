@@ -14,14 +14,14 @@
 
       google.charts.load('current', {'packages':['bar']});
 
-
-      $("#get").click(()=>{
-        readData("/api/v1/average-rainfall/?apikey=multiPlan_C4_sos-2016-11-cam_ag", 0);
-      });
-
       var data1 = [];
       var data2 = [];
       var dchart = [];
+
+      $("#get").click(()=>{
+        dchart = [];
+        readData("/api/v1/average-rainfall/?apikey=multiPlan_C4_sos-2016-11-cam_ag", 0);
+      });
 
       function readData(url, i){
         var request = $.ajax({
@@ -96,7 +96,7 @@
             r = -1;
             for(j = 0; j < dat2.length; j++){
               if(dat1[i][0] == dat2[j][0]){
-                dchart.push([dat1[i][0], dat1[i][1], dat2[i][1]]);
+                dchart.push([dat1[i][0], dat1[i][1], dat2[j][1]]);
                 r = 0;
               }
             }
@@ -109,12 +109,12 @@
             r = -1;
             for(j = 0; j < dat1.length; j++){
               if(dat2[i][0] == dat1[j][0]){
-                dchart.push([dat2[i][0], dat1[i][1], dat2[i][1]]);
+                dchart.push([dat2[j][0], dat1[i][1], dat2[j][1]]);
                 r = 0;
               }
             }
             if(r == -1){
-              dchart.push([dat2[i][0], 0, dat2[i][1]]);
+              dchart.push([dat2[j][0], 0, dat2[j][1]]);
             }
           }
         }

@@ -14,14 +14,14 @@
 
       google.charts.load('current', {'packages':['corechart']});
 
-
-      $("#get").click(()=>{
-        readData("/api/v1/average-rainfall/?apikey=multiPlan_C4_sos-2016-11-cam_ag", 0);
-      });
-
       var data1 = [];
       var data2 = [];
       var dchart = [];
+
+      $("#get").click(()=>{
+        dchart = [];
+        readData("/api/v1/average-rainfall/?apikey=multiPlan_C4_sos-2016-11-cam_ag", 0);
+      });
 
       function readData(url, i){
         var request = $.ajax({
@@ -93,7 +93,7 @@
           var data = google.visualization.arrayToDataTable(dchart);
 
           var options = {
-            title: 'My Daily Activities',
+            title: 'Population in Countries',
             pieHole: 0.4,
           };
 
